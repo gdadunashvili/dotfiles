@@ -86,8 +86,10 @@ fi
 # Aliases  ---------------------------------------------------------{{{
 # Load files if they exist
 [[ -f ~/.aliases ]] && . ~/.aliases
+[[ -f ~/.destinations ]] && . ~/.destinations
 # Second one for host specific aliases
 [[ -f ~/.aliases.local ]] && . ~/.aliases.local
+[[ -f ~/.destinations.local ]] && . ~/.destinations.local
 # ------------------------------------------------------------------}}}
 
 

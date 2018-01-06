@@ -117,6 +117,7 @@ Plug 'sjl/badwolf'
 Plug 'tomasr/molokai'
 Plug 'toupeira/vim-desertink'
 Plug 'scwood/vim-hybrid'
+Plug 'blueshirts/darcula'
 " Colorschemes END --------------------------------------------------}}}
 
 " Vim-Plug-End ------------------------------------------------------{{{
@@ -160,7 +161,7 @@ noremap! <S-Insert> <MiddleMouse>
 " Color -------------------------------------------------------------{{{
 set t_Co=256
 set background=dark
-colorscheme tender
+colorscheme darcula 
 " -------------------------------------------------------------------}}}
 
 " Comments ----------------------------------------------------------{{{

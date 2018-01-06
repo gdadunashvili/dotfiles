@@ -7,10 +7,10 @@
 # Sets:
 
 # Smallest setup to work with
-set_basic="vim/vimrc"
+set_basic="bashrc tmux.conf shell_prompt.sh aliases destinations vim/vimrc"
 
 # Typicall full workstation, not including any window manager
-set_full="bashrc zshrc tmux.conf shell_prompt.sh aliases vim/vimrc \
+set_full="bashrc zshrc tmux.conf shell_prompt.sh aliases destinations vim/vimrc \
 config/nvim/init.vim latexmkrc git_template"
 
 # Git templates to generate ctag files automatically
