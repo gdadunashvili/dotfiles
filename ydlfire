@@ -1,0 +1,1 @@
+konsole --hide-menubar --hide-tabbar --profile=ydl --hold -e youtube-dl -o "~/Videos/ydl/%(title)s.%(ext)s" $(xclip -o)

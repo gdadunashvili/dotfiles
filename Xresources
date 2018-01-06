@@ -1,0 +1,31 @@
+xterm*termName: xterm-256color
+xterm*utf8: True
+xterm*locale: True
+xterm*background: black
+xterm*foreground: white
+xterm*saveLines: 16384
+xterm*faceName: xft:Meslo LG S DZ for Powerline
+xterm*faceSize: 9.5
+xterm*vt100*geometry: 80x24
+xterm*cursorBlink: False
+xterm*trimSelection: True
+XTerm*eightBitInput: false
+! Allow selecting email/url by double-click
+XTerm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
+
+
+! General Settings
+URxvt*font: xft:Meslo LG S DZ for Powerline:size=9
+URxvt*geometry: 80x24
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  full
+
+URxvt.scrollBar: false
+URxvt.saveLines: 16384
+
+URxvt*iso14755:     False
+URxvt*background:   #000000
+URxvt*foreground:   #d0d0d0

@@ -1,0 +1,15 @@
+vim/tmp
+vim/plugged
+vim/autoload
+vim/.init.vim-rplugin~
+vim/spell
+
+config/nvim/tmp
+config/nvim/plugged
+config/nvim/autoload
+config/nvim/.init.vim-rplugin~
+config/nvim/.netrwhist
+
+config/awesome/background.png
+config/bspwm/background.jpg
+config/bspwm/backgrounds

@@ -1,0 +1,359 @@
+#! /bin/sh
+
+# Requirements:
+# * Lemonbar with XFT support (https://github.com/krypt-n/bar)
+# * Font: Awesome font for icons (http://fortawesome.github.io/Font-Awesome/)
+# * Music: mpd/mopidy and mpc
+# * Mails: maildir (default ~/.mail)
+# * Volumebar: needs some customization based on the hardware
+# * WiFi: iwconfig to determine the ESSID
+# * XMPP: Profanity with a custom plugins
+
+# Recommended:
+# * Font: Meslo LG S DZ patched (https://github.com/ryanoasis/nerd-fonts)
+
+########################################################################
+#                           Configuration
+########################################################################
+# Fonts used
+PANEL_FONT_FAMILY="Meslo LG S DZ for Powerline:size=9"
+PANEL_FONT_ICONS="Font Awesome:size=10.6"
+
+PANEL_HEIGHT=15
+
+PANEL_FIFO=/tmp/panel-fifo
+TMP_DIR=/tmp/panel_scripts/
+
+MAIL_DIR=~/.mail
+
+COLOR_FILE=~/.config/bspwm/panel_colors
+ICON_FILE=~/.config/bspwm/panel_icons
+
+MPD_HOSTS="localhost 192.168.1.20"
+########################################################################
+
+
+if [ "$(pgrep -cx panel)" -gt 1 ] ; then
+    printf "%s\n" "The panel is already running." >&2
+    exit 1
+fi
+
+trap 'trap - TERM; kill 0' INT TERM QUIT EXIT
+
+
+# Set the panel width based on the resolution on the primary display
+PANEL_WIDTH=$(xdpyinfo | awk '/dimensions/ {print $2}' | cut -d 'x' -f1)
+PANEL_GEOMETRY="${PANEL_WIDTH}x${PANEL_HEIGHT}+0+0"
+
+# Load Colors
+[ -f "$COLOR_FILE" ] && . $COLOR_FILE
+# Load Icons
+[ -f "$ICON_FILE" ] && . $ICON_FILE
+
+# Create PANEL_FIFO
+[ -e "$PANEL_FIFO" ] && rm "$PANEL_FIFO"
+mkfifo "$PANEL_FIFO"
+
+bspc subscribe > "$PANEL_FIFO" &
+
+
+# Display and monitor battery status.
+# Shutdown system if battery is low
+panel_battery() {
+    # Check if a battery is present
+    if [ -f /sys/class/power_supply/BAT0/status ]; then
+        BAT_SHUTDOWN_PERC=3
+
+        bat_status=$(cat /sys/class/power_supply/BAT0/status)
+        bat_perc=$(cat /sys/class/power_supply/BAT0/capacity)
+
+        # Set the color of the battery icon accoring to its current percentage
+        if [ "$bat_perc" -gt 50 ]; then
+            bat_color="$COLOR_BATTERY_GREEN"
+        elif [ "$bat_perc" -lt 15 ]; then
+            bat_color="$COLOR_BATTERY_RED"
+        else
+            bat_color="$COLOR_BATTERY_ORANGE"
+        fi
+
+        # Show different icons for different states
+        case "$bat_status" in
+            "Charging" | "Full")
+                bat_msg="$ICON_BATTERY_AC $bat_perc%"
+                ;;
+            "Unknown")
+                bat_msg="$ICON_BATTERY_AC AC"
+                ;;
+            "Discharging")
+                # Shutdown, if battery is low
+                if [ "$bat_perc" -lt "$BAT_SHUTDOWN_PERC" ]; then
+                    /usr/bin/poweroff
+                    bat_icon="$ICON_BATTERY_EMPTY"
+                elif [ "$bat_perc" -lt 9 ]; then
+                    bat_icon="$ICON_BATTERY_EMPTY"
+                elif [ "$bat_perc" -lt 26 ]; then
+                    bat_icon="$ICON_BATTERY_LOW"
+                elif [ "$bat_perc" -lt 60 ]; then
+                    bat_icon="$ICON_BATTERY_MED"
+                elif [ "$bat_perc" -lt 85 ]; then
+                    bat_icon="$ICON_BATTERY_HIGH"
+                else
+                    bat_icon="$ICON_BATTERY_FULL"
+                fi
+
+                bat_msg="$bat_icon $bat_perc %"
+                ;;
+        esac
+
+        echo "$bat_color$ICON_DIVIDER $bat_msg"
+    fi
+}
+
+
+# Display date and time
+panel_clock() {
+    echo "$COLOR_CLOCK $ICON_DIVIDER $ICON_CLOCK $(date "+%a %d, %T")"
+}
+
+
+# Check .mail for new mails
+# This requires a background script downloading mails
+panel_mail() {
+    if [ -d $MAIL_DIR ]; then
+        mail_new=$(find $MAIL_DIR/*/I*/new -type f | wc -l)
+        mail_cur=$(find $MAIL_DIR/*/I*/cur -type f | wc -l)
+        mail_tot=$((mail_new+mail_cur))
+        if [ "$mail_new" -eq 0 ];then
+            mail_icon="$ICON_MAIL_NO_NEW"
+        else
+            mail_icon="$ICON_MAIL_NEW"
+        fi
+        echo "$COLOR_MAIL $ICON_DIVIDER $mail_icon $mail_new/$mail_tot"
+    fi
+}
+
+
+# Check for new XMPP messages
+# Using profanity as client, a simple plugin is writing into a file when a new
+# message arrives. It also deletes the entries if they become irrelevant.
+# Whenever this file is not empty, a message is still waiting
+panel_xmpp() {
+    if [ -s $TMP_DIR/profanity ]; then
+        echo "$COLOR_XMPP $ICON_DIVIDER $ICON_XMPP"
+    fi
+}
+
+
+# Display mpd/mopidy the currently playing song following the $MPD_HOSTS as
+# priorities.
+# Is something playing on $MPD_HOSTS[0], display it, regardless of the status
+# of $MPD_HOSTS[1]. If more than one daemon is available and paused without any
+# other in playing-state, it doesn't matter to me which one is being displayed,
+# since all could be resumed from this machine.
+# Requires mpc
+panel_mpd() {
+    if which mpc > /dev/null 2>&1; then
+        for host in $MPD_HOSTS; do
+            mpd_status=$(mpc -h "$host" status 2>&1 | awk 'NR==2 { print $1}')
+
+            case "$mpd_status" in
+                "[paused]")
+                    mpd_line="$COLOR_MPD_PAUSE$ICON_MUSIC $ICON_MUSIC_PAUSE  $(mpc -h $host current)" ;;
+                "[playing]")
+                    mpd_line="$COLOR_MPD_PLAY$ICON_MUSIC  $(mpc -h "$host" current)"
+                    break
+                    ;;
+            esac
+        done
+        echo "$mpd_line"
+    fi
+}
+
+
+# Display when Tor service is running
+# This only checks if the service if active. Nothing more.
+panel_tor() {
+    if [ -f /usr/bin/tor ]; then
+        tor_service=$(systemctl is-active tor)
+
+        if [ "$tor_service" = "active" ]; then
+            echo "$COLOR_TOR $ICON_DIVIDER $ICON_TOR"
+        fi
+    fi
+}
+
+
+# Display the default network interface
+# Ethernet: Just display a icon here.
+# WiFi: - Display truncated ESSID, if iwconfig is installed.
+#       - Hint the connection quality by color.
+# VPN: - For a tun/tap device, check which configuration is active by going
+#        through all /etc/openvpn/client/*.conf files and their corresponding
+#        openvpn-cleint@*.service systemd services.
+#      - Show the first 3 characters of the active *.conf filename
+panel_network() {
+    default_interface=$(ip route | awk 'NR==1 { print $5}')
+
+    case $default_interface in
+        eth* | enp*)
+            echo "$COLOR_NETWORK_ETHERNET $ICON_DIVIDER $ICON_ETHERNET"
+            ;;
+        wlan* | wlp*)
+            wifi_quality=$(awk 'END { print $3 }' < /proc/net/wireless | \
+                sed 's/\.$//')
+            # Fix percentage
+            wifi_quality=$(awk -v wifi_quality="$wifi_quality" \
+                'BEGIN { printf "%0.f", (wifi_quality/0.7) }')
+
+            if [ "$wifi_quality" != 0 ]; then
+                if [ "$wifi_quality" -lt 35 ]; then
+                    wifi_color="$COLOR_NETWORK_WIFI_BAD"
+                elif [ "$wifi_quality" -lt 70 ]; then
+                    wifi_color="$COLOR_NETWORK_WIFI_OK"
+                else
+                    wifi_color="$COLOR_NETWORK_WIFI_GOOD"
+                fi
+
+                if which iwconfig > /dev/null 2>&1; then
+                    essid_max_length=12
+
+                    essid=$(iwconfig 2>/dev/null | sed -n '1p' | cut -f2 -d\" | \
+                        cut -c1-${essid_max_length})
+                fi
+
+                echo "$wifi_color $ICON_DIVIDER $ICON_WIFI $essid"
+            fi
+            ;;
+        tun* | tap*)
+            for config in /etc/openvpn/client/*.conf; do
+                connection_name=$(basename "$config" .conf)
+
+                service="openvpn-client@$connection_name.service"
+
+                if [ "$(systemctl is-active "$service")" = "active" ]; then
+                    server_max_length=3
+                    server=$(echo "$connection_name" | cut -c1-$server_max_length)
+                fi
+            done
+
+            echo "$COLOR_VPN $ICON_DIVIDER $ICON_VPN $server"
+            ;;
+    esac
+}
+
+
+# Get volume level and track if headphone is plugged in.
+# The following is working for a thinkpad with a dockingstation and also
+# support my specific USB sound card
+
+# Create files in order to track changes in volume over multiple executions.
+# If the volume is changed, the corresponding icon in the bar will extend to a
+# volume bar for a few seconds
+mkdir -p $TMP_DIR/audio
+chmod 700 $TMP_DIR -R
+echo "none" > $TMP_DIR/audio/volume
+audio_counter=0
+echo "0" > $TMP_DIR/audio/counter
+panel_audio() {
+    default_sink_name=$(pacmd stat | awk -F": " '/^Default sink name: /{print $2}')
+
+    case $default_sink_name in
+        *usb*)
+            audio_card_icon=" $ICON_USB"
+            ;;
+        tunnel-sink*)
+            audio_card_icon=" $ICON_PA_SERVER"
+            ;;
+        *)
+            headphone_plugged=$(pacmd list-sinks | \
+                grep "active port: <analog-output-headphones>")
+            if [ -n "$headphone_plugged" ]; then
+                audio_card_icon=" $ICON_HEADPHONES"
+            else
+                audio_card_icon=""
+            fi
+            ;;
+    esac
+
+    audio_volume=$(pacmd list-sinks | \
+        awk '/^\s+name: /{indefault = $2 == "<'"$default_sink_name"'>"}
+        /^\s+volume: / && indefault {print $5; exit}' | \
+        awk -F"%" '{print $1}')
+    if [ "$audio_volume" -lt 15 ]; then
+        speaker_icon="$ICON_VOLUME_LOW"
+    elif [ "$audio_volume" -lt 51 ]; then
+        speaker_icon="$ICON_VOLUME_MED"
+    else
+        speaker_icon="$ICON_VOLUME_HIGH"
+    fi
+
+    # Print a volume bar for $max_count seconds till the last change in volume
+    # before truncating it to an icon again
+    audio_volume_last=$(cat $TMP_DIR/audio/volume)
+    max_count=3
+    if [ "$audio_volume" = "$audio_volume_last" ]; then
+        audio_counter=$(cat $TMP_DIR/audio/counter)
+
+        if [ "$audio_counter" -lt $max_count ]; then
+            audio_counter=$((audio_counter+1))
+            echo $audio_counter > $TMP_DIR/audio/counter
+        fi
+    else
+        # Reset counter
+        echo 0 > $TMP_DIR/audio/counter
+        # Save new audio volume
+        echo "$audio_volume" > $TMP_DIR/audio/volume
+    fi
+    # Print the volume bar for the max_count duration after a change
+    if [ $audio_counter -lt $max_count ]; then
+        case $audio_volume in
+            100) volume_bar=" ——————————" ;;
+            [0-9]) volume_bar=" —$COLOR_AUDIO_LEFT—————————" ;;
+            1*) volume_bar=" ——$COLOR_AUDIO_LEFT————————" ;;
+            2*) volume_bar=" ———$COLOR_AUDIO_LEFT———————" ;;
+            3*) volume_bar=" ————$COLOR_AUDIO_LEFT——————" ;;
+            4*) volume_bar=" —————$COLOR_AUDIO_LEFT—————" ;;
+            5*) volume_bar=" ——————$COLOR_AUDIO_LEFT————" ;;
+            6*) volume_bar=" ———————$COLOR_AUDIO_LEFT———" ;;
+            7*) volume_bar=" ————————$COLOR_AUDIO_LEFT——" ;;
+            8*) volume_bar=" —————————$COLOR_AUDIO_LEFT—" ;;
+            9*) volume_bar=" ——————————" ;;
+        esac
+    fi
+    echo "$COLOR_AUDIO_ON $ICON_DIVIDER $speaker_icon$audio_card_icon$volume_bar"
+
+}
+
+
+# Combine everything
+# Set to > 5 to initiate a full refresh of all parts
+# Set initially to above 5 to trigger a refresh when starting the panel
+update_counter=10
+while true; do
+    # Update the non time critical parts of the bar only every 5s
+    if [ $update_counter -lt 5 ]; then
+        update_counter=$((update_counter+1))
+    else
+        update_counter=0
+        # Print MPD with it's own line, because it will be displayed in the
+        # center of the panel and needs to be processed separately
+        echo "s $(panel_mpd)" > "$PANEL_FIFO" &
+        # Save everything else in a variable to print together with the part,
+        # that's updating every second
+        panel_battery_msg=$(panel_battery)
+        panel_mail_msg=$(panel_mail)
+        panel_network_msg=$(panel_network)
+    fi
+
+    # Output everything every second
+    echo "S $(panel_xmpp) $(panel_tor) $(panel_audio)  $panel_battery_msg $panel_network_msg \
+$(panel_clock) $panel_mail_msg " > "$PANEL_FIFO" &
+    sleep 1;
+done &
+
+# Pipe everything through panel_bar to lemonbar
+~/.config/bspwm/panel_bar < "$PANEL_FIFO" | lemonbar -d -g "$PANEL_GEOMETRY" \
+    -f "$PANEL_FONT_ICONS" -f "$PANEL_FONT_FAMILY" -F "$COLOR_FOREGROUND" \
+    -B "$COLOR_BACKGROUND" &
+
+wait

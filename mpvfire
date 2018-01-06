@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Panel height: 15px
+# Video width: 30% of desktop
+mpv --geometry=30%--0++15 --ontop=yes --on-all-workspaces=yes $(xclip -o)
+
