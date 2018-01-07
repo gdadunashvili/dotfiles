@@ -44,3 +44,5 @@ alias 'pad_off'='libinput-gestures-setup stop && libinput-gestures-setup autosta
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 | xargs -n1 sudo  pip install -U'
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pip.packages' 
 
+# open neovimrc in neovim
+alias 'vimrc'='vim ~/.config/nvim/init.vim'

@@ -406,8 +406,8 @@ setlocal mouse=v
 " Move Blocks -------------------------------------------------------{{{
 nnoremap <Down> :m .+1<CR>==
 nnoremap <Up> :m .-2<CR>==
-inoremap <Down> <Esc>:m .+1<CR>==gi
-inoremap <Up> <Esc>:m .-2<CR>==gi
+inoremap <s-Down> <Esc>:m .+1<CR>==gi
+inoremap <s-Up> <Esc>:m .-2<CR>==gi
 vnoremap <Down> :m '>+1<CR>gv=gv
 vnoremap <Up> :m '<-2<CR>gv=gv
 " -------------------------------------------------------------------}}}
@@ -727,4 +727,11 @@ set tw=80	    " width of document (used by gd)
 set fo-=t	    " don't automatically wrap text when typing
 " set colorcolumn=80
 :set showbreak=↳\ \ \
+" -------------------------------------------------------------------}}}
+
+" Insert Mode -------------------------------------------------------{{{ 
+imap <c-del> <esc>d e 
+imap <c-y> <esc>dd i
+inoremap <c-cr> <esc>o 
+imap <c-d> <esc>yy p i
 " -------------------------------------------------------------------}}}

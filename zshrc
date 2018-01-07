@@ -102,6 +102,7 @@ esac;
 # Aliases ----------------------------------------------------------{{{
 # Load files if they exist
 [[ -f ~/.aliases ]] && source ~/.aliases
+[[ -f ~/.destinations ]] && source ~/.destinations
 # Second one for host specific aliases
 [[ -f ~/.aliases.local ]] && source ~/.aliases.local
 # ------------------------------------------------------------------}}}
