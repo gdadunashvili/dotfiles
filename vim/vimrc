@@ -128,8 +128,8 @@ call plug#end()
 set t_Co=256
 colorscheme darcula
 set background=dark
-" -------------------------------------------------------------------}}}
 
+" -------------------------------------------------------------------}}}
 " F-Keys ------------------------------------------------------------{{{
 " F1: Line numbers
 inoremap <F1> <C-o>:call NumberToggle()<cr>
@@ -138,16 +138,19 @@ nnoremap <F1> :call NumberToggle()<cr>
 set pastetoggle=<F2>
 " F4: Spellchecking
 :nnoremap <F4> :setlocal spell! spelllang=en_us<CR>
-:inoremap <F4> <ESC>:setlocal spell! spelllang=en_us<CR>a
-" F5: Undo tree
-nnoremap <F5> :MundoToggle<CR>
-inoremap <ESC><F5> :MundoToggle<CR>
-" F6: Nerdtree
-:imap <F6> <ESC>:NERDTreeToggle<CR>
-:map <F6> :NERDTreeToggle<CR>
+:inoremap <F4> <ESC>:setlocal spell! spelllang=en_us<CR>
+" C-z Undo tree
+nnoremap <C-z> :MundoToggle<CR>
+inoremap <C-z><ESC> :MundoToggle<CR>
+" F6: json formating
+:map <F6> :%!python -m json.tool<CR>
+" C-n Nerdtree
+:imap <C-n> <ESC>:NERDTreeToggle<CR>
+:map <C-n> :NERDTreeToggle<CR>
 " F8: Tagbar
 nmap <F8> :TagbarToggle<CR>
 imap <F8> <ESC>:TagbarToggle<CR>
+
 " -------------------------------------------------------------------}}}
 
 " Matchit -----------------------------------------------------------{{{

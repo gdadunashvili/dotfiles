@@ -22,7 +22,7 @@ alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
+alias lss='ls | less'
 
 #--------------------------------------------------------------------------
 # OWN ALIASES
@@ -41,7 +41,7 @@ alias 'pad_restart'='libinput-gestures-setup restart && libinput-gestures-setup 
 alias 'pad_off'='libinput-gestures-setup stop && libinput-gestures-setup autostart'
 
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 | xargs -n1 sudo  pip install -U'
-alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pip.packages' 
+alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pip.packages'
 
 # open neovimrc in neovim
 alias 'vimrc'='vim ~/.config/nvim/init.vim'

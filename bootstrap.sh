@@ -7,7 +7,7 @@
 # Sets:
 
 # Smallest setup to work with
-set_basic="bashrc tmux.conf shell_prompt.sh aliases destinations vim/vimrc"
+set_basic="bash_profile shell_prompt.sh aliases destinations"
 
 # Typicall full workstation, not including any window manager
 set_full="bashrc zshrc tmux.conf shell_prompt.sh aliases destinations vim/vimrc \
@@ -22,7 +22,8 @@ set_awesome="config/awesome/"
 
 
 # Use the directory containing this script as absolute path for the symlinks
-dotfile_dir=$(dirname $(readlink -f "$0"))
+# dotfile_dir= $PWD
+# $(dirname $(readlink -f "$0"))
 # Backup existing dotfiles to this directory before replacing them
 backup_dir=~/.dotfiles_old
 
@@ -82,7 +83,8 @@ for file in $install; do
         mkdir -p $directory
     fi
 
-    echo "Creating symlink"
-    ln -s $dotfile_dir/$file ~/.$file
+    # echo "Creating symlinks"
+    echo "copying files"
+    cp -v $PWD/$file ~/.$file
     echo ""
 done
