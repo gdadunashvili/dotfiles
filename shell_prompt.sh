@@ -49,6 +49,15 @@ function __promptline_battery {
 
 return 1
 }
+moon_calendar(){
+  idx=$(python3 ~/dotfiles/lunar_calendar.py)
+  moons=( 'New Moon 🌑' 'Waxing Crescent 🌒' 'First Quarter 🌓' 'Waxing Gibbous 🌔' 'Full Moon 🌕' 'Waning Gibbous 🌖' 'Last Quarter 🌗' 'Waning Crescent 🌘' )
+#  ri=$(($RANDOM % 8))
+  echo ${moons[$idx]}
+}
+moon_calendar_bash(){
+    echo $(($(moon_calendar) + 1))
+}
 function __promptline_ps1 {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
 
@@ -57,8 +66,8 @@ function __promptline_ps1 {
   [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
   # section "b" slices
   __promptline_wrapper "$(__promptline_host)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  # replace "🐔💨" with \\u to get the user name back
-  __promptline_wrapper "$(if [[ -n ${ZSH_VERSION-} ]]; then printf %n; elif [[ -n ${FISH_VERSION-} ]]; then printf "%s" "$USER"; else printf "%s" "🐔💨" ;  fi )" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  # replace "🐓💨" with \\u to get the user name back
+  __promptline_wrapper "$(if [[ -n ${ZSH_VERSION-} ]]; then printf %n; elif [[ -n ${FISH_VERSION-} ]]; then printf "%s" "$USER"; else printf "%s" "$(moon_calendar_bash)" ;  fi )" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
 
   # section "c" header
   slice_prefix="${c_bg}${sep}${c_fg}${c_bg}${space}" slice_suffix="$space${c_sep_fg}" slice_joiner="${c_fg}${c_bg}${alt_sep}${space}" slice_empty_prefix="${c_fg}${c_bg}${space}"
@@ -131,15 +140,21 @@ function __promptline_cwd {
 
   printf "%s" "$first_char$formatted_cwd"
 }
+random_moon_calendar(){
+    moons=( 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 ) 
+    ri=$(($RANDOM % 8))
+    echo ${moons[$ri]}
+}
+
 function __promptline_left_prompt {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
   # section "b" header
   slice_prefix="${b_bg}${sep}${b_fg}${b_bg}${space}" slice_suffix="$space${b_sep_fg}" slice_joiner="${b_fg}${b_bg}${alt_sep}${space}" slice_empty_prefix="${b_fg}${b_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && slice_prefix="$slice_empty_prefix"
   # section "b" slices
-    # replace "🐔💨" 🐵 🦏 with %n to get back username in zsh
+    # replace "🐓💨" 🐵 🦏 with %n to get back username in zsh 🌕🌖🌗🌘🌑🌒🌓🌔  🐲
   __promptline_wrapper "$(__promptline_host)" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
-  __promptline_wrapper "$(if [[ -n ${ZSH_VERSION-} ]]; then print '🐔💨'; elif [[ -n ${FISH_VERSION-} ]]; then printf "%s" "$USER"; else printf "%s" \\u; fi )" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
+  __promptline_wrapper "$(if [[ -n ${ZSH_VERSION-} ]]; then print $(moon_calendar); elif [[ -n ${FISH_VERSION-} ]]; then printf "%s" "$USER"; else printf "%s" \\u; fi )" "$slice_prefix" "$slice_suffix" && { slice_prefix="$slice_joiner"; is_prompt_empty=0; }
 
   # section "c" header
   slice_prefix="${c_bg}${sep}${c_fg}${c_bg}${space}" slice_suffix="$space${c_sep_fg}" slice_joiner="${c_fg}${c_bg}${alt_sep}${space}" slice_empty_prefix="${c_fg}${c_bg}${space}"
