@@ -56,7 +56,10 @@ moon_calendar(){
   echo ${moons[$idx]}
 }
 moon_calendar_bash(){
-    echo $(($(moon_calendar) + 1))
+  idx=$(python3 ~/dotfiles/lunar_calendar.py)
+  moons=( 'New Moon 🌑' 'Waxing Crescent 🌒' 'First Quarter 🌓' 'Waxing Gibbous 🌔' 'Full Moon 🌕' 'Waning Gibbous 🌖' 'Last Quarter 🌗' 'Waning Crescent 🌘' )
+#  ri=$(($RANDOM % 8))
+  echo ${moons[$idx-1]}
 }
 function __promptline_ps1 {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
