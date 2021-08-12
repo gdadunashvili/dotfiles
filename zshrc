@@ -104,7 +104,7 @@ esac;
 [[ -f ~/.aliases ]] && source ~/.aliases
 [[ -f ~/.destinations ]] && source ~/.destinations
 # Second one for host specific aliases
-[[ -f ~/.aliases.local ]] && source ~/.aliases.local
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 # ------------------------------------------------------------------}}}
 
 # Environment variables  -------------------------------------------{{{
