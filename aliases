@@ -45,3 +45,4 @@ alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pi
 
 # open neovimrc in neovim
 alias 'vimrc'='vim ~/.config/nvim/init.vim'
+alias 'yank'='yank-cli -- xsel -b'
