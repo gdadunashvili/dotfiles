@@ -44,5 +44,7 @@ alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 | xa
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pip.packages'
 
 # open neovimrc in neovim
-alias 'vimrc'='vim ~/.config/nvim/init.vim'
-alias 'yank'='yank-cli -- xsel -b'
+alias 'vimrc'='vim ~/.config/nvim/lua/bla/old_maps.lua'
+# alias 'yank'='yank-cli -- xsel -b' 
+alias 'ovito'='/Applications/Ovito.app/Contents/MacOS/ovito'
+export PATH="/opt/homebrew/Cellar/rust/1.67.1/bin:$PATH"

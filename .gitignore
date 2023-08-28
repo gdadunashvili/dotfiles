@@ -9,6 +9,11 @@ config/nvim/plugged
 config/nvim/autoload
 config/nvim/.init.vim-rplugin~
 config/nvim/.netrwhist
+congig/nvim/tmp/
+config/nvim/pack/
+config/.DS_Store
+
+.DS_Store
 
 config/awesome/background.png
 config/bspwm/background.jpg

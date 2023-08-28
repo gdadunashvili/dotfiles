@@ -1,3 +1,0 @@
-#!/bin/bash
-# konsole -e 
-sudo chmod 666 /sys/module/hid_apple/parameters/swap_opt_cmd  && sudo chmod 666 /sys/module/hid_apple/parameters/fnmode && echo 1 > /sys/module/hid_apple/parameters/swap_opt_cmd &
