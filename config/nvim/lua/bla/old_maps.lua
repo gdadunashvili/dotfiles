@@ -8,7 +8,7 @@ inoremap jk <Esc>
 nnoremap <Leader>bd :bd<CR>
 
 " Leader ------------------------------------------------------------{{{
-let mapleader="\<SPACE>"
+let mapleader="<SPACE>"
 nnoremap <Space> <Nop>
 " -------------------------------------------------------------------}}}
 
@@ -62,6 +62,7 @@ map <Leader>s :spli <C-R>=expand("%:p:h") . '/'<CR>
 map <Leader>v :vnew <C-R>=expand("%:p:h") . '/'<CR>
 " -------------------------------------------------------------------}}}
 noremap <Leader>q :quit<CR>
+" -------------------------------------------------------------------}}}
 
 " Reload ------------------------------------------------------------{{{
 " Automatically reload files changed outside of vim

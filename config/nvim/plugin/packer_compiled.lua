@@ -84,6 +84,11 @@ _G.packer_plugins = {
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/TComment",
     url = "https://github.com/vim-scripts/TComment"
   },
+  ["auto-dark-mode.nvim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/auto-dark-mode.nvim",
+    url = "https://github.com/f-person/auto-dark-mode.nvim"
+  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
@@ -93,6 +98,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/darcula",
     url = "https://github.com/doums/darcula"
+  },
+  edge = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/edge",
+    url = "https://github.com/sainnhe/edge"
   },
   harpoon = {
     loaded = true,
@@ -148,6 +158,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/undotree",
     url = "https://github.com/mbbill/undotree"
+  },
+  ["vim-devicons"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-devicons",
+    url = "https://github.com/ryanoasis/vim-devicons"
   },
   ["vim-fugitive"] = {
     loaded = true,

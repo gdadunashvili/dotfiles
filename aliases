@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Fuzzy finder  fzf  configureation
+export FZF_DEFAULT_OPTS="--preview 'bat --style=full --color=always {}'"
+export FZF_DEFAULT_COMMAND="fd --hidden -tf -td -tl"
+source ~/dotfiles/fzf/key-bindings.zsh
+source ~/dotfiles/fzf/completion.zsh
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -35,16 +41,16 @@ alias '..'='cd ..'
 alias '...'='cd ..;ls'
 alias 'cls'='clear'
 
-# trackpad gestures
-alias 'pad_on'='libinput-gestures-setup start && libinput-gestures-setup autostart'
-alias 'pad_restart'='libinput-gestures-setup restart && libinput-gestures-setup autostart'
-alias 'pad_off'='libinput-gestures-setup stop && libinput-gestures-setup autostart'
-
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 | xargs -n1 sudo  pip install -U'
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pip.packages'
+
 
 # open neovimrc in neovim
 alias 'vimrc'='vim ~/.config/nvim/lua/bla/old_maps.lua'
 # alias 'yank'='yank-cli -- xsel -b' 
 alias 'ovito'='/Applications/Ovito.app/Contents/MacOS/ovito'
-export PATH="/opt/homebrew/Cellar/rust/1.67.1/bin:$PATH"
+# export PATH="/opt/homebrew/Cellar/rust/1.67.1/bin:$PATH"
+
+#ranger exits at its last location
+alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
+

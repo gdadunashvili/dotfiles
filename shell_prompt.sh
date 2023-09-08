@@ -119,6 +119,7 @@ function __promptline_cwd {
   local first_char
   local part_count=0
   local formatted_cwd=""
+  # local dir_sep=" >"
   local dir_sep="  "
   local tilde="~"
 

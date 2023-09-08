@@ -3,6 +3,8 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("n", "<leader>/", ":TComment<CR>j")
 vim.keymap.set("i", "<leader>/", "<esc>:TComment<CR>j")
+vim.keymap.set("v", "<leader>/", ":TComment<CR>j")
+
 
 vim.opt.nu = true
 vim.opt.relativenumber = true

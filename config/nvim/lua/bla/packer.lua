@@ -13,11 +13,14 @@ return require('packer').startup(function(use)
   }
 
   use( 'doums/darcula', {run=':PlugInstall'})
+  use('sainnhe/edge', {as = 'edge'})
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use( 'ThePrimeagen/harpoon')
   use( 'vim-scripts/TComment')
   use( 'mbbill/undotree' )
   use( 'tpope/vim-fugitive' )
+  use( 'f-person/auto-dark-mode.nvim' )
+  use( 'ryanoasis/vim-devicons' )
   use {
 	  'VonHeikemen/lsp-zero.nvim',
 	  branch = 'v2.x',

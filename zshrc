@@ -102,9 +102,9 @@ esac;
 # Aliases ----------------------------------------------------------{{{
 # Load files if they exist
 [[ -f ~/.aliases ]] && source ~/.aliases
-[[ -f ~/.destinations ]] && source ~/.destinations
 # Second one for host specific aliases
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+[[ -f ~/.destinations ]] && source ~/.destinations
+# [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 # ------------------------------------------------------------------}}}
 
 # Environment variables  -------------------------------------------{{{
@@ -128,8 +128,6 @@ if [ "$EDITOR" == "nvim" ] || [ "$EDITOR" == "vim" ]; then
 fi
 # ------------------------------------------------------------------}}}
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/usr/local/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
@@ -144,7 +142,21 @@ unset __conda_setup
 # <<< conda initialize <<<
 # adding to path variable
 export PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.9/bin"
-
+PY_VERS_MAJ="3.11"
+export PATH=/opt/homebrew/Cellar/python@${PY_VERS_MAJ}/${PY_VERS_MAJ}.*/Frameworks/Python.framework/Versions/${PY_VERS_MAJ}/bin:$PATH
+export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"
+export DYLD_LIBRARY_PATH=/usr/local/homebrew/Cellar/cairo/1.14.6_1/lib
 
 export PATH=/usr/local/opt/python@3/bin/:$PATH
 export PATH=/usr/local/Cellar/python@3.9/3.9.1_8/Frameworks/Python.framework/Versions/3.9/bin:$PATH
+
+
+export PATH="/opt/homebrew/opt/libxml2/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/libxml2/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libxml2/include"
+ 
+export PATH="/opt/homebrew/opt/libxslt/bin:$PATH"
+export LDFLAGS="-L/opt/homebrew/opt/libxslt/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/libxslt/include"
+
+
