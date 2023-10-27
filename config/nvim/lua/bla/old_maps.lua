@@ -8,8 +8,8 @@ inoremap jk <Esc>
 nnoremap <Leader>bd :bd<CR>
 
 " Leader ------------------------------------------------------------{{{
-let mapleader="<SPACE>"
-nnoremap <Space> <Nop>
+" let mapleader="<SPACE>"
+" nnoremap <Space> <Nop>
 " -------------------------------------------------------------------}}}
 
 " Line Numbers ------------------------------------------------------{{{

@@ -13,6 +13,8 @@ return require('packer').startup(function(use)
   }
 
   use( 'doums/darcula', {run=':PlugInstall'})
+  use( 'preservim/nerdtree', {run=':PlugInstall'})
+  use( 'ThePrimeagen/vim-be-good', {run=':PlugInstall'})
   use('sainnhe/edge', {as = 'edge'})
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use( 'ThePrimeagen/harpoon')

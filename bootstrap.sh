@@ -11,7 +11,7 @@ set_basic="bash_profile shell_prompt.sh aliases destinations"
 
 # Typicall full workstation, not including any window manager
 set_full="bashrc zshrc tmux.conf shell_prompt.sh aliases p10k.zsh destinations vim/vimrc \
-config/nvim/ latexmkrc git_template mpvfire ydlfire time_math.sh qrdisplay"
+config/nvim/ config/kitty latexmkrc git_template mpvfire ydlfire time_math.sh qrdisplay"
 
 # Git templates to generate ctag files automatically
 set_git_template="git_template"

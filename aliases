@@ -7,23 +7,22 @@ source ~/dotfiles/fzf/key-bindings.zsh
 source ~/dotfiles/fzf/completion.zsh
 
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
-    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+# if [ -x /usr/bin/dircolors ]; then
+    # test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
     #alias dir='dir --color=auto'
     #alias vdir='vdir --color=auto'
 
-    alias grep='grep --color=auto'
+    alias grep='grep --color -n'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
-fi
+# fi
 
 # colored GCC warnings and errors
 #export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
 # some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
@@ -35,6 +34,11 @@ alias lss='ls | less'
 #--------------------------------------------------------------------------
 
 alias "vim"="stty stop '' -ixoff ; nvim"
+alias "tmux"="stty stop '' -ixoff ; tmux"
+
+if [[ "$TERM" == "xterm-kitty" ]]; then
+    alias 'diff'='kitten diff'
+fi
 
 #cd
 alias '..'='cd ..'
@@ -46,7 +50,8 @@ alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pi
 
 
 # open neovimrc in neovim
-alias 'vimrc'='vim ~/.config/nvim/lua/bla/old_maps.lua'
+alias 'vimrc'='vim ~/.config/nvim/'
+alias 'alacrittyrc'='vim ~/.config/alacritty/alacritty.yml'
 # alias 'yank'='yank-cli -- xsel -b' 
 alias 'ovito'='/Applications/Ovito.app/Contents/MacOS/ovito'
 # export PATH="/opt/homebrew/Cellar/rust/1.67.1/bin:$PATH"
@@ -54,3 +59,37 @@ alias 'ovito'='/Applications/Ovito.app/Contents/MacOS/ovito'
 #ranger exits at its last location
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
+# reload zshrc
+alias 'rerc'='source ~/.zshrc'
+
+# change OS color theme
+function poke_kitty_color {
+    bash ~/dotfiles/config/kitty/theme-switcher.sh
+}
+function toggle_system_color {
+    osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
+}
+
+alias  'revolve'='toggle_system_color && poke_kitty_color'
+
+
+
+alias dowork="timer 30m && terminal-notifier -message 'Time to take a break'\
+    -title 'Pomodoro' \
+    -sound 'default' \
+    -appIcon 'https://cdn-icons-png.flaticon.com/512/1828/1828843.png'"
+
+alias dorest="timer 10m && terminal-notifier -message 'Time to get back to work'\
+    -title 'Pomodoro' \
+    -sound 'default' \
+    -appIcon 'https://cdn-icons-png.flaticon.com/512/1828/1828843.png'"
+
+pomodoro_runner(){
+    while true
+    do
+        dowork
+        dorest
+    done
+}
+
+alias 'pomodoro'='pomodoro_runner'

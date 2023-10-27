@@ -159,4 +159,5 @@ export PATH="/opt/homebrew/opt/libxslt/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/libxslt/lib"
 export CPPFLAGS="-I/opt/homebrew/opt/libxslt/include"
 
-
+# opam configuration
+[[ ! -r /Users/G.Dadunashvili/.opam/opam-init/init.zsh ]] || source /Users/G.Dadunashvili/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null

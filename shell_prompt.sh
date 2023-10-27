@@ -51,7 +51,7 @@ return 1
 }
 moon_calendar(){
   idx=$(python3 ~/dotfiles/lunar_calendar.py)
-  moons=( 'New Moon 🌑' 'Waxing Crescent 🌒' 'First Quarter 🌓' 'Waxing Gibbous 🌔' 'Full Moon 🌕' 'Waning Gibbous 🌖' 'Last Quarter 🌗' 'Waning Crescent 🌘' )
+  moons=( 'NM 🌑' 'WC 🌒' 'FQ 🌓' 'WG 🌔' 'FM 🌕' 'wG 🌖' 'LQ 🌗' 'wC 🌘' )
 #  ri=$(($RANDOM % 8))
   echo ${moons[$idx]}
 }

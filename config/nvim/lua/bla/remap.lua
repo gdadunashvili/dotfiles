@@ -5,6 +5,30 @@ vim.keymap.set("n", "<leader>/", ":TComment<CR>j")
 vim.keymap.set("i", "<leader>/", "<esc>:TComment<CR>j")
 vim.keymap.set("v", "<leader>/", ":TComment<CR>j")
 
+-- cpp reference map
+vim.keymap.set("n", "<C-c>", ":!open 'https://en.cppreference.com/mwiki/index.php?search=<C-R><C-W>'<CR>")
+
+
+-- dont delete paste buffer
+vim.keymap.set("x", "<leader>p", "\"_dP")
+
+-- copy to main clipboard 
+
+vim.keymap.set("v", "<cmd-c>", "\"+p")
+vim.keymap.set("n", "<cmd-c>", "\"+p")
+vim.keymap.set("x", "<cmd-c>", "\"+p")
+
+
+vim.keymap.set("n", "<leader>y", "\"+y")
+vim.keymap.set("v", "<leader>y", "\"+y")
+
+-- paste from main clipboard using cmd v
+vim.keymap.set("n", "<cmd-v>", "\"+p")
+
+vim.keymap.set("n", "<leader>Y", "\"+yg$")
+
+vim.keymap.set("n", "<leader>d", "\"_d")
+vim.keymap.set("v", "<leader>d", "\"_d")
 
 vim.opt.nu = true
 vim.opt.relativenumber = true

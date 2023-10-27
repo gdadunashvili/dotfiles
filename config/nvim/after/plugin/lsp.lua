@@ -1,10 +1,20 @@
 local lsp = require('lsp-zero').preset({})
 
+LSP_HOVER_OR_MAN = function()
+    -- Check if hover capability exists and is supported
+    if vim.lsp.buf.capabilities.hoverProvider then
+        vim.lsp.buf.hover()
+    else
+        vim.cmd("normal! K")
+    end
+end
+
+
 lsp.on_attach(function(client, bufnr)
   -- see :help lsp-zero-keybindings
   -- to learn the available actions
   lsp.default_keymaps({buffer = bufnr})
-  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end)
+  vim.keymap.set("n", "gd", LSP_HOVER_OR_MAN)
   vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end )
   -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
   -- vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end)
