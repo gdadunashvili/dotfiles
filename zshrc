@@ -1,3 +1,19 @@
+# cursor shape  
+# Set cursor to block in normal mode
+function zle-keymap-select zle-line-init zle-line-finish {
+  if [[ $KEYMAP == vicmd ]]; then
+    echo -ne '\e[2 q'
+  else
+    echo -ne '\e[5 q'
+  fi
+  zle reset-prompt
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
+
+
 # Completion  ------------------------------------------------------{{{
 autoload -Uz compinit
 compinit
