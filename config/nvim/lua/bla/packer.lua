@@ -11,7 +11,7 @@ return require('packer').startup(function(use)
 	  -- or                            , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
-
+  use ('lervag/vimtex')
   use( 'doums/darcula', {run=':PlugInstall'})
   use( 'preservim/nerdtree', {run=':PlugInstall'})
   use( 'ThePrimeagen/vim-be-good', {run=':PlugInstall'})
