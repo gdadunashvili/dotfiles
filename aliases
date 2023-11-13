@@ -1,5 +1,4 @@
 #!/bin/bash
-
 # Fuzzy finder  fzf  configureation
 export FZF_DEFAULT_OPTS="--preview 'bat --style=full --color=always {}'"
 export FZF_DEFAULT_COMMAND="fd --hidden -tf -td -tl"
@@ -56,11 +55,14 @@ alias 'alacrittyrc'='vim ~/.config/alacritty/alacritty.yml'
 alias 'ovito'='/Applications/Ovito.app/Contents/MacOS/ovito'
 # export PATH="/opt/homebrew/Cellar/rust/1.67.1/bin:$PATH"
 
+# alias 'julia'='julia1.9'
+
 #ranger exits at its last location
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
 # reload zshrc
 alias 'rerc'='source ~/.zshrc'
+
 
 # change OS color theme
 function poke_kitty_color {
@@ -93,3 +95,11 @@ pomodoro_runner(){
 }
 
 alias 'pomodoro'='pomodoro_runner'
+
+# project patterns
+readonly PROJPAT='^[a-z]\?p\d\?.*'
+alias list_projects='ls |  grep "${PROJPAT}"'
+
+
+alias 'slimekitty'='kitty -o allow_remote_control=yes --listen-on unix:/tmp/mykitty 1> /dev/null 2> /dev/null'
+
