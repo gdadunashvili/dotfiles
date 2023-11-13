@@ -164,8 +164,6 @@ export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"
 export DYLD_LIBRARY_PATH=/usr/local/homebrew/Cellar/cairo/1.14.6_1/lib
 
 export PATH=/usr/local/opt/python@3/bin/:$PATH
-export PATH=/usr/local/Cellar/python@3.9/3.9.1_8/Frameworks/Python.framework/Versions/3.9/bin:$PATH
-
 
 export PATH="/opt/homebrew/opt/libxml2/bin:$PATH"
 export LDFLAGS="-L/opt/homebrew/opt/libxml2/lib"
