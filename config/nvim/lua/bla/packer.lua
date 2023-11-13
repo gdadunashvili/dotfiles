@@ -11,16 +11,31 @@ return require('packer').startup(function(use)
 	  -- or                            , branch = '0.1.x',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
-  use ('lervag/vimtex')
-  use( 'doums/darcula', {run=':PlugInstall'})
-  use( 'preservim/nerdtree', {run=':PlugInstall'})
+  use('cdelledonne/vim-cmake')
+  -- use('voldikss/vim-floaterm')
+  use('lervag/vimtex')
+  use('jpalardy/vim-slime')
+  use( 'doums/darcula', {branch='release', run=':PlugInstall'})
+  -- use {'neoclide/coc.nvim', branch = 'release', run = 'yarn install --frozen-lockfile'}
+  -- use( 'preservim/nerdtree', {run=':PlugInstall'})
   use( 'ThePrimeagen/vim-be-good', {run=':PlugInstall'})
+  use( 'chentoast/marks.nvim', {run=':PlugInstall'})
+  use( 'JuliaEditorSupport/julia-vim', {run=':PlugInstall'})
+  use( 'kdheepak/JuliaFormatter.vim', {run=':PlugInstall'})
   use('sainnhe/edge', {as = 'edge'})
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use( 'ThePrimeagen/harpoon')
   use( 'vim-scripts/TComment')
   use( 'mbbill/undotree' )
-  use( 'tpope/vim-fugitive' )
+  use{ 'NeogitOrg/neogit',
+    requires = {
+        {'nvim-lua/plenary.nvim'},
+        {'sindrets/diffview.nvim'},
+        {'ibhagwan/fzf-lua'},
+    },
+  }
+
+
   use( 'f-person/auto-dark-mode.nvim' )
   use( 'ryanoasis/vim-devicons' )
   use {

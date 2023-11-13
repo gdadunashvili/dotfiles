@@ -1,0 +1,37 @@
+{
+    "languageserver": {
+        "julia": {
+            "command": "/Applications/Julia-1.8.app/Contents/Resources/julia/bin/julia", 
+            "args": ["--startup-file=no", "--history-file=no", "-e", 
+                "using LanguageServer; using Pkg; env_path = dirname(Pkg.Types.Context().env.project_file); debug = false; server = LanguageServer.LanguageServerInstance(stdin, stdout, debug, env_path); server.runlinter = true; run(server); "],
+                "filetypes": ["julia"],
+                "rootPatterns": ["Project.toml"],
+                "initializationOptions": {},
+                "settings": {
+                    "julia.executablePath" :"/Applications/Julia-1.8.app/Contents/Resources/julia/bin/julia",
+                    "julia.format.calls": true,
+                    "julia.format.comments": true,
+                    "julia.format.curly": true,
+                    "julia.format.docs": true,
+                    "julia.format.indent": 4,
+                    "julia.format.indents": true,
+                    "julia.format.iterOps": true,
+                    "julia.format.kw": true,
+                    "julia.format.lineends": true,
+                    "julia.format.ops": true,
+                    "julia.format.tuples": true,
+                    "julia.lint.call": true,
+                    "julia.lint.constif": true,
+                    "julia.lint.datadecl": true,
+                    "julia.lint.iter": true,
+                    "julia.lint.lazy": true,
+                    "julia.lint.modname": true,
+                    "julia.lint.nothingcomp": true,
+                    "julia.lint.pirates": true,
+                    "julia.lint.typeparam": true,
+                    "julia.lint.useoffuncargs": true
+                }
+        }
+    }
+}
+

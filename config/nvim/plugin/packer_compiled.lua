@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.0-beta3/share/lua/5.1/?/init.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.0-beta3/lib/lua/5.1/?.so"
+local package_path_str = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/share/lua/5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/share/lua/5.1/?/init.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/lib/luarocks/rocks-5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -74,6 +74,11 @@ end
 time([[try_loadstring definition]], false)
 time([[Defining packer_plugins]], true)
 _G.packer_plugins = {
+  ["JuliaFormatter.vim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/JuliaFormatter.vim",
+    url = "https://github.com/kdheepak/JuliaFormatter.vim"
+  },
   LuaSnip = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/LuaSnip",
@@ -99,20 +104,40 @@ _G.packer_plugins = {
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/darcula",
     url = "https://github.com/doums/darcula"
   },
+  ["diffview.nvim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/diffview.nvim",
+    url = "https://github.com/sindrets/diffview.nvim"
+  },
   edge = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/edge",
     url = "https://github.com/sainnhe/edge"
+  },
+  ["fzf-lua"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/fzf-lua",
+    url = "https://github.com/ibhagwan/fzf-lua"
   },
   harpoon = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/harpoon",
     url = "https://github.com/ThePrimeagen/harpoon"
   },
+  ["julia-vim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/julia-vim",
+    url = "https://github.com/JuliaEditorSupport/julia-vim"
+  },
   ["lsp-zero.nvim"] = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
     url = "https://github.com/VonHeikemen/lsp-zero.nvim"
+  },
+  ["marks.nvim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/marks.nvim",
+    url = "https://github.com/chentoast/marks.nvim"
   },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
@@ -123,6 +148,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
+  },
+  neogit = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/neogit",
+    url = "https://github.com/NeogitOrg/neogit"
   },
   ["nvim-cmp"] = {
     loaded = true,
@@ -159,15 +189,30 @@ _G.packer_plugins = {
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/undotree",
     url = "https://github.com/mbbill/undotree"
   },
+  ["vim-be-good"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-be-good",
+    url = "https://github.com/ThePrimeagen/vim-be-good"
+  },
+  ["vim-cmake"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-cmake",
+    url = "https://github.com/cdelledonne/vim-cmake"
+  },
   ["vim-devicons"] = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-devicons",
     url = "https://github.com/ryanoasis/vim-devicons"
   },
-  ["vim-fugitive"] = {
+  ["vim-slime"] = {
     loaded = true,
-    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-fugitive",
-    url = "https://github.com/tpope/vim-fugitive"
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-slime",
+    url = "https://github.com/jpalardy/vim-slime"
+  },
+  vimtex = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vimtex",
+    url = "https://github.com/lervag/vimtex"
   }
 }
 

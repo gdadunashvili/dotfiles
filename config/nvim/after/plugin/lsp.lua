@@ -2,7 +2,7 @@ local lsp = require('lsp-zero').preset({})
 
 LSP_HOVER_OR_MAN = function()
     -- Check if hover capability exists and is supported
-    if vim.lsp.buf.capabilities.hoverProvider then
+    if vim.lsp.capabilities.hoverProvider then --buf.capabilities.hoverProvider then
         vim.lsp.buf.hover()
     else
         vim.cmd("normal! K")
@@ -10,19 +10,22 @@ LSP_HOVER_OR_MAN = function()
 end
 
 
-lsp.on_attach(function(client, bufnr)
-  -- see :help lsp-zero-keybindings
-  -- to learn the available actions
+lsp.on_attach(function(_, bufnr)
+  local opts = {buffer = bufnr, remap = false} 
   lsp.default_keymaps({buffer = bufnr})
-  vim.keymap.set("n", "gd", LSP_HOVER_OR_MAN)
-  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end )
-  -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end)
-  -- vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end)
-  vim.keymap.set("n", "<F2>", function() vim.diagnostic.goto_next() end)
-  vim.keymap.set("n", "<S-F2>", function() vim.diagnostic.goto_prev() end)
-  -- vim.keymap.set("n", "<leader>nca", function() vim.lsp.buf.code_action() end)
-  -- vim.keymap.set("n", "<leader>nrr", function() vim.lsp.buf.references() end)
-  vim.keymap.set("n", "<F6>", function() vim.lsp.buf.rename() end)
+  vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
+  vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
+  vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
+  vim.keymap.set("n", "gw", function() vim.lsp.buf.workspace_symbol() end, opts)
+  vim.keymap.set("n", "af", function() vim.lsp.buf.code_action() end, opts)
+  vim.keymap.set("n", "K", function() vim.lsp.buf.hover() end, opts)
+  -- vim.keymap.set("n", "<leader>vws", function() vim.lsp.buf.workspace_symbol() end, opts)
+  vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "<F1>", function() vim.diagnostic.open_float() end, opts)
+  vim.keymap.set("n", "<F2>", function() vim.diagnostic.goto_next() end, opts)
+  vim.keymap.set("n", "<S-F2>", function() vim.diagnostic.goto_prev() end, opts)
+  vim.keymap.set("n", "<F6>", function() vim.lsp.buf.rename() end, opts)
+  vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
 end)
 
 -- (Optional) Configure lua language server for neovim
@@ -80,25 +83,16 @@ cmp.setup({
     view = {
         entries = 'custom',
     },
- 
-    -- formatting = {
-        -- format = lspkind.cmp_format({
-            -- mode = "symbol_text",
-            -- menu = ({
-                -- nvim_lsp = "[LSP]",
-                -- ultisnips = "[US]",
-                -- nvim_lua = "[Lua]",
-                -- path = "[Path]",
-                -- buffer = "[Buffer]",
-                -- emoji = "[Emoji]",
-                -- omni = "[Omni]",
-            -- }),
-        -- }),
-    -- },
 })
- 
--- lsp.setup_nvim_cmp({
-  -- mapping = cmp_mappings
--- })
 
+
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
+require('lspconfig').clangd.setup {
+    capabilities = capabilities,
+}
+
+require('lspconfig').julials.setup {
+    capabilities = capabilities,
+}
 lsp.setup()

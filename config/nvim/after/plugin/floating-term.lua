@@ -1,0 +1,2 @@
+-- vim.keymap.set("n", "<M-3>"  , ":FloatermToggle<cr>")
+-- vim.keymap.set("n", "<leader>3", ":FloatermToggle<cr>")
