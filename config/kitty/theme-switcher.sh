@@ -15,7 +15,6 @@ function switch_colors {
     fi
     kitty @ set-colors -a ${kittyDir}/current-theme.conf
     # kitten themes --reload-in=all 
-    # source ${kittyDir}/kitty.conf
 }
 
 # say "Theme switcher is running"
