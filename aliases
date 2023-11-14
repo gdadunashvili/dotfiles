@@ -103,3 +103,5 @@ alias list_projects='ls |  grep "${PROJPAT}"'
 
 alias 'slimekitty'='kitty -o allow_remote_control=yes --listen-on unix:/tmp/mykitty 1> /dev/null 2> /dev/null'
 
+export MODULAR_HOME="$HOME/.modular"
+export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
