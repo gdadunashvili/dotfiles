@@ -12,16 +12,14 @@ return require('packer').startup(function(use)
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
   use('cdelledonne/vim-cmake')
-  -- use('voldikss/vim-floaterm')
   use('lervag/vimtex')
   use('jpalardy/vim-slime')
   use( 'doums/darcula', {branch='release', run=':PlugInstall'})
-  -- use {'neoclide/coc.nvim', branch = 'release', run = 'yarn install --frozen-lockfile'}
-  -- use( 'preservim/nerdtree', {run=':PlugInstall'})
   use( 'ThePrimeagen/vim-be-good', {run=':PlugInstall'})
   use( 'chentoast/marks.nvim', {run=':PlugInstall'})
   use( 'JuliaEditorSupport/julia-vim', {run=':PlugInstall'})
   use( 'kdheepak/JuliaFormatter.vim', {run=':PlugInstall'})
+  use( 'czheo/mojo.vim', {run=':PlugInstall'})
   use('sainnhe/edge', {as = 'edge'})
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use( 'ThePrimeagen/harpoon')
