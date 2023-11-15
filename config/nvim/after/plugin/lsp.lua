@@ -1,4 +1,7 @@
+-- require('cobol.nvim').setup {}
+
 local lsp = require('lsp-zero').preset({})
+
 
 LSP_HOVER_OR_MAN = function()
     -- Check if hover capability exists and is supported

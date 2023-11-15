@@ -105,3 +105,10 @@ alias 'slimekitty'='kitty -o allow_remote_control=yes --listen-on unix:/tmp/myki
 
 export MODULAR_HOME="$HOME/.modular"
 export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
+
+
+
+
+# TMUX setup
+alias tn="tmux new -s $(pwd | sed 's/.*\///g')"
+# /TMUX  setup

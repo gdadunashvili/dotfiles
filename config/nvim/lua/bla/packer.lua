@@ -19,20 +19,30 @@ return require('packer').startup(function(use)
   use( 'chentoast/marks.nvim', {run=':PlugInstall'})
   use( 'JuliaEditorSupport/julia-vim', {run=':PlugInstall'})
   use( 'kdheepak/JuliaFormatter.vim', {run=':PlugInstall'})
+  use( 'airblade/vim-gitgutter', {run=':PlugInstall'})
   use( 'czheo/mojo.vim', {run=':PlugInstall'})
+  use( 'vim-airline/vim-airline', {run=':PlugInstall'})
   use('sainnhe/edge', {as = 'edge'})
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
   use( 'ThePrimeagen/harpoon')
+  use( 'yorik1984/cobol.nvim')
   use( 'vim-scripts/TComment')
   use( 'mbbill/undotree' )
-  use{ 'NeogitOrg/neogit',
-    requires = {
-        {'nvim-lua/plenary.nvim'},
-        {'sindrets/diffview.nvim'},
-        {'ibhagwan/fzf-lua'},
-    },
-  }
-
+  use({
+      "kdheepak/lazygit.nvim",
+      -- optional for floating window border decoration
+      requires = {
+          "nvim-lua/plenary.nvim",
+      },
+  })
+  -- use{ 'NeogitOrg/neogit',
+  --   requires = {
+  --       {'nvim-lua/plenary.nvim'},
+  --       {'sindrets/diffview.nvim'},
+  --       {'ibhagwan/fzf-lua'},
+  --   },
+  -- }
+  --
 
   use( 'f-person/auto-dark-mode.nvim' )
   use( 'ryanoasis/vim-devicons' )
