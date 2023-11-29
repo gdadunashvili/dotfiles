@@ -13,7 +13,7 @@ function switch_colors {
         # kitten themes --reload-in=all CLRS
         cp ${kittyDir}/CLRS.conf ${kittyDir}/current-theme.conf
     fi
-    kitty @ set-colors -a ${kittyDir}/current-theme.conf
+    kitty @ set-colors --all ${kittyDir}/current-theme.conf
     # kitten themes --reload-in=all 
 }
 
