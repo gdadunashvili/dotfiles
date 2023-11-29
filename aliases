@@ -1,10 +1,4 @@
 #!/bin/bash
-# Fuzzy finder  fzf  configureation
-export FZF_DEFAULT_OPTS="--preview 'bat --style=full --color=always {}'"
-export FZF_DEFAULT_COMMAND="fd --hidden -tf -td -tl"
-source ~/dotfiles/fzf/key-bindings.zsh
-source ~/dotfiles/fzf/completion.zsh
-
 # enable color support of ls and also add handy aliases
 # if [ -x /usr/bin/dircolors ]; then
     # test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"

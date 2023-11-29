@@ -156,22 +156,12 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-# adding to path variable
-export PATH="$PATH:/Library/Frameworks/Python.framework/Versions/3.9/bin"
-PY_VERS_MAJ="3.11"
-export PATH=/opt/homebrew/Cellar/python@${PY_VERS_MAJ}/${PY_VERS_MAJ}.*/Frameworks/Python.framework/Versions/${PY_VERS_MAJ}/bin:$PATH
-export PATH="/opt/homebrew/opt/python@3.11/bin:$PATH"
-export DYLD_LIBRARY_PATH=/usr/local/homebrew/Cellar/cairo/1.14.6_1/lib
 
-export PATH=/usr/local/opt/python@3/bin/:$PATH
+# zoxide
+eval "$(zoxide init zsh)"
 
-export PATH="/opt/homebrew/opt/libxml2/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/libxml2/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libxml2/include"
- 
-export PATH="/opt/homebrew/opt/libxslt/bin:$PATH"
-export LDFLAGS="-L/opt/homebrew/opt/libxslt/lib"
-export CPPFLAGS="-I/opt/homebrew/opt/libxslt/include"
-
-# opam configuration
-[[ ! -r /Users/G.Dadunashvili/.opam/opam-init/init.zsh ]] || source /Users/G.Dadunashvili/.opam/opam-init/init.zsh  > /dev/null 2> /dev/null
+# Fuzzy finder  fzf  configureation
+export FZF_DEFAULT_OPTS="--preview 'bat --style=full --color=always {}'"
+export FZF_DEFAULT_COMMAND="fd --hidden -tf -td -tl"
+source ~/dotfiles/fzf/key-bindings.zsh
+source ~/dotfiles/fzf/completion.zsh
