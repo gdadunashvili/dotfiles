@@ -18,6 +18,8 @@ vim.keymap.set("v", "<cmd-c>", "\"+p")
 vim.keymap.set("n", "<cmd-c>", "\"+p")
 vim.keymap.set("x", "<cmd-c>", "\"+p")
 
+vim.keymap.set("n", "<leader>x", "\"+x")
+vim.keymap.set("v", "<leader>x", "\"+x")
 
 vim.keymap.set("n", "<leader>y", "\"+y")
 vim.keymap.set("v", "<leader>y", "\"+y")
@@ -33,12 +35,6 @@ vim.keymap.set("v", "<leader>d", "\"_d")
 vim.opt.nu = true
 vim.opt.relativenumber = true
 
-
-vim.opt.tabstop = 4
-vim.opt.softtabstop = 4
-vim.opt.shiftwidth = 4
-vim.opt.expandtab = true
-
 vim.opt.smartindent = true
 
 vim.opt.wrap = false
@@ -51,7 +47,7 @@ vim.opt.undofile = true
 vim.opt.hlsearch = false
 vim.opt.incsearch = true
 
--- vim.opt.termguicolors = true
+vim.opt.termguicolors = true
 
 vim.opt.scrolloff = 8
 vim.opt.signcolumn = "yes"

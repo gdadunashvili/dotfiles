@@ -1,5 +1,16 @@
 {
     "languageserver": {
+        "ccls": {
+            "command": "ccls",
+            "filetypes": ["c", "cpp"],
+            "args": ["--std=c23"],
+            "rootPatterns": [".ccls", "compile_commands.json"],
+            "initializationOptions": {
+                "cache": {
+                    "directory": "/tmp/ccls"
+                }
+            }
+        },
         "julia": {
             "command": "/Applications/Julia-1.8.app/Contents/Resources/julia/bin/julia", 
             "args": ["--startup-file=no", "--history-file=no", "-e", 

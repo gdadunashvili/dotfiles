@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/share/lua/5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/share/lua/5.1/?/init.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/lib/luarocks/rocks-5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1697887905/lib/lua/5.1/?.so"
+local package_path_str = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1703358377/share/lua/5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1703358377/share/lua/5.1/?/init.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1703358377/lib/luarocks/rocks-5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1703358377/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1703358377/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -114,6 +114,11 @@ _G.packer_plugins = {
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/edge",
     url = "https://github.com/sainnhe/edge"
   },
+  ["glance.nvim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/glance.nvim",
+    url = "https://github.com/dnlhc/glance.nvim"
+  },
   harpoon = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/harpoon",
@@ -158,6 +163,21 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/nvim-cmp",
     url = "https://github.com/hrsh7th/nvim-cmp"
+  },
+  ["nvim-dap"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/nvim-dap",
+    url = "https://github.com/mfussenegger/nvim-dap"
+  },
+  ["nvim-dap-ui"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
+    url = "https://github.com/rcarriga/nvim-dap-ui"
+  },
+  ["nvim-dap-virtual-text"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/nvim-dap-virtual-text",
+    url = "https://github.com/theHamsta/nvim-dap-virtual-text"
   },
   ["nvim-lspconfig"] = {
     loaded = true,
@@ -213,6 +233,16 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-gitgutter",
     url = "https://github.com/airblade/vim-gitgutter"
+  },
+  ["vim-grammarous"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-grammarous",
+    url = "https://github.com/rhysd/vim-grammarous"
+  },
+  ["vim-orgmode"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-orgmode",
+    url = "https://github.com/jceb/vim-orgmode"
   },
   ["vim-slime"] = {
     loaded = true,

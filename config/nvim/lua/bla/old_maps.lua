@@ -38,7 +38,7 @@ nnoremap gk k
 " More often I have to address the beginning or end of a line instead
 " of the currently displayed text. But the jumps would be too unprecise
 " in most cases anyway.
-noremap H 0
+noremap H _
 noremap L $
 vnoremap L g_
 " -------------------------------------------------------------------}}}
@@ -105,9 +105,9 @@ set splitright
 
 " Tab ---------------------------------------------------------------{{{
 " Use 4 spaces instead of a tab.
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
 set shiftround
 set expandtab
 " -------------------------------------------------------------------}}}
