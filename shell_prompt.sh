@@ -114,7 +114,7 @@ function __promptline_vcs_branch {
   return 1
 }
 function __promptline_cwd {
-  local dir_limit="3"
+  local dir_limit="1"
   local truncation="⋯"
   local first_char
   local part_count=0
@@ -144,11 +144,7 @@ function __promptline_cwd {
 
   printf "%s" "$first_char$formatted_cwd"
 }
-random_moon_calendar(){
-    moons=( 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 ) 
-    ri=$(($RANDOM % 8))
-    echo ${moons[$ri]}
-}
+
 
 function __promptline_left_prompt {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix is_prompt_empty=1
@@ -169,6 +165,7 @@ function __promptline_left_prompt {
   # close sections
   printf "%s" "${reset_bg}${sep}$reset$space"
 }
+
 function __promptline_wrapper {
   # wrap the text in $1 with $2 and $3, only if $1 is not empty
   # $2 and $3 typically contain non-content-text, like color escape codes and separators
@@ -176,6 +173,7 @@ function __promptline_wrapper {
   [[ -n "$1" ]] || return 1
   printf "%s" "${2}${1}${3}"
 }
+
 function __promptline_git_status {
   [[ $(git rev-parse --is-inside-work-tree 2>/dev/null) == true ]] || return 1
 
@@ -225,6 +223,7 @@ function __promptline_git_status {
   [[ $has_untracked_files -gt 0 ]] && { printf "%s" "$leading_whitespace$has_untracked_files_symbol"; leading_whitespace=" "; }
   [[ $is_clean -gt 0 ]]            && { printf "%s" "$leading_whitespace$clean_symbol"; leading_whitespace=" "; }
 }
+
 function __promptline_right_prompt {
   local slice_prefix slice_empty_prefix slice_joiner slice_suffix
 
@@ -246,6 +245,7 @@ function __promptline_right_prompt {
   # close sections
   printf "%s" "$reset"
 }
+
 function __promptline {
   local last_exit_code="${PROMPTLINE_LAST_EXIT_CODE:-$?}"
 
@@ -259,18 +259,18 @@ function __promptline {
   fi
   local wrap="$noprint$esc" end_wrap="$end_esc$end_noprint"
   local space=" "
-  local sep=""
+  local sep="" # ""
   local rsep=""
   local alt_sep=""
   local alt_rsep=""
   local reset="${wrap}0${end_wrap}"
   local reset_bg="${wrap}49${end_wrap}"
-  local b_fg="${wrap}38;5;231${end_wrap}"
-  local b_bg="${wrap}48;5;235${end_wrap}"
+  local b_fg="${wrap}0;5;231${end_wrap}"
+  local b_bg="${wrap}49;5;235${end_wrap}"
   local b_sep_fg="${wrap}38;5;235${end_wrap}"
-  local c_fg="${wrap}38;5;59${end_wrap}"
-  local c_bg="${wrap}48;5;233${end_wrap}"
-  local c_sep_fg="${wrap}38;5;233${end_wrap}"
+  local c_fg="${wrap}0;5;59${end_wrap}"
+  local c_bg="${wrap}49;5;233${end_wrap}"
+  local c_sep_fg="${wrap}0;5;233${end_wrap}"
   local warn_fg="${wrap}38;5;232${end_wrap}"
   local warn_bg="${wrap}48;5;166${end_wrap}"
   local warn_sep_fg="${wrap}38;5;166${end_wrap}"
