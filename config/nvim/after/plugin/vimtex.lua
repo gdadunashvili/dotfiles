@@ -3,6 +3,7 @@ vim.cmd [[
 augroup tex_settings
   autocmd!
   autocmd FileType tex setlocal wrap linebreak nolist
+  autocmd FileType md setlocal wrap linebreak nolist
 augroup END
 
 

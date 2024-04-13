@@ -7,14 +7,12 @@ return require('packer').startup(function(use)
   use 'wbthomason/packer.nvim'
 
   use {
-	  'nvim-telescope/telescope.nvim', tag = '0.1.2',
-	  -- or                            , branch = '0.1.x',
+	  'nvim-telescope/telescope.nvim',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
-  use('cdelledonne/vim-cmake')
+  -- use('cdelledonne/vim-cmake')
   use('lervag/vimtex')
   use('jpalardy/vim-slime')
-  use('jceb/vim-orgmode')
   use( 'f-person/auto-dark-mode.nvim' ) -- autoamtic mode switching
   -- choose colorscemes here: https://vimcolorschemes.com/
   use( 'doums/darcula', {branch='release', run=':PlugInstall'}) -- Dark Theme
@@ -27,6 +25,7 @@ return require('packer').startup(function(use)
   use( 'czheo/mojo.vim', {run=':PlugInstall'})
   use( 'vim-airline/vim-airline', {run=':PlugInstall'})
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
+  use( 'nvim-treesitter/nvim-treesitter-context' )
   use "nvim-lua/plenary.nvim" -- don't forget to add this one if you don't have it yet!
   use( {
     "ThePrimeagen/harpoon",
@@ -36,9 +35,12 @@ return require('packer').startup(function(use)
   use( 'yorik1984/cobol.nvim')
   use( 'vim-scripts/TComment')
   use( 'rhysd/vim-grammarous')
+  use('github/copilot.vim')
   use( 'mbbill/undotree' )
   use( { "rcarriga/nvim-dap-ui",
-    requires = {"mfussenegger/nvim-dap"} }
+    requires = {"mfussenegger/nvim-dap",
+                "nvim-neotest/nvim-nio" }
+              }
     )
   use( 'theHamsta/nvim-dap-virtual-text' )
   use({
@@ -56,14 +58,7 @@ return require('packer').startup(function(use)
         --         })
         -- end,
         })
-  -- use{ 'NeogitOrg/neogit',
-  --   requires = {
-  --       {'nvim-lua/plenary.nvim'},
-  --       {'sindrets/diffview.nvim'},
-  --       {'ibhagwan/fzf-lua'},
-  --   },
-  -- }
-  --
+
   use( 'ryanoasis/vim-devicons' )
   use {
 	  'VonHeikemen/lsp-zero.nvim',
@@ -80,4 +75,7 @@ return require('packer').startup(function(use)
 		  {'L3MON4D3/LuaSnip'},     -- Required
 	  }
   }
+  -- offline docs search
+  use( 'sunaku/vim-dasht' )
+
 end)

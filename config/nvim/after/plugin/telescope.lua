@@ -1,3 +1,16 @@
+require('telescope').setup({
+  defaults = {
+    layout_strategy = 'flex',
+    layout_config = {
+      width = 0.99,
+      height = 0.98,
+      horizontal = {
+        mirror = false,
+        preview_width = 0.6,  -- Preview width as a percentage of the Telescope window width
+      },
+    }
+  }
+})
 local builtin = require('telescope.builtin')
 
 vim.keymap.set('n', '<leader>ff', builtin.find_files, {})

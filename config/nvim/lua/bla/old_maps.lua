@@ -38,9 +38,9 @@ nnoremap gk k
 " More often I have to address the beginning or end of a line instead
 " of the currently displayed text. But the jumps would be too unprecise
 " in most cases anyway.
-noremap H _
-noremap L $
-vnoremap L g_
+" noremap H _
+" noremap L $
+" vnoremap L g_
 " -------------------------------------------------------------------}}}
 
 " Move Tabs ---------------------------------------------------------{{{

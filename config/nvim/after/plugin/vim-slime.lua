@@ -13,7 +13,7 @@ vim.g.slime_default_config = {['listen_on']="unix:/tmp/mykitty", ['window_id']=1
 
 -- vim.g.slime_default_config = {"sessionname","jl", "windowname", "1"}
 vim.g.slime_dont_ask_default = 1
-vim.g.slime_cell_delimiter = "#%%"
+vim.g.slime_cell_delimiter = "#\\s*%%"
 vim.keymap.set("n", "<leader>a", "<Plug>SlimeSendCell")
 vim.keymap.set("v", "<leader>ar", "<Plug>SlimeRegionSend")
 -- vim.keymap.set("x", "<leader>ar", "<Plug>SlimeRegionSend")

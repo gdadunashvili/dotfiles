@@ -36,6 +36,10 @@ end)
 -- (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
 
+require('lspconfig').grammarly.setup({
+  filetypes = { "markdown", "text", "tex", "latex" ,'org', 'vimwiki' },
+})
+
 local cmp = require('cmp')
 
 local next_choice = function (fallback)
@@ -101,20 +105,55 @@ local capabilities = {
   }
   --require('cmp_nvim_lsp').default_capabilities()
 
-require('lspconfig').clangd.setup {
+local lspconfig =  require('lspconfig')
+
+lspconfig.clangd.setup {
     capabilities = capabilities,
     -- cmd = { 'clangd', '--std=c23' },
 }
 
 -- local nvim_lsp = require('lspconfig')
---
 -- nvim_lsp.clangd.setup {
 --   filetypes = { 'c', 'cpp' },
 --   cmd = { 'clangd', '--std=c23' },
 --   root_dir = nvim_lsp.util.root_pattern('.git', 'compile_commands.json'),
 -- }
 
-require('lspconfig').julials.setup {
+lspconfig.julials.setup {
     capabilities = capabilities,
 }
 lsp.setup()
+
+lspconfig.rust_analyzer.setup {
+    capabilities = capabilities,
+    on_attach = lsp.on_attach,
+    cmd = {
+      'rustup', 'run', 'stable', 'rust-analyzer',
+    },
+}
+
+-- lspconfig.jedi_language_server.setup {
+--     capabilities = capabilities,
+--     on_attach = lsp.on_attach,
+--     settings = {
+--         jedi = {
+--           environment = '/opt/homebrew/bin/python3.12',
+--             },
+--         },
+-- }
+
+-- lspconfig.pylsp.setup{
+--   cmd = { 'pylsp', '-v', '--interpreter', '/opt/homebrew/bin/python3.12' },
+--   settings = {
+--     pylsp = {
+--       plugins = {
+--         mypy = {
+--           enabled = false,
+--         },
+--         pycodestyle = {
+--           enabled = true,
+--         },
+--       }
+--     }
+--   }
+-- }
