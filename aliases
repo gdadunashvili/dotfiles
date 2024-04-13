@@ -1,14 +1,12 @@
 #!/bin/bash
 # enable color support of ls and also add handy aliases
 # if [ -x /usr/bin/dircolors ]; then
-    # test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
-    alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
-
-    alias grep='grep --color -n'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+# test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+alias ls='ls --color=auto'
+#alias dir='dir --color=auto'
+#alias vdir='vdir --color=auto'
+alias fgrep='fgrep --color=auto'
+alias egrep='egrep --color=auto'
 # fi
 
 # colored GCC warnings and errors
@@ -30,26 +28,22 @@ alias "vim"="stty stop '' -ixoff ; nvim"
 alias "tmux"="stty stop '' -ixoff ; tmux"
 
 if [[ "$TERM" == "xterm-kitty" ]]; then
-    alias 'diff'='kitten diff'
+  alias 'diff'='kitten diff'
 fi
 
 #cd
 alias '..'='cd ..'
 alias '...'='cd ..;ls'
-alias 'cls'='clear'
 
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 | xargs -n1 sudo  pip install -U'
 alias 'pip_update_all'='pip list --outdated --format=freeze | cut -d = -f 1 > pip.packages'
-
+alias 'pip3'='python3.12 -m pip install --upgrade --break-system-packages'
 
 # open neovimrc in neovim
-alias 'vimrc'='vim ~/.config/nvim/'
-alias 'alacrittyrc'='vim ~/.config/alacritty/alacritty.yml'
+alias 'vimrc'='cd ~/.config/nvim/ && vim .'
 # alias 'yank'='yank-cli -- xsel -b' 
 alias 'ovito'='/Applications/Ovito.app/Contents/MacOS/ovito'
-# export PATH="/opt/homebrew/Cellar/rust/1.67.1/bin:$PATH"
-
-# alias 'julia'='julia1.9'
+export PATH=".cargo/bin:$PATH"
 
 #ranger exits at its last location
 alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
@@ -57,43 +51,20 @@ alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir
 # reload zshrc
 alias 'rerc'='source ~/.zshrc'
 
-
 # change OS color theme
 function poke_kitty_color {
-    bash ~/dotfiles/config/kitty/theme-switcher.sh
+  # kitty @ set-colors -a -c ~/.config/kitty/current-theme.conf
+  bash ~/dotfiles/config/kitty/i_theme-switcher.sh || bash ~/dotfiles/config/kitty/theme-switcher.sh
 }
 function toggle_system_color {
-    osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
+  osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to not dark mode'
 }
 
 alias  'revolve'='toggle_system_color && poke_kitty_color'
 
-
-
-alias dowork="timer 30m && terminal-notifier -message 'Time to take a break'\
-    -title 'Pomodoro' \
-    -sound 'default' \
-    -appIcon 'https://cdn-icons-png.flaticon.com/512/1828/1828843.png'"
-
-alias dorest="timer 10m && terminal-notifier -message 'Time to get back to work'\
-    -title 'Pomodoro' \
-    -sound 'default' \
-    -appIcon 'https://cdn-icons-png.flaticon.com/512/1828/1828843.png'"
-
-pomodoro_runner(){
-    while true
-    do
-        dowork
-        dorest
-    done
-}
-
-alias 'pomodoro'='pomodoro_runner'
-
 # project patterns
-readonly PROJPAT='^[a-z]\?p\d\?.*'
+PROJPAT='^[a-z]\?p\d\?.*'
 alias list_projects='ls |  grep "${PROJPAT}"'
-
 
 alias 'slimekitty'='kitty -o allow_remote_control=yes --listen-on unix:/tmp/mykitty 1> /dev/null 2> /dev/null'
 
@@ -105,4 +76,5 @@ export PATH="$MODULAR_HOME/pkg/packages.modular.com_mojo/bin:$PATH"
 
 # TMUX setup
 alias tn="tmux new -s $(pwd | sed 's/.*\///g')"
+alias "chtsh"="~/dotfiles/cht.sh"
 # /TMUX  setup
