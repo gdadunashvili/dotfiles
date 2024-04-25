@@ -7,16 +7,11 @@ function switch_colors {
     is_in_dark_mode=$(osascript -e 'tell app "System Events" to tell appearance preferences to return dark mode')
     if [ "${is_in_dark_mode}" = "true" ]; then
         kitten themes --reload-in=all Jet Brains Darcula
-        # cp ${kittyDir}/JetBrains_Darcula.conf  ${kittyDir}/current-theme.conf
     else
         echo "Dark mode is off"
         kitten themes --reload-in=all CLRS
-        # cp ${kittyDir}/CLRS.conf ${kittyDir}/current-theme.conf
     fi
-    # kitty @ set-colors --all ${kittyDir}/current-theme.conf
-    # kitten themes --reload-in=all 
 }
 
-# say "Theme switcher is running"
 switch_colors
 
