@@ -5,10 +5,7 @@ vim.keymap.set("n", "<leader>/", ":TComment<CR>j")
 vim.keymap.set("i", "<leader>/", "<esc>:TComment<CR>j")
 vim.keymap.set("v", "<leader>/", ":TComment<CR>j")
 
--- cpp reference map
-vim.keymap.set("n", "<C-c>", ":!open 'https://en.cppreference.com/mwiki/index.php?search=<C-R><C-W>'<CR>")
-
-
+vim.keymap.set("n", "<leader>w", "<C-w>")
 -- dont delete paste buffer
 vim.keymap.set("x", "<leader>p", "\"_dP")
 
