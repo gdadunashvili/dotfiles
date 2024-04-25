@@ -11,14 +11,14 @@ set_basic="bash_profile shell_prompt.sh aliases destinations"
 
 # Typicall full workstation, not including any window manager
 set_full="bashrc zshrc tmux.conf shell_prompt.sh aliases p10k.zsh destinations vim/vimrc \
-config/nvim/ config/kitty latexmkrc git_template mpvfire ydlfire time_math.sh qrdisplay"
+config/nvim/ config/kitty latexmkrc git_template mpvfire time_math.sh qrdisplay tmux-sessionizer"
 
 # Git templates to generate ctag files automatically
 set_git_template="git_template"
 
 # WM
 set_bspwm="config/bspwm/ config/sxhkd"
-set_awesome="config/awesome/"
+# set_awesome="config/awesome/"
 
 
 # Use the directory containing this script as absolute path for the symlinks
