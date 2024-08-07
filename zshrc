@@ -165,3 +165,4 @@ export FZF_DEFAULT_OPTS="--preview 'bat --style=full --color=always {}'"
 export FZF_DEFAULT_COMMAND="fd --hidden -tf -td -tl"
 source ~/dotfiles/fzf/key-bindings.zsh
 source ~/dotfiles/fzf/completion.zsh
+bindkey -s '^a' "~/.tmux-sessionizer\n"

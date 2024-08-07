@@ -14,7 +14,7 @@ end
 
 
 lsp.on_attach(function(_, bufnr)
-  local opts = {buffer = bufnr, remap = false} 
+  local opts = {buffer = bufnr, remap = false}
   lsp.default_keymaps({buffer = bufnr})
   vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
   vim.keymap.set("n", "gi", '<CMD>Glance implementations<CR>', opts)
@@ -35,10 +35,6 @@ end)
 
 -- (Optional) Configure lua language server for neovim
 require('lspconfig').lua_ls.setup(lsp.nvim_lua_ls())
-
-require('lspconfig').grammarly.setup({
-  filetypes = { "markdown", "text", "tex", "latex" ,'org', 'vimwiki' },
-})
 
 local cmp = require('cmp')
 

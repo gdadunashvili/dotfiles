@@ -10,6 +10,12 @@ return require('packer').startup(function(use)
 	  'nvim-telescope/telescope.nvim',
 	  requires = { {'nvim-lua/plenary.nvim'} }
   }
+  use({
+    "stevearc/oil.nvim",
+    config = function()
+      require("oil").setup()
+    end,
+  })
   -- use('cdelledonne/vim-cmake')
   use('lervag/vimtex')
   use('jpalardy/vim-slime')
@@ -32,11 +38,16 @@ return require('packer').startup(function(use)
     branch = "harpoon2",
     requires = { {"nvim-lua/plenary.nvim"} }
   })
-  use( 'yorik1984/cobol.nvim')
   use( 'vim-scripts/TComment')
   use( 'rhysd/vim-grammarous')
-  use('github/copilot.vim')
+  -- use('github/copilot.vim')
   use( 'mbbill/undotree' )
+  use({"jay-babu/mason-nvim-dap.nvim",
+    requires = {
+      {"williamboman/mason.nvim"},
+      {"mfussenegger/nvim-dap"}
+    }
+  })
   use( { "rcarriga/nvim-dap-ui",
     requires = {"mfussenegger/nvim-dap",
                 "nvim-neotest/nvim-nio" }
@@ -60,6 +71,20 @@ return require('packer').startup(function(use)
         })
 
   use( 'ryanoasis/vim-devicons' )
+  use( {"neovim/nvim-lspconfig",
+    requires = {
+        {"williamboman/mason.nvim"},
+        {"williamboman/mason-lspconfig.nvim"},
+        {"hrsh7th/cmp-nvim-lsp"},
+        {"hrsh7th/cmp-buffer"},
+        {"hrsh7th/cmp-path"},
+        {"hrsh7th/cmp-cmdline"},
+        {"hrsh7th/nvim-cmp"},
+        {"L3MON4D3/LuaSnip"},
+        {"saadparwaiz1/cmp_luasnip"},
+        {"j-hui/fidget.nvim"}
+      }
+    })
   use {
 	  'VonHeikemen/lsp-zero.nvim',
 	  branch = 'v2.x',
@@ -77,5 +102,6 @@ return require('packer').startup(function(use)
   }
   -- offline docs search
   use( 'sunaku/vim-dasht' )
+  use('akinsho/toggleterm.nvim')
 
 end)

@@ -23,7 +23,7 @@ dap.adapters.codelldb ={
 
 }
 
-dap.configurations.c = {
+ local c_cpp_config = {
   {
     name = "Launch file",
     type = "codelldb",
@@ -36,3 +36,6 @@ dap.configurations.c = {
     args = {},
   },
 }
+
+dap.configurations.c = c_cpp_config
+dap.configurations.cpp = c_cpp_config

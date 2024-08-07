@@ -80,12 +80,6 @@ inoremap <C-S> <C-O>:update<CR><Esc>
 cmap w!! w !sudo tee > /dev/null %
 " -------------------------------------------------------------------}}}
 
-" Scrolling ---------------------------------------------------------{{{
-set scrolloff=8         "Start scrolling before reaching the end
-set sidescrolloff=15
-set sidescroll=1
-" -------------------------------------------------------------------}}}
-
 " Search ------------------------------------------------------------{{{
 set ignorecase
 set smartcase
@@ -103,14 +97,6 @@ set splitbelow
 set splitright
 " Resize, width, heigt or normalize
 
-" Tab ---------------------------------------------------------------{{{
-" Use 4 spaces instead of a tab.
-set tabstop=2
-set softtabstop=2
-set shiftwidth=2
-set shiftround
-set expandtab
-" -------------------------------------------------------------------}}}
 
 " Tab Completion ----------------------------------------------------{{{
 " Make tab completion for files/buffers act like bash
@@ -122,23 +108,6 @@ set wildmenu
 set notimeout
 set ttimeout
 set timeoutlen=10
-" -------------------------------------------------------------------}}}
-
-" Undo --------------------------------------------------------------{{{
-set undofile
-set undodir=~/.config/nvim/tmp
-set undoreload=10000
-set undolevels=10000
-" Remap U to <C-r> for easier redo
-nnoremap U <C-r>
-" -------------------------------------------------------------------}}}
-
-" Wrap Line ---------------------------------------------------------{{{
-set tw=80	    " width of document (used by gd)
-" set nowrap	" don't automatically wrap on load
-set fo-=t	    " don't automatically wrap text when typing
-" set colorcolumn=80
-:set showbreak=↳\ \ \
 " -------------------------------------------------------------------}}}
 
 " Insert Mode -------------------------------------------------------{{{ 

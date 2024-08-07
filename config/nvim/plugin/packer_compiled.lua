@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1710088188/share/lua/5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1710088188/share/lua/5.1/?/init.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1710088188/lib/luarocks/rocks-5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1710088188/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1710088188/lib/lua/5.1/?.so"
+local package_path_str = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1716656478/share/lua/5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1716656478/share/lua/5.1/?/init.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1716656478/lib/luarocks/rocks-5.1/?.lua;/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1716656478/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/G.Dadunashvili/.cache/nvim/packer_hererocks/2.1.1716656478/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -94,20 +94,30 @@ _G.packer_plugins = {
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/auto-dark-mode.nvim",
     url = "https://github.com/f-person/auto-dark-mode.nvim"
   },
+  ["cmp-buffer"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/cmp-buffer",
+    url = "https://github.com/hrsh7th/cmp-buffer"
+  },
+  ["cmp-cmdline"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/cmp-cmdline",
+    url = "https://github.com/hrsh7th/cmp-cmdline"
+  },
   ["cmp-nvim-lsp"] = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/cmp-nvim-lsp",
     url = "https://github.com/hrsh7th/cmp-nvim-lsp"
   },
-  ["cobol.nvim"] = {
+  ["cmp-path"] = {
     loaded = true,
-    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/cobol.nvim",
-    url = "https://github.com/yorik1984/cobol.nvim"
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/cmp-path",
+    url = "https://github.com/hrsh7th/cmp-path"
   },
-  ["copilot.vim"] = {
+  cmp_luasnip = {
     loaded = true,
-    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/copilot.vim",
-    url = "https://github.com/github/copilot.vim"
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/cmp_luasnip",
+    url = "https://github.com/saadparwaiz1/cmp_luasnip"
   },
   darcula = {
     loaded = true,
@@ -118,6 +128,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/edge",
     url = "https://github.com/sainnhe/edge"
+  },
+  ["fidget.nvim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/fidget.nvim",
+    url = "https://github.com/j-hui/fidget.nvim"
   },
   ["glance.nvim"] = {
     loaded = true,
@@ -153,6 +168,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
     url = "https://github.com/williamboman/mason-lspconfig.nvim"
+  },
+  ["mason-nvim-dap.nvim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/mason-nvim-dap.nvim",
+    url = "https://github.com/jay-babu/mason-nvim-dap.nvim"
   },
   ["mason.nvim"] = {
     loaded = true,
@@ -204,6 +224,12 @@ _G.packer_plugins = {
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
     url = "https://github.com/nvim-treesitter/nvim-treesitter-context"
   },
+  ["oil.nvim"] = {
+    config = { "\27LJ\2\n1\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\boil\frequire\0" },
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/oil.nvim",
+    url = "https://github.com/stevearc/oil.nvim"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -219,6 +245,11 @@ _G.packer_plugins = {
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/telescope.nvim",
     url = "https://github.com/nvim-telescope/telescope.nvim"
   },
+  ["toggleterm.nvim"] = {
+    loaded = true,
+    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/toggleterm.nvim",
+    url = "https://github.com/akinsho/toggleterm.nvim"
+  },
   undotree = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/undotree",
@@ -233,11 +264,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-be-good",
     url = "https://github.com/ThePrimeagen/vim-be-good"
-  },
-  ["vim-cmake"] = {
-    loaded = true,
-    path = "/Users/G.Dadunashvili/.local/share/nvim/site/pack/packer/start/vim-cmake",
-    url = "https://github.com/cdelledonne/vim-cmake"
   },
   ["vim-dasht"] = {
     loaded = true,
@@ -272,6 +298,10 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: oil.nvim
+time([[Config for oil.nvim]], true)
+try_loadstring("\27LJ\2\n1\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\boil\frequire\0", "config", "oil.nvim")
+time([[Config for oil.nvim]], false)
 
 _G._packer.inside_compile = false
 if _G._packer.needs_bufread == true then
