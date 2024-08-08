@@ -44,6 +44,7 @@ require("mason-lspconfig").setup({
         on_attach = function (client, bufnr)
           client.server_capabilities.signatureHelpProvider = false
           lspconfig.on_attach(client, bufnr)
+          require('virtualtypes').on_attach()
         end,
         capabilities = capabilities,
         cmd = {

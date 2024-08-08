@@ -27,7 +27,6 @@ return require('packer').startup(function(use)
   use( 'chentoast/marks.nvim', {run=':PlugInstall'})
   use( 'JuliaEditorSupport/julia-vim', {run=':PlugInstall'})
   use( 'kdheepak/JuliaFormatter.vim', {run=':PlugInstall'})
-  use( 'airblade/vim-gitgutter', {run=':PlugInstall'})
   use( 'czheo/mojo.vim', {run=':PlugInstall'})
   use( 'vim-airline/vim-airline', {run=':PlugInstall'})
   use( 'nvim-treesitter/nvim-treesitter', {run = ':TSUpdate'})
@@ -40,7 +39,6 @@ return require('packer').startup(function(use)
   })
   use( 'vim-scripts/TComment')
   use( 'rhysd/vim-grammarous')
-  -- use('github/copilot.vim')
   use( 'mbbill/undotree' )
   use({"jay-babu/mason-nvim-dap.nvim",
     requires = {
@@ -54,13 +52,6 @@ return require('packer').startup(function(use)
               }
     )
   use( 'theHamsta/nvim-dap-virtual-text' )
-  use({
-          "kdheepak/lazygit.nvim",
-          -- optional for floating window border decoration
-          requires = {
-          "nvim-lua/plenary.nvim",
-          },
-          })
   use({
         "dnlhc/glance.nvim",
         -- config = function()
@@ -100,8 +91,19 @@ return require('packer').startup(function(use)
 		  {'L3MON4D3/LuaSnip'},     -- Required
 	  }
   }
+  use('27justin/virtuality.nvim')
   -- offline docs search
   use( 'sunaku/vim-dasht' )
   use('akinsho/toggleterm.nvim')
+  -- git-integration
+  use('airblade/vim-gitgutter', {run=':PlugInstall'})
+  use('APZelos/blamer.nvim')
+  use({
+          "kdheepak/lazygit.nvim",
+          -- optional for floating window border decoration
+          requires = {
+          "nvim-lua/plenary.nvim",
+          },
+          })
 
 end)
