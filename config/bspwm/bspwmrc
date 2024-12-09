@@ -1,0 +1,77 @@
+#! /bin/sh
+
+bspc config border_width        1
+bspc config window_gap          0
+
+bspc config split_ratio         0.52
+bspc config borderless_monocle  true
+bspc config gapless_monocle     true
+bspc config click_to_focus        true
+bspc config focus_follows_pointer false
+
+notebook_screen=$(xrandr | awk '/LVDS1 connected/ { print $1; }')
+second_screen=$(xrandr | awk '/ connected/ { print $1; }' | grep -v LVDS1 | sed -n '1p')
+notebook_screen_symbol=
+second_screen_symbol=
+
+
+# Notebook setup
+if [ $notebook_screen ]; then
+    # Rename notebook monitor if not done so
+    bspc monitor $notebook_screen -n $notebook_screen_symbol
+
+    # A second screen is connected, use it as primary
+    if [ $second_screen ]; then
+        xrandr --output $second_screen --primary --auto --above $notebook_screen
+        bspc monitor $second_screen -n $second_screen_symbol
+        # I don't really work with the notebook-screen. Sometimes, depending on the
+        # physical location, I have it beneath my main screen with mutt open,
+        # waiting for new mails. As such I use the 10 easily addressable
+        # workspaces on the main screen and an 11th named  for the notebook.
+        # With an open window one can still easily drop to the screen below with
+        # super+j anyway.
+        bspc monitor $notebook_screen_symbol -d 
+        bspc monitor $second_screen_symbol -d 1 2 3 4 5 6 7 8 9 0
+        # Panel is on only on the main screen
+        bspc config -m $notebook_screen_symbol top_padding 0
+        bspc config -m $second_screen_symbol top_padding 15
+
+        # Check that in a two monitor setup, the notebook is the second one
+        # If not, switch them. That makes sure, that the main screen with all the
+        # workspaces is consistently listed before the notebook one with the
+        # pseudo workspace
+        first_monitor=$(bspc query -M | sed -n '1p')
+        second_monitor=$(bspc query -M | sed -n '2p')
+        if [ $first_monitor = $notebook_screen_symbol ]; then
+            bspc monitor $notebook_screen_symbol -s $second_screen_symbol
+        fi
+
+    # Only the notebook display is present
+    else
+        # Disable all other displays
+        xrandr --output DP1   --off \
+               --output DP2   --off \
+               --output DP3   --off \
+               --output HDMI1 --off \
+               --output HDMI2 --off \
+               --output HDMI3 --off \
+               --output VGA1  --off
+        bspc monitor $notebook_screen_symbol -d 1 2 3 4 5 6 7 8 9 0
+        bspc config -m $notebook_screen_symbol top_padding 15
+    fi
+fi
+
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
+
+# Application rules
+# xprop | grep WM_CLASS
+bspc rule -a mpv state=floating sticky=on focus=off
+bspc rule -a "Tor Browser" state=floating
+
+# Panel
+killall panel
+~/.config/bspwm/panel &
+
+# Force Wallpaper to rescale for new resolution
+feh --bg-scale ~/.config/bspwm/background.jpg

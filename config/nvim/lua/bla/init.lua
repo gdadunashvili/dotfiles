@@ -1,0 +1,5 @@
+require("bla.remap")
+require("bla.packer")
+require("bla.old_maps")
+require("bla.lsp")
+require("bla.language_setups")

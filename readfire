@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# espeak "start" &&
+    # echo $text | espeak -v en-us
+# espeak "end"
+
+text=$(xclip -o)
+text="$(python3 ~/dotfiles/clean_text.py ${text})"
+echo ${text} | espeak

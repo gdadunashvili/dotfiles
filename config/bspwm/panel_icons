@@ -1,0 +1,34 @@
+# Icons for lemonbar panel
+# Based on Font Awesome
+
+
+ICON_BATTERY_EMPTY=""
+ICON_BATTERY_LOW=""
+ICON_BATTERY_MED=""
+ICON_BATTERY_HIGH=""
+ICON_BATTERY_FULL=""
+ICON_BATTERY_AC=""
+
+ICON_DIVIDER=""
+ICON_CLOCK=""
+
+ICON_MAIL_NO_NEW=""
+ICON_MAIL_NEW=""
+
+ICON_XMPP=""
+
+ICON_MUSIC=""
+ICON_MUSIC_PAUSE=""
+
+ICON_TOR=""
+ICON_ETHERNET=""
+ICON_WIFI=""
+ICON_VPN=""
+
+
+ICON_HEADPHONES=""
+ICON_VOLUME_LOW=""
+ICON_VOLUME_MED=""
+ICON_VOLUME_HIGH=""
+ICON_USB=""
+ICON_PA_SERVER=""

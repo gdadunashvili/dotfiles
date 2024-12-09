@@ -1,0 +1,5 @@
+#! /bin/bash
+
+qrencode -o ~/lastqr.png "$(pbpaste)"
+open ~/lastqr.png
+

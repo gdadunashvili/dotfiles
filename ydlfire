@@ -1,0 +1,1 @@
+xfce4-terminal --geometry 60x5 -x youtube-dl -o "~/Videos/ydl/%(title)s.%(ext)s" $(xclip -o)
