@@ -149,11 +149,15 @@ export FZF_DEFAULT_COMMAND="fd --hidden -tf -td -tl"
 source ~/dotfiles/fzf/key-bindings.zsh
 source ~/dotfiles/fzf/completion.zsh
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
 # Aliases 
 # Load files if they exist
 [[ -f ~/.aliases ]] && source ~/.aliases
+
+
+# keep destinations last
 # Second one for host specific aliases
 [[ -f ~/.destinations ]] && source ~/.destinations
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
