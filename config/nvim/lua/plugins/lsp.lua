@@ -33,6 +33,13 @@ vim.diagnostic.config({
   },
 })
 
+-- spell checker
+local words = {}
+for word in io.open(vim.fn.stdpath("config") .. "/spell/en.utf-8.add", "r"):lines() do
+	table.insert(words, word)
+end
+
+
 return {
     "neovim/nvim-lspconfig",
     dependencies = {
@@ -168,6 +175,14 @@ return {
                     },
                 })
             end,
+
+            ["ltex"] = function ()
+            lspconfig.ltex.setup({
+                dictionary = {
+                    ["en-US"] = words,
+                },
+            })
+            end
 
         }
         require("mason").setup()
