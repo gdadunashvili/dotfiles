@@ -1,4 +1,4 @@
-#! /bin/sh
+#! /bin/bash
 
 # Create symlinks to the dotfiles in this directory based on a specific set.
 # Usage: ./bootstrap.sh <set>
@@ -6,6 +6,8 @@
 
 # Sets:
 
+
+set_editor="config/nvim"
 
 # Typicall full workstation, not including any window manager
 set_full="zshrc aliases destinations tmux.conf ideavimrc shell_prompt.sh p10k.zsh \
@@ -30,13 +32,11 @@ backup_dir=~/.dotfiles_old
 case "$1" in
     full)
         install=$set_full
-        git config --global init.templatedir '~/.git_template'
         ;;
-    basic)
-        install=$set_basic;;
+    editor)
+        install=$set_editor;;
     git_template)
         install=$set_git_template
-        git config --global init.templatedir '~/.git_template'
         ;;
     fonts)
         install=$set_fonts;;
@@ -44,6 +44,7 @@ case "$1" in
         echo -e "Usage: bootstrap.sh <set>\n"
         echo -e "Available sets:\n"
         echo -e "full:\n$set_full\n"
+        echo -e "editor:\n$set_full\n"
         echo -e "git_template:\nSetup git templates for ctags\n"
         echo -e "set_fonts:\nSetup a few nerdfonts\n"
         exit 1;;
@@ -80,7 +81,5 @@ for file in $install; do
 
     echo "Creating symlinks"
     ln -s $PWD/$file ~/.$file
-    # echo "copying files"
-    # cp -v $PWD/$file ~/.$file
     echo ""
 done
