@@ -33,12 +33,6 @@ vim.diagnostic.config({
   },
 })
 
--- spell checker
-local words = {}
-for word in io.open(vim.fn.stdpath("config") .. "/spell/en.utf-8.add", "r"):lines() do
-	table.insert(words, word)
-end
-
 
 return {
     "neovim/nvim-lspconfig",
@@ -178,9 +172,7 @@ return {
 
             ["ltex"] = function ()
             lspconfig.ltex.setup({
-                dictionary = {
-                    ["en-US"] = words,
-                },
+                language = "en-US",
             })
             end
 
