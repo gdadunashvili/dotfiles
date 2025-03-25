@@ -15,6 +15,7 @@
 !fonts/ttf/*
 !fonts/variable/*
 !fonts/webfonts/*
+*.uuid
 
 !config/kitty/dark-theme.auto.conf
 !config/kitty/kitty.conf
