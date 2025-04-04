@@ -13,8 +13,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "W", function() vim.lsp.buf.workspace_symbol() end, opts)
         vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
         vim.keymap.set("n", "<F1>", function() vim.diagnostic.open_float() end, opts)
-        vim.keymap.set("n", "<F2>", function() vim.diagnostic.goto_next() end, opts)
-        vim.keymap.set("n", "<S-F2>", function() vim.diagnostic.goto_prev() end, opts)
+        vim.keymap.set("n", "<F2>", function() vim.diagnostic.jump({count=1, float=true}) end, opts)
+        vim.keymap.set("n", "<S-F2>", function() vim.diagnostic.jump({count=-1, float=true}) end, opts)
         vim.keymap.set("n", "<F6>", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set("n", "H", function() vim.lsp.buf.signature_help() end, opts)
@@ -163,9 +163,10 @@ return {
                     capabilities = capabilities,
                     cmd = {
                         "clangd",
-                        "--compile-commands-dir=build",
                         "--background-index",
-                        "--suggest-missing-includes"
+                        "--suggest-missing-includes",
+                        "--compile-commands-dir=build",
+                        "--background-index", "-j=6",
                     },
                 })
             end,
@@ -220,7 +221,7 @@ return {
             ensure_installed =  { "lua_ls",
                                   "clangd",
                                   "bashls",
-                                  "ltex-ls",
+                                  "ltex",
                               },
             automatic_installation = true,
             handlers=handlers,
