@@ -77,7 +77,6 @@ return {
                 expand = function(args)
                     -- For `ultisnips` user.j
                     require('luasnip').lsp_expand(args.body)
-                    -- vim.fn["UltiSnips#Anon"](args.body)
                 end,
             },
             mapping = cmp.mapping.preset.insert({
@@ -120,9 +119,15 @@ return {
         )
 
         local current_folder = vim.fn.expand("%:p:h")
-        local lua_runtime_files = { [os.getenv("HOME").."/github_install/love2d/"] = true, }
+        local love_path=os.getenv("HOME").."/github_install/love2d/"
 
-        if string.find(current_folder, "config/nvim" , 1, true) then
+        local lua_runtime_files = {}
+
+        if(io.open(love_path, "r")~=nil) then
+            lua_runtime_files[love_path] = true
+        end
+
+        if string.find(current_folder, "config/nvim") ~= nil then
             for _, path in ipairs(vim.api.nvim_get_runtime_file("", true)) do
                 lua_runtime_files[path] = true
             end
@@ -132,15 +137,10 @@ return {
         local lspconfig = require('lspconfig')
         local handlers = {
             function(server_name) -- default handler (optional)
-
                 require("lspconfig")[server_name].setup {
                     capabilities = capabilities,
                 }
             end,
-
-            -- ["grammarly"] = function ()
-            --     lspconfig.lua_ls.setup({})
-            -- end,
 
             ["lua_ls"] = function()
                 lspconfig.lua_ls.setup {
@@ -174,32 +174,12 @@ return {
             ["ltex"] = function ()
             lspconfig.ltex.setup({
                 filetypes = { "latex", "tex", "bib", "markdown", "gitcommit", "text" },
---                 settings = {
---                     ltex = {
---                         enabled = { "latex", "tex", "bib", "markdown", },
---                         textareas = { "comment", "text" },
---                         language = "auto",
---                         diagnosticSeverity = "information",
---                         sentenceCacheSize = 200,
--- -- thiss is an misspellled comment
---                         additionalRules = {
---                             enablePickyRules = true,
---                             enableHunspell = true,
---                             motherTongue = "en-US",
---                         },
---                     },
---                 },
             })
             end
-
         }
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed =  { "lua_ls",
-                                  "clangd",
-                                  "bashls",
-                                  "ltex",
-                              },
+            ensure_installed =  { "lua_ls", "clangd", "bashls", "ltex", },
             automatic_installation = true,
             handlers=handlers,
         })
