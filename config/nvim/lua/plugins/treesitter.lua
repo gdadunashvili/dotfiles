@@ -9,7 +9,9 @@ return {
     end,
 
     config = function ()
+        vim.opt.runtimepath:append("$HOME/.local/share/treesitter")
         require'nvim-treesitter.configs'.setup {
+            parser_install_dir = "$HOME/.local/share/treesitter",
             modules = {},
             -- A list of parser names, or "all" (the listed parsers MUST always be installed)
             ensure_installed = { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "markdown_inline" },
