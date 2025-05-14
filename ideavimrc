@@ -11,6 +11,7 @@ inoremap jk <Esc>
 " Unload buffer
 nnoremap <Leader>bd :bd<CR>
 
+nmap <leader>ii :source ~/.ideavimrc<CR>
 " Leader
 let mapleader = " "
 " nnoremap <Space> <Nop>
@@ -35,6 +36,8 @@ map <leader>fa <action>(SearchEverywhere)
 
 " File navigation
 map <leader><leader> <Action>(RecentFiles)
+nmap - <Action>(SelectInProjectView)
+map <Enter> :action ViewSource<CR>
 
 " harpoon
 " add file to an empty harpoon slot
@@ -77,13 +80,6 @@ nnoremap gk k
 " Move Tabs ---------------------------------------------------------{{{
 map <Leader>p <esc>:tabprevious<CR>
 map <Leader>n <esc>:tabnext<CR>
-" -------------------------------------------------------------------}}}
-
-" Newline -----------------------------------------------------------{{{
-" Newline with enter
-nmap <S-Enter> O<Esc>
-nmap <CR> o<Esc>
-imap <C-j> <Enter>
 " -------------------------------------------------------------------}}}
 
 " Open Files --------------------------------------------------------{{{
@@ -168,7 +164,6 @@ set tw=120   " width of document (used by gd)
 set nowrap  "don't automatically wrap on load
 " set fo-=t   " don't automatically wrap text when typing
 set colorcolumn=120
-:set showbreak=↳\ \ \
 " -------------------------------------------------------------------}}}
 
 " Insert Mode -------------------------------------------------------{{{
