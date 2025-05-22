@@ -1,0 +1,52 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Replace the '❯' symbol in the prompt with '➜'
+[character] # The name of the module we are configuring is 'character'
+success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+# A minimal left prompt
+# format = """$character"""
+format = """\
+[](fg:#3B76F0)\
+$directory\
+$symbol( $git_commit$git_status$git_metrics$git_state)$fill$cmd_duration$all\
+${custom.git_config_email}
+$character"""
+
+# Fill character (empty space) between the left and right prompt
+[fill]
+symbol = " "
+
+
+# move the rest of the prompt to the right
+# right_format = """$all"""
+
+[directory]
+truncate_to_repo = false 
+format = "[ﱮ $path ]($style)"
+style = "fg:text bg:#3B76F0"
+
+[git_metrics]
+disabled = false
+
+[battery]
+format = "[$symbol $percentage]($style) "
+empty_symbol = "🪫"
+charging_symbol = "🔋"
+full_symbol = '🔋'
+
+[[battery.display]]
+threshold = 10
+style = 'red'
+
+[custom.git_config_email]
+description = "Output the current git user's configured email address."
+command = "git config user.email"
+format = "\n[$symbol(  $output)]($style)"
+# Only when inside git repository
+when = "git rev-parse --is-inside-work-tree >/dev/null 2>&1"
+style = "text"
