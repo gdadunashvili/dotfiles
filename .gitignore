@@ -4,11 +4,9 @@
 !aliases
 !bootstrap.sh
 !ideavimrc
-!p10k.zsh
 !shell_prompt.sh
 !tmux.conf
 !zshrc
-!wezterm.lua
 
 !fzf/*
 
@@ -25,4 +23,4 @@
 !config/nvim/init.lua
 !config/nvim/lua/config/*
 !config/nvim/lua/plugins/*
-
+!config/starship.toml
