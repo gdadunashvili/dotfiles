@@ -1,1 +1,1 @@
--- vim.api.nvim_
+vim.o.cursorline = true

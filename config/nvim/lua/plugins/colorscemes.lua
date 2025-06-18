@@ -1,8 +1,6 @@
--- local function set_comments()
---  vim.api.nvim_set_hl(0, "BlameLineNvim", { fg = "#8B8989", ctermfg = 245 })
---  vim.api.nvim_set_hl(0, "Comment", { fg = "#FF0000", ctermfg = 245 })
--- end
-
+local function set_comments()
+    vim.api.nvim_set_hl(0, "BlameLineNvim", { fg = "#8B0089", ctermfg = 245 })
+end
 
 local function dark_f()
     vim.api.nvim_set_option_value('background', 'dark', {})
@@ -46,7 +44,7 @@ return {
     name = 'jb',
     config = function ()
         vim.cmd('colorscheme jb')
-         -- Run the setupTimer function to start the periodic check
+        set_comments()
         setupTimer()
     end
 }
