@@ -26,6 +26,8 @@ symbol = " "
 # right_format = """$all"""
 
 [directory]
+truncation_length = 0
+fish_style_pwd_dir_length = 0
 truncate_to_repo = false 
 format = "[ﱮ $path ]($style)"
 style = "fg:text bg:#3B76F0"
