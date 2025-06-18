@@ -117,6 +117,11 @@ return {
 
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = cmp_lsp.default_capabilities()
+        -- this  helps with folding
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
 
         local current_folder = vim.fn.expand("%:p:h")
 
