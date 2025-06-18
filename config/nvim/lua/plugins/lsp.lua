@@ -46,9 +46,12 @@ return {
         "hrsh7th/cmp-cmdline",
         "hrsh7th/nvim-cmp",
         "hrsh7th/cmp-emoji",
+        "b0o/schemastore.nvim",
         -- code docs and snippets 
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
+        "dcampos/nvim-snippy",
+        "dcampos/cmp-snippy",
         -- shows lsp errors and other lsp messages on the bottom right
         "j-hui/fidget.nvim"
     },
@@ -77,6 +80,7 @@ return {
                 expand = function(args)
                     -- For `ultisnips` user.j
                     require('luasnip').lsp_expand(args.body)
+                    require('snippy').lsp_expand(args.body)
                 end,
             },
             mapping = cmp.mapping.preset.insert({
@@ -90,6 +94,7 @@ return {
                 { name = 'nvim_lsp' }, -- For nvim-lsp
                 { name = 'luasnip' }, -- For ultisnips user.
                 { name = 'nvim_lua' }, -- for nvim lua function
+                { name = 'snippy' },
                 { name = 'path' }, -- for path completion
                 { name = 'buffer', keyword_length = 4 }, -- for buffer word completion
                 { name = 'omni' },
@@ -111,14 +116,10 @@ return {
         })
 
         local cmp_lsp = require("cmp_nvim_lsp")
-        local capabilities = vim.tbl_deep_extend(
-            "force",
-            {},
-            vim.lsp.protocol.make_client_capabilities(),
-            cmp_lsp.default_capabilities()
-        )
+        local capabilities = cmp_lsp.default_capabilities()
 
         local current_folder = vim.fn.expand("%:p:h")
+
         local love_path=os.getenv("HOME").."/github_install/love2d/"
 
         local lua_runtime_files = {}
@@ -139,6 +140,32 @@ return {
             function(server_name) -- default handler (optional)
                 require("lspconfig")[server_name].setup {
                     capabilities = capabilities,
+                }
+            end,
+
+            ["jsonls"] = function ()
+                lspconfig.jsonls.setup{
+                    settings = {
+                        json = {
+                            schemas = require('schemastore').json.schemas {
+                                extra = {
+                                    {
+                                        description = "mw::com JSON schema",
+                                        fileMatch = {"mw_com_config.json", "ara_com_config.json"},
+                                        name = "ara_com_config_schema.json",
+                                        url = "file:////home/q666464/Documents/spp/platform/aas/mw/com/impl/configuration/ara_com_config_schema.json", -- or '/path/to/your/schema.json'
+                                    },
+                                    -- {
+                                    --     description = 'My other custom JSON schema',
+                                    --     fileMatch = { 'bar.json', '.baar.json' },
+                                    --     name = 'bar.json',
+                                    --     url = 'https://example.com/schema/bar.json',
+                                    -- },
+                                },
+                            },
+                            validate = { enable = true },
+                        },
+                    },
                 }
             end,
 
@@ -179,7 +206,8 @@ return {
         }
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed =  { "lua_ls", "clangd", "bashls", "ltex", },
+            ensure_installed =  { "lua_ls", "clangd", "bashls", "ltex", "jedi_language_server", 
+                                  "pyright", "pylsp", "jsonls" },
             automatic_installation = true,
             handlers=handlers,
         })
