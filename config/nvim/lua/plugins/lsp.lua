@@ -211,7 +211,7 @@ return {
         }
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed =  { "lua_ls", "clangd", "bashls", "ltex", "jedi_language_server", 
+            ensure_installed =  { "lua_ls", "clangd", "bashls", "ltex", "jedi_language_server",
                                   "pyright", "pylsp", "jsonls" },
             automatic_installation = true,
             handlers=handlers,

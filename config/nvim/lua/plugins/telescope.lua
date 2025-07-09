@@ -21,10 +21,6 @@ return {
                             ["<C-space>"] = lga_actions.to_fuzzy_refine,
                         },
                     },
-                    -- ... also accepts theme settings, for example:
-                    -- theme = "dropdown", -- use dropdown theme
-                    -- theme = { }, -- use own theme spec
-                    -- layout_config = { mirror=true }, -- mirror preview pane
                 }
             },
             defaults = {
@@ -35,7 +31,7 @@ return {
                 },
                 cache_picker = {num_pickers = 10},
                 dynamic_preview_title = true,
-                path_display = {"smart", shorten = {len = 3}},
+                -- path_display = {"smart", shorten = {len = 3}},
                 wrap_results = true,
                 layout_strategy = 'flex',
                 layout_config = {
