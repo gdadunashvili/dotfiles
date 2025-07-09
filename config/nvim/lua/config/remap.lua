@@ -1,5 +1,7 @@
 vim.g.mapleader = " "
 
+vim.keymap.set("n", "<C-f>", ":<C-f>")
+
 vim.keymap.set("n", "<leader>/", ":TComment<CR>j")
 vim.keymap.set("i", "<leader>/", "<esc>:TComment<CR>j")
 vim.keymap.set("v", "<leader>/", ":TComment<CR>j")
@@ -42,7 +44,6 @@ vim.keymap.set({"n", "i", "v"}, "<C-k>", go_vim_or_tmux("k", "U"))
 
 vim.opt.nu = true
 vim.opt.relativenumber = true
--- vim.opt.smartindent = true
 
 vim.opt.wrap = false
 
