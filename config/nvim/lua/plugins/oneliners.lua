@@ -3,5 +3,5 @@ return {
     { 'vim-scripts/TComment'},
     { 'ryanoasis/vim-devicons'},
     { 'mbbill/undotree' },
-
+    { 'preservim/nerdtree' },
 }

@@ -91,14 +91,14 @@ return {
                 ['<Esc>'] = cmp.mapping.close(),
             }),
             sources = {
-                { name = 'nvim_lsp' },                   -- For nvim-lsp
-                { name = 'luasnip' },                    -- For ultisnips user.
-                { name = 'nvim_lua' },                   -- for nvim lua function
+                { name = 'nvim_lsp' },                    -- For nvim-lsp
+                { name = 'luasnip' },                     -- For ultisnips user.
+                { name = 'nvim_lua' },                    -- for nvim lua function
                 { name = 'snippy' },
-                { name = 'path' },                       -- for path completion
+                { name = 'path' },                        -- for path completion
                 { name = 'buffer',  keyword_length = 4 }, -- for buffer word completion
                 { name = 'omni' },
-                { name = 'emoji',   insert = true, }     -- emoji completion
+                { name = 'emoji',   insert = true, }      -- emoji completion
             },
             completion = {
                 keyword_length = 1,
