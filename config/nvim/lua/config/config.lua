@@ -1,1 +1,3 @@
-vim.o.cursorline = true
+vim.opt.cursorline = true
+
+
