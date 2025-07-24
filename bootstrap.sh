@@ -7,11 +7,11 @@
 # Sets:
 
 
-set_editor="config/nvim"
+set_editor="config/nvim editorconfig"
 
 # Typicall full workstation, not including any window manager
 set_full="zshrc aliases destinations tmux.conf ideavimrc shell_prompt.sh config/starship.toml \
-config/nvim config/kitty config/zellij wezterm.lua git_template fonts config/ranger"
+config/nvim editorconfig config/kitty config/zellij wezterm.lua git_template fonts config/ranger"
 
 # Git templates to generate ctag files automatically
 set_git_template="git_template"
