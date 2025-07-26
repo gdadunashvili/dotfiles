@@ -14,32 +14,6 @@ vim.api.nvim_create_autocmd({"BufWritePre"},
     end
 })
 
-
---[[
-function! BreakHabitsWindow() abort
-    " Define the size of the floating window
-    let width = 50
-    let height = 10
-
-    " Create the scratch buffer displayed in the floating window
-    let buf = nvim_create_buf(v:false, v:true)
-
-    " Get the current UI
-    let ui = nvim_list_uis()[0]
-
-    " Create the floating window
-    let opts = {'relative': 'editor',
-                \ 'width': width,
-                \ 'height': height,
-                \ 'col': (ui.width/2) - (width/2),
-                \ 'row': (ui.height/2) - (height/2),
-                \ 'anchor': 'NW',
-                \ 'style': 'minimal',
-                \ }
-    let win = nvim_open_win(buf, 1, opts)
-endfunction
---]]
-
 local function central_float()
     vim.notify("creating central float")
 
@@ -66,13 +40,16 @@ local function central_float()
     }
 
     local win_id = vim.api.nvim_open_win(buf_id, true, opts)
-    vim.fn.execute("edit term://zsh")
     return win_id, buf_id
 end
 
 
-vim.keymap.set("n", "<leader>fa", central_float, {} )
+local function central_terminal()
+    central_float()
+    vim.fn.execute("edit term://zsh")
+end
 
+vim.keymap.set("n", "<leader>\\", central_terminal, {} )
 
 -- Use relativenumbers to use commands for multiple lines way faster
 -- For the current line print the absolute linenumber instead of a
@@ -133,8 +110,28 @@ vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
   end
 })
 
+-- set different timeouts for normal and insert mode
+vim.api.nvim_create_augroup("NoTimeoutNormalMode", { clear = true })
+vim.api.nvim_create_autocmd("InsertEnter", {
+  group = "NoTimeoutNormalMode",
+  command = "set timeout",
+})
+-- this timeoutlen wil only apply to insert mode i.e. mainly just jj and jk
+vim.opt.timeoutlen = 200
+
+vim.api.nvim_create_autocmd("InsertLeave", {
+  group = "NoTimeoutNormalMode",
+  command = "set notimeout",
+})
+
+
+-- Make tab completion for files/buffers act like bash
+vim.o.wildmode = "full"
+vim.o.wildmenu = true
+
 
 vim.o.autoread = true
+
 --[[
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
   command = "if mode() != 'c' | checktime | endif",
