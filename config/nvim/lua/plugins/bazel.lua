@@ -3,8 +3,10 @@ return {
     dependencies = {
         "google/vim-maktaba",
     },
+    --[[
     build=function ()
         vim.cmd(':PlugInstall')
     end,
+    --]]
 
 }

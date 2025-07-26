@@ -47,7 +47,7 @@ return {
         "hrsh7th/nvim-cmp",
         "hrsh7th/cmp-emoji",
         "b0o/schemastore.nvim",
-        -- code docs and snippets 
+        -- code docs and snippets
         "L3MON4D3/LuaSnip",
         "saadparwaiz1/cmp_luasnip",
         "dcampos/nvim-snippy",
@@ -140,6 +140,20 @@ return {
         else
         end
 
+        local lua_ls_settings = {
+            completion = {autoRequire = true},
+            Lua = {
+                diagnostics = {
+                    globals = { "love", "vim", "it", "describe", "before_each", "after_each"},
+                },
+                workspace = {
+                    library = lua_runtime_files,
+                },
+            }
+        }
+
+        vim.lsp.config("lua_ls", { settings = lua_ls_settings })
+
         local lspconfig = require('lspconfig')
         local handlers = {
             function(server_name) -- default handler (optional)
@@ -177,17 +191,7 @@ return {
             ["lua_ls"] = function()
                 lspconfig.lua_ls.setup {
                     capabilities = capabilities,
-                    settings = {
-                        completion = {autoRequire = true},
-                        Lua = {
-                            diagnostics = {
-                                globals = { "love", "vim", "it", "describe", "before_each", "after_each"},
-                            },
-                            workspace = {
-                                library = lua_runtime_files,
-                            },
-                        }
-                    }
+                    settings = lua_ls_settings
                 }
             end,
             ["clangd"] = function ()

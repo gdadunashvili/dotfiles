@@ -21,6 +21,7 @@
 !config/kitty/no-preference-theme.auto.conf
 
 !config/nvim/init.lua
-!config/nvim/lua/config/*
+!*.lua
 !config/nvim/lua/plugins/*
 !config/starship.toml
+config/nvim/tmp/*
