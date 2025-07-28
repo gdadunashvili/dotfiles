@@ -1,7 +1,9 @@
 vim.g.mapleader = " "
-
+--
+-- my awesome remaps
 vim.keymap.set("n", "<C-f>", ":<C-f>")
 
+-- the usual stuff you find on the internet
 vim.keymap.set("n", "<leader>w", "<C-w>")
 -- dont delete paste buffer
 vim.keymap.set("x", "<leader>p", "\"_dP")

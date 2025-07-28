@@ -12,24 +12,34 @@ local function darken_color(color, amount)
 end
 
 local function update_cursor()
-    local bg_color = vim.api.nvim_get_hl_by_name("Normal", true).background
-    local bg_hex = string.format("#%06x", bg_color)
-    local darker_bg = darken_color(bg_hex, 60)
-    vim.api.nvim_set_hl(0, "CursorLine", { bg = darker_bg })
+
+    local bg_hl = vim.api.nvim_get_hl(0, {name="Normal"})
+    local bg_color = nil
+    if bg_hl ~= nil then
+        if bg_hl.bg ~= nil then
+            bg_color = bg_hl.bg
+        end
+    end
+    if bg_color ~= nil then
+        local bg_hex = string.format("#%06x", bg_color)
+        local darker_bg = darken_color(bg_hex, 60)
+        vim.api.nvim_set_hl(0, "CursorLine", { bg = darker_bg })
+    end
 end
 
-local function set_comments()
-    vim.api.nvim_set_hl(0, "BlameLineNvim", { fg = "#8B0089", ctermfg = 245 })
-end
-
-local function dark_f()
-    vim.api.nvim_set_option_value('background', 'dark', {})
+local function common_mode()
+    vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = "#8B0089", ctermfg = 245 })
     update_cursor()
 end
+local function dark_f()
+    vim.o.background = "dark"
+    common_mode()
+end
+
 
 local function light_f()
-    vim.api.nvim_set_option_value('background', 'light', {})
-    update_cursor()
+    vim.o.background = "light"
+    common_mode()
 end
 
 local function is_dark()
@@ -50,10 +60,9 @@ local function mode()
     end
 end
 
--- mode()()
 
 local function setupTimer()
-    local timer = vim.loop.new_timer()
+    local timer = vim.uv.new_timer()
     timer:start(0, 3000, vim.schedule_wrap(function ()
         mode()()
     end
@@ -66,7 +75,6 @@ return {
     name = 'jb',
     config = function ()
         vim.cmd('colorscheme jb')
-        set_comments()
         setupTimer()
     end
 }
