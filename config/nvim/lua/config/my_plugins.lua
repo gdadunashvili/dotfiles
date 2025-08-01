@@ -127,32 +127,7 @@ vim.api.nvim_create_user_command("Quickfixify", quickfixyfy, {} )
 
 --- bazel execution
 
-local function extract_all_executabel_names(buffer)
-    local buffer = vim.fn.getline(1,'$')
-
-    if type(buffer) == "string" then
-        buffer = {buffer}
-    end
-
-        -- "" "" '󱁤' '󰖷' "🐞" ▶️ 🔨
-    for line_nr, line_str in ipairs(buffer) do
-        local bazel_symbol, type = plugin_lib.extract_destination(line_str)
-
-        local glyph = ""
-        if type == 'build' then glyph='󱁤' end
-        if type == 'run' then glyph='' end
-        if type == 'test' then glyph='' end
-        if type == 'debug' then glyph=' ' end
-        -- gToDo: execute bazel query to get the full target string for a symbol
-        plugin_lib.put_char_in_gutter(0, line_nr-1, glyph)
-        if symbol == nil then goto continue end
-
-
-
-        ::continue::
-    end
-end
-
+--[[
 local function bazel_run()
     local filetype = vim.bo.filetype
     local filename = vim.fn.expand('%:t:r')
@@ -165,14 +140,15 @@ local function bazel_run()
     plugin_lib.put_char_in_gutter(0, line_nr-1, " ")
 end
 vim.api.nvim_create_user_command("BazelRun", bazel_run, {})
+--]]
 
 
-
+--- @return string
 local function get_bazel_targets()
-    local filetype = vim.bo.filetype
-    local filename = vim.fn.expand('%:t:r')
+    -- local filetype = vim.bo.filetype
+    -- local filename = vim.fn.expand('%:t:r')
     local filedir  = vim.fn.expand('%:p:h')
-    if filetype ~= 'bzl' or filename ~= 'BUILD' then vim.notify("nope") end
+    -- if filetype ~= 'bzl' or filename ~= 'BUILD' then vim.notify("nope") end
     local cmd_str = "!bazel info workspace"
     local output = vim.api.nvim_exec2(cmd_str, {output = true})
     local bazel_match = string.gmatch(output.output, "\n(.+)\n")
@@ -259,3 +235,32 @@ end, {})
 
 vim.keymap.set("n", "<F8>", buffer_lines_to_telescope)
 
+
+-- Who Guards the Header Guards
+
+local function bazel_run()
+    local filetype = vim.bo.filetype
+    local filename = vim.fn.expand('%:t:r')
+    local filedir  = vim.fn.expand('%:h')
+    local extension = vim.fn.expand('%:e')
+    if filetype ~= 'cpp' then vim.notify(filetype) end
+    if extension ~= 'h' or extension ~= 'hpp'  then vim.notify(extension) end
+
+    vim.notify(filetype)
+    local pos = vim.api.nvim_win_get_cursor(0)
+    local line_nr = pos[1]
+    -- local col_nr = pos[2]
+    plugin_lib.put_char_in_gutter(0, line_nr-1, " ")
+end
+
+
+vim.api.nvim_create_user_command("CheckHeaderGuards", bazel_run, {})
+
+
+--[[
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = "HeaderGuards",
+    pattern = { "*.h", "*.hpp" },
+    command = "CheckHeaderGuards"
+})
+--]]
