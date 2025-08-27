@@ -29,17 +29,17 @@ end
 
 local function common_mode()
     vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = "#8B0089", ctermfg = 245 })
-    update_cursor()
+    -- update_cursor()
 end
-local function dark_f()
+local function dark_f(_, dark_name)
+    vim.cmd.colorscheme(dark_name)
     vim.o.background = "dark"
-    common_mode()
 end
 
 
-local function light_f()
+local function light_f(light_name, _)
+    vim.cmd.colorscheme(light_name)
     vim.o.background = "light"
-    common_mode()
 end
 
 local function is_dark()
@@ -61,21 +61,50 @@ local function mode()
 end
 
 
-local function setupTimer()
+local function setupTimer(light_name, dark_name)
     local timer = vim.uv.new_timer()
     timer:start(0, 3000, vim.schedule_wrap(function ()
-        mode()()
+        mode()(light_name, dark_name)
     end
     ))
 end
 
 
 return {
-    'nickkadutskyi/jb.nvim',
-    name = 'jb',
+    'ferdinandrau/carbide.nvim',
+    priority = 1000,
+    dependencies = {
+            {
+                {'nickkadutskyi/jb.nvim', name = 'jb'},
+                'norcalli/nvim-colorizer.lua',
+            },
+    },
     config = function ()
-        vim.cmd('colorscheme jb')
-        setupTimer()
+        require('carbide').setup({
+            style = {
+                keywords = { bold = true },
+                strings = { italic = true },
+            },
+            palette_overrides = {
+                dark = {
+                },
+            },
+            plugins= {
+                ["gitsigns.nvim"] = true,
+           },
+           scheme_overrides = function(colors, variant, style)
+        return {
+            GitSignsChangeLnInline = { bg = colors.bgc_yellow },
+            GitSignsAddLnInline = { bg = colors.bgc_green },
+            GitSignsDeleteLnInline = {  bg = colors.bgc_red },
+            GitSignsCurrentLineBlame = { fg = "#8B0089" },
+            Macro = {fg = colors.fgc_yellow},
+            ["@constant.macro"] = { link = "Macro" },
+            ['@variable.member'] = { link = "Constant" },
+        }
+    end,
+        })
+        setupTimer("carbide-light","carbide-dark")
     end
 }
 
