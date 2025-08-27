@@ -20,6 +20,8 @@
 !config/kitty/light-theme.auto.conf
 !config/kitty/no-preference-theme.auto.conf
 
+!config/keyd/default.conf
+
 !config/nvim/init.lua
 !*.lua
 !config/nvim/lua/plugins/*
