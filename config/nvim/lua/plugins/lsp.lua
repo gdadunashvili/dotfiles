@@ -79,8 +79,12 @@ return {
             snippet = {
                 expand = function(args)
                     -- For `ultisnips` user.j
-                    require('luasnip').lsp_expand(args.body)
-                    require('snippy').lsp_expand(args.body)
+                    local luasnip = require('luasnip')
+                    if luasnip~=nil then luasnip.lsp_expand(args.body) end
+                    --[[
+                    local snippy = require('snippy')
+                    if snippy~=nil then snippy.lsp_expand(args.body) end
+                    --]]
                 end,
             },
             mapping = cmp.mapping.preset.insert({
@@ -209,8 +213,7 @@ return {
         }
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "clangd", "bashls", "ltex", "jedi_language_server",
-                "pyright", "pylsp", "jsonls" },
+            ensure_installed =  { "lua_ls", "clangd", "bashls", "ltex", "pylsp", "jsonls" },
             automatic_installation = true,
             handlers = handlers,
         })
