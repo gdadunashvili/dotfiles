@@ -17,6 +17,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "<S-F2>", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
         vim.keymap.set("n", "<F6>", function() vim.lsp.buf.rename() end, opts)
         vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+        vim.keymap.set("n", "<leader>o", ":LspClangdSwitchSourceHeader<CR>", opts)
         vim.keymap.set("n", "H", function() vim.lsp.buf.signature_help() end, opts)
     end
 })

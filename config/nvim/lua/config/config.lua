@@ -6,11 +6,9 @@ vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
 vim.api.nvim_create_autocmd({"BufWritePre"},
 {
     group = "FormatOnSave",
-    pattern = { "*.cpp", "*.h", "*.hpp" },
+    pattern = { "*.cpp", "*.h", "*.hpp", "*.c" },
     callback= function ()
-        local current_pos = vim.fn.winsaveview()
-        vim.cmd("%!clang-format")
-        vim.fn.winrestview(current_pos)
+        vim.lsp.buf.format();
     end
 })
 
