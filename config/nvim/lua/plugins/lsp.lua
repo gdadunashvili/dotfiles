@@ -40,93 +40,14 @@ return {
     dependencies = {
         "williamboman/mason.nvim",
         "williamboman/mason-lspconfig.nvim",
-        -- autocompletion
-        "hrsh7th/cmp-nvim-lsp",
-        "hrsh7th/cmp-buffer",
-        "hrsh7th/cmp-path",
-        "hrsh7th/cmp-cmdline",
-        "hrsh7th/nvim-cmp",
-        "hrsh7th/cmp-emoji",
         "b0o/schemastore.nvim",
-        -- code docs and snippets
-        "L3MON4D3/LuaSnip",
-        "saadparwaiz1/cmp_luasnip",
-        "dcampos/nvim-snippy",
-        "dcampos/cmp-snippy",
         -- shows lsp errors and other lsp messages on the bottom right
-        "j-hui/fidget.nvim"
+        "j-hui/fidget.nvim",
+        -- lsp autocompletion
+        "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
         require('fidget').setup({})
-        local cmp = require('cmp')
-
-        local next_choice = function(fallback)
-            if cmp.visible() then
-                cmp.select_next_item()
-            else
-                fallback()
-            end
-        end
-
-        local prev_choice = function(fallback)
-            if cmp.visible() then
-                cmp.select_prev_item()
-            else
-                fallback()
-            end
-        end
-
-        cmp.setup({
-            snippet = {
-                expand = function(args)
-                    -- For `ultisnips` user.j
-                    local luasnip = require('luasnip')
-                    if luasnip~=nil then luasnip.lsp_expand(args.body) end
-                    --[[
-                    local snippy = require('snippy')
-                    if snippy~=nil then snippy.lsp_expand(args.body) end
-                    --]]
-                end,
-            },
-            mapping = cmp.mapping.preset.insert({
-                ['<C-j>'] = next_choice,
-                ['<C-k>'] = prev_choice,
-                ['<CR>'] = cmp.mapping.confirm({ select = true }),
-                ['<C-e>'] = cmp.mapping.abort(),
-                ['<Esc>'] = cmp.mapping.close(),
-            }),
-            sources = {
-                { name = 'nvim_lsp' },                    -- For nvim-lsp
-                { name = 'luasnip' },                     -- For ultisnips user.
-                { name = 'nvim_lua' },                    -- for nvim lua function
-                { name = 'snippy' },
-                { name = 'path' },                        -- for path completion
-                { name = 'buffer',  keyword_length = 4 }, -- for buffer word completion
-                { name = 'omni' },
-                { name = 'emoji',   insert = true, }      -- emoji completion
-            },
-            completion = {
-                keyword_length = 1,
-                completeopt = "menu",
-                border = "single",
-                winhighlight = "Normal:CmpNormal",
-            },
-            window = {
-                documentation = cmp.config.window.bordered(),
-                completion = cmp.config.window.bordered(),
-            },
-            view = {
-                entries = 'custom',
-            },
-        })
-
-        local cmp_lsp = require("cmp_nvim_lsp")
-        local capabilities = cmp_lsp.default_capabilities()
-        -- this  helps with folding
-        capabilities.textDocument.foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-        }
 
         local current_folder = vim.fn.expand("%:p:h")
 
@@ -159,10 +80,19 @@ return {
 
         vim.lsp.config("lua_ls", { settings = lua_ls_settings })
 
+        local cmp_lsp = require("cmp_nvim_lsp")
+        local capabilities = cmp_lsp.default_capabilities()
+        -- this  helps with folding
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
+
         local lspconfig = require('lspconfig')
+
         local handlers = {
             function(server_name) -- default handler (optional)
-                require("lspconfig")[server_name].setup {
+                lspconfig[server_name].setup {
                     capabilities = capabilities,
                 }
             end,
@@ -212,9 +142,10 @@ return {
                 })
             end
         }
+
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed =  { "lua_ls", "clangd", "bashls", "ltex", "pylsp", "jsonls" },
+            ensure_installed = { "lua_ls", "clangd", "bashls", "ltex", "pylsp", "jsonls" },
             automatic_installation = true,
             handlers = handlers,
         })
