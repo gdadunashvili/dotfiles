@@ -1,6 +1,6 @@
 local function setup_gitsigns()
     require('gitsigns').setup {
-        signs = {
+        signs                        = {
             add          = { text = '┃' },
             change       = { text = '┃' },
             delete       = { text = '_' },
@@ -8,7 +8,7 @@ local function setup_gitsigns()
             changedelete = { text = '~' },
             untracked    = { text = '┆' },
         },
-        signs_staged = {
+        signs_staged                 = {
             add          = { text = '┃' },
             change       = { text = '┃' },
             delete       = { text = '_' },
@@ -16,18 +16,18 @@ local function setup_gitsigns()
             changedelete = { text = '~' },
             untracked    = { text = '┆' },
         },
-        signs_staged_enable = true,
-        signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-        numhl      = true, -- Toggle with `:Gitsigns toggle_numhl`
-        linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-        word_diff  = true, -- Toggle with `:Gitsigns toggle_word_diff`
-        watch_gitdir = {
+        signs_staged_enable          = true,
+        signcolumn                   = true, -- Toggle with `:Gitsigns toggle_signs`
+        numhl                        = true, -- Toggle with `:Gitsigns toggle_numhl`
+        linehl                       = false, -- Toggle with `:Gitsigns toggle_linehl`
+        word_diff                    = false, -- Toggle with `:Gitsigns toggle_word_diff`
+        watch_gitdir                 = {
             follow_files = true
         },
-        auto_attach = true,
-        attach_to_untracked = false,
-        current_line_blame = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
-        current_line_blame_opts = {
+        auto_attach                  = true,
+        attach_to_untracked          = false,
+        current_line_blame           = true, -- Toggle with `:Gitsigns toggle_current_line_blame`
+        current_line_blame_opts      = {
             virt_text = true,
             virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
             delay = 100,
@@ -37,11 +37,11 @@ local function setup_gitsigns()
         },
         current_line_blame_formatter = ' <author>, <author_time:%R> • <summary> • <author_mail> <sha>',
 
-        sign_priority = 6,
-        update_debounce = 100,
-        status_formatter = nil, -- Use default
-        max_file_length = 40000, -- Disable if file is longer than this (in lines)
-        preview_config = {
+        sign_priority                = 6,
+        update_debounce              = 100,
+        status_formatter             = nil, -- Use default
+        max_file_length              = 40000, -- Disable if file is longer than this (in lines)
+        preview_config               = {
             -- Options passed to nvim_open_win
             style = 'minimal',
             relative = 'cursor',
@@ -49,7 +49,7 @@ local function setup_gitsigns()
             col = 1
         },
 
-        on_attach = function(bufnr)
+        on_attach                    = function(bufnr)
             local gitsigns = require('gitsigns')
 
             local function map(mode, l, r, opts)
@@ -61,7 +61,7 @@ local function setup_gitsigns()
             -- Navigation
             map('n', ']c', function()
                 if vim.wo.diff then
-                    vim.cmd.normal({']c', bang = true})
+                    vim.cmd.normal({ ']c', bang = true })
                 else
                     gitsigns.nav_hunk('next')
                 end
@@ -69,7 +69,7 @@ local function setup_gitsigns()
 
             map('n', '[c', function()
                 if vim.wo.diff then
-                    vim.cmd.normal({'[c', bang = true})
+                    vim.cmd.normal({ '[c', bang = true })
                 else
                     gitsigns.nav_hunk('prev')
                 end
@@ -99,7 +99,7 @@ local function setup_gitsigns()
             map('n', '<leader>hq', gitsigns.setqflist)
 
             -- Text object
-            map({'o', 'x'}, 'ih', gitsigns.select_hunk)
+            map({ 'o', 'x' }, 'ih', gitsigns.select_hunk)
         end
     }
 end

@@ -96,7 +96,9 @@ return {
                 end,
             },
             view = {
-                entries = 'custom',   -- selection_order = 'near_cursor'
+                entries = 'custom',
+                selection_order = 'near_cursor',
+
                 docs = {
                     auto_open = true, -- Auto-show docs for selected item
                 }
