@@ -64,7 +64,7 @@ vim.opt.wrap = false
 local text_wrap_group_id = vim.api.nvim_create_augroup("text_wrap", { clear = true })
 
 vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
-  pattern = {"*.tex", "*.txt", '*.md'},
+  pattern = {"*.tex", "*.txt", '*.md', '*.trlc'},
   group = text_wrap_group_id,
   callback = function(_)
     vim.opt.wrap = true
