@@ -17,6 +17,7 @@
 
 !config/kitty/dark-theme.auto.conf
 !config/kitty/kitty.conf
+!config/kitty/window_navigation.py
 !config/kitty/light-theme.auto.conf
 !config/kitty/no-preference-theme.auto.conf
 
