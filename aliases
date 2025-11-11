@@ -13,7 +13,7 @@ export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quo
 alias alert='notify-send --urgency=critical -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 #--------------------------------------------------------------------------
-# modern versions 
+# modern versions
 #--------------------------------------------------------------------------
 alias ls='eza'
 alias ll='eza -alF'
@@ -36,20 +36,11 @@ alias '...'='cd ..;ls'
 # open neovimrc in neovim
 alias 'vimrc'='cd ~/dotfiles/config/nvim/ && vim .'
 # alias 'termrc'='vim ~/dotfiles/wezterm.lua'
-alias 'termrc'='vim ~/dotfiles/config/ghostty/config'
-alias 'zellijrc'='vim ~/dotfiles/config/zellij/config.kdl'
-alias 'bindrc'='vim ~/dotfiles/gnome_custom_hotkeys.sh'
 alias 'rebind'='bash ~/dotfiles/gnome_custom_hotkeys.sh'
-
-alias wezterm='flatpak run org.wezfurlong.wezterm'
-
-#ranger exits at its last location
-alias ranger='ranger --choosedir=$HOME/.rangerdir; LASTDIR=`cat $HOME/.rangerdir`; cd "$LASTDIR"'
 
 # reload zshrc
 alias 'rerc'='source ~/.zshrc'
 
 alias 'slimekitty'='notify-send "slime is not configured"'
 export PATH=$PATH:~/.local/bin/
-export PATH=$PATH:~/ghostty-term/zig-out/bin/
 
