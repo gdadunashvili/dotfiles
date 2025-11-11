@@ -2,23 +2,24 @@ vim.api.nvim_create_autocmd('LspAttach', {
     group = vim.api.nvim_create_augroup("blaGroup", {
         clear = false
     }),
+    ---@param e vim.api.keyset.create_autocmd.callback_args
     callback = function(e)
         local opts = { buffer = e.buf, remap = false }
-        vim.keymap.set("n", "gd", function() vim.lsp.buf.definition() end, opts)
-        vim.keymap.set("n", "gi", function() vim.lsp.buf.implementation() end, opts)
-        vim.keymap.set("n", "gr", function() vim.lsp.buf.references() end, opts)
-        vim.keymap.set("n", "gw", function() vim.lsp.buf.workspace_symbol() end, opts)
-        vim.keymap.set("n", "<leader>af", function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set("n", "<A-CR>", function() vim.lsp.buf.code_action() end, opts)
-        vim.keymap.set("n", "W", function() vim.lsp.buf.workspace_symbol() end, opts)
-        vim.keymap.set("n", "<leader>vd", function() vim.diagnostic.open_float() end, opts)
-        vim.keymap.set("n", "<F1>", function() vim.diagnostic.open_float() end, opts)
+        vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
+        vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
+        vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+        vim.keymap.set("n", "gw", vim.lsp.buf.workspace_symbol, opts)
+        vim.keymap.set("n", "<leader>af", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "<A-CR>", vim.lsp.buf.code_action, opts)
+        vim.keymap.set("n", "W", vim.lsp.buf.workspace_symbol, opts)
+        vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "<F1>", vim.diagnostic.open_float, opts)
         vim.keymap.set("n", "<F2>", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
         vim.keymap.set("n", "<S-F2>", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-        vim.keymap.set("n", "<F6>", function() vim.lsp.buf.rename() end, opts)
-        vim.keymap.set("n", "<leader>rn", function() vim.lsp.buf.rename() end, opts)
+        vim.keymap.set("n", "<F6>", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<leader>o", ":LspClangdSwitchSourceHeader<CR>", opts)
-        vim.keymap.set("n", "H", function() vim.lsp.buf.signature_help() end, opts)
+        vim.keymap.set("n", "H", vim.lsp.buf.signature_help, opts)
     end
 })
 
