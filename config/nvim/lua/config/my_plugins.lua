@@ -6,25 +6,25 @@ local function central_terminal()
     vim.fn.execute("edit term://zsh")
 end
 
-vim.keymap.set("n", "<leader>e", central_terminal, {} )
+vim.keymap.set("n", "<leader>e", central_terminal, {})
 
 -- window resizing
 local resize_magnitude = "5"
 
 local function horizontal_shrink()
-    vim.cmd("wincmd "..resize_magnitude.."-")
+    vim.cmd("wincmd " .. resize_magnitude .. "-")
 end
 
 local function horizontal_grow()
-    vim.cmd("wincmd "..resize_magnitude.."+")
+    vim.cmd("wincmd " .. resize_magnitude .. "+")
 end
 
 local function vertical_shrink()
-    vim.cmd("wincmd "..resize_magnitude.."<")
+    vim.cmd("wincmd " .. resize_magnitude .. "<")
 end
 
 local function vertical_grow()
-    vim.cmd("wincmd "..resize_magnitude..">")
+    vim.cmd("wincmd " .. resize_magnitude .. ">")
 end
 
 --- @alias Direction
@@ -36,7 +36,7 @@ end
 local function is_most(direction)
     local cur_nr = vim.fn.winnr()
     print(cur_nr)
-    vim.cmd("wincmd "..direction)
+    vim.cmd("wincmd " .. direction)
     if vim.fn.winnr() == cur_nr then
         return true
     end
@@ -90,45 +90,47 @@ vim.keymap.set("n", "<C-M-j>", resize_down)
 
 -- load buffer in quickfix list
 local function quickfixyfy()
-    local buffer = vim.fn.getline(1,'$')
+    local buffer = vim.fn.getline(1, '$')
 
     if type(buffer) == "string" then
-        buffer = {buffer}
+        buffer = { buffer }
     end
 
-    --- @type vim.quickfix.entry[]
     local qf_list = {}
 
+    local sentence = ""
     for _, line_str in ipairs(buffer) do
-        local file, line, col, text = plugin_lib.extract_destination(line_str)
-        if file == nil then goto continue end
-        local trunc_text = ""
-        if text:len() > 120 then
-            trunc_text = text:sub(1, 120)
-        else
-            trunc_text = text
+        local words = plugin_lib.split_to_words(line_str)
+        for _, word in ipairs(words) do
+            local file, line, col = plugin_lib.make_into_destination_if_possible(word)
+            if (file == nil) then
+                sentence = sentence .. ' ' .. word
+            else
+                table.insert(qf_list, {
+                    text = sentence,
+                })
+                sentence = ""
+                table.insert(qf_list, {
+                    filename = file,
+                    lnum = line,
+                    cnum = col,
+                }
+                )
+            end
         end
-        table.insert(qf_list, {
-            filename = file,
-            lnum = line,
-            cnum = col,
-            text = trunc_text,
-            }
-        )
-        ::continue::
     end
     vim.fn.setqflist(qf_list, 'r')
     vim.cmd("copen")
-
 end
 
-vim.api.nvim_create_user_command("Quickfixify", quickfixyfy, {} )
+vim.api.nvim_create_user_command("Quickfixify", quickfixyfy, {})
 
 
 --- bazel execution
 
 --[[
 local function bazel_run()
+    -- this function is intended to put a clickable run symbol in the gatter inside a bazel file
     local filetype = vim.bo.filetype
     local filename = vim.fn.expand('%:t:r')
     local filedir  = vim.fn.expand('%:h')
@@ -143,30 +145,25 @@ vim.api.nvim_create_user_command("BazelRun", bazel_run, {})
 --]]
 
 
---- @return string
+--- @return string?
 local function get_bazel_targets()
-    -- local filetype = vim.bo.filetype
-    -- local filename = vim.fn.expand('%:t:r')
-    local filedir  = vim.fn.expand('%:p:h')
+    local filedir     = vim.fn.expand('%:p:h')
     -- if filetype ~= 'bzl' or filename ~= 'BUILD' then vim.notify("nope") end
-    local cmd_str = "!bazel info workspace"
-    local output = vim.api.nvim_exec2(cmd_str, {output = true})
+    local cmd_str     = "!bazel info workspace"
+    local output      = vim.api.nvim_exec2(cmd_str, { output = true })
     local bazel_match = string.gmatch(output.output, "\n(.+)\n")
-    local res = bazel_match()
-    if res == nil or res:len()==0 then return end
+    local res         = bazel_match()
+    if res == nil or res:len() == 0 then return end
     res = res:gsub('\n', '')
-    if res == nil or res:len()==0 then return end
-    local bazel_folder = filedir:gsub(res, '/')..'/...'
+    if res == nil or res:len() == 0 then return end
+    local bazel_folder = filedir:gsub(res, '/') .. '/...'
 
-    local cmd_str = "!bazel query "..bazel_folder
-    local targets = vim.api.nvim_exec2(cmd_str, {output = true}).output
+    local query_str = "!bazel query " .. bazel_folder
+    local targets = vim.api.nvim_exec2(query_str, { output = true }).output
     return targets
 end
-vim.api.nvim_create_user_command("GetBazelTargets", get_bazel_targets, {})
 
-
-local function buffer_lines_to_telescope()
-
+local function buffered_bazel_lines_to_telescope()
     local linebuf = get_bazel_targets()
     local lines = plugin_lib.linewise(linebuf)
 
@@ -180,8 +177,8 @@ local function buffer_lines_to_telescope()
 
         table.insert(results, {
             value = line,
-            ordinal = line,  -- Used for sorting and filtering
-            display = i .. ": " .. line,  -- What will be displayed in telescope
+            ordinal = line,              -- Used for sorting and filtering
+            display = i .. ": " .. line, -- What will be displayed in telescope
             filename = '',
             lnum = i
         })
@@ -221,7 +218,6 @@ local function buffer_lines_to_telescope()
                     selection = selection.value.value
                     vim.fn.setreg('"', selection)
                 end
-
             end)
             return true
         end
@@ -229,32 +225,57 @@ local function buffer_lines_to_telescope()
 end
 
 -- Create a user command
-vim.api.nvim_create_user_command('TelescopeBuffer', function()
-  buffer_lines_to_telescope()
+vim.api.nvim_create_user_command('GetBazelTargets', function()
+    buffered_bazel_lines_to_telescope()
 end, {})
 
-vim.keymap.set("n", "<F8>", buffer_lines_to_telescope)
+vim.keymap.set("n", "<F8>", buffered_bazel_lines_to_telescope)
 
 
--- Who Guards the Header Guards
-
-local function bazel_run()
-    local filetype = vim.bo.filetype
-    local filename = vim.fn.expand('%:t:r')
-    local filedir  = vim.fn.expand('%:h')
+-- Header Guard ASSISTANT
+--- @return string?
+local function get_header_guards()
+    local filetype  = vim.bo.filetype
     local extension = vim.fn.expand('%:e')
-    if filetype ~= 'cpp' then vim.notify(filetype) end
-    if extension ~= 'h' or extension ~= 'hpp'  then vim.notify(extension) end
 
-    vim.notify(filetype)
-    local pos = vim.api.nvim_win_get_cursor(0)
-    local line_nr = pos[1]
-    -- local col_nr = pos[2]
-    plugin_lib.put_char_in_gutter(0, line_nr-1, " ")
+    if filetype ~= 'cpp' then return end
+    if not (extension == 'h' or extension == 'hpp') then return end
+
+    local filename            = vim.fn.expand('%:t:r')
+    local project_file_dir    = string.gsub(vim.fn.expand('%:.:h'), '/', '_')
+
+    local correct_headerguard = string.upper(project_file_dir .. '_' .. filename .. '_' .. extension)
+
+    vim.notify(correct_headerguard)
+    vim.fn.setreg('"', correct_headerguard)
+    return correct_headerguard
 end
 
+local function make_headerguard_stub()
+    local header_guard = get_header_guards()
+    local stubs = { '#ifndef ' .. header_guard, '#define ' .. header_guard, '#endif // ' .. header_guard }
 
-vim.api.nvim_create_user_command("CheckHeaderGuards", bazel_run, {})
+
+    local coordinates = vim.api.nvim_win_get_cursor(0)
+    local row = coordinates[1]
+    vim.api.nvim_buf_set_text(0, row - 1, 0, row - 1, 0, stubs)
+end
+
+-- Define an autocommand group for clarity and easy management
+vim.api.nvim_create_augroup("CppLocalLeaderMappings", { clear = true })
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = vim.api.nvim_create_augroup("CppLocalFunctionality", { clear = false }),
+    pattern = { "*.h", "*.hpp" },
+    callback = function()
+        vim.api.nvim_create_user_command("GetCorrectHeaderGuard", get_header_guards, {})
+        vim.api.nvim_create_user_command("InsertHeaderGuardStub", make_headerguard_stub, {})
+        vim.api.nvim_buf_set_keymap(0, "n", "<localleader>i", "<cmd>InsertHeaderGuardStub<CR>",
+            { noremap = true, silent = true })
+    end
+})
+
+vim.api.nvim_create_user_command("ClipCurrentFilePath", function() vim.fn.setreg('+', vim.fn.expand('%:.')) end, {})
 
 
 --[[
