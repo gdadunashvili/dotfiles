@@ -2,6 +2,7 @@ return {
     "nvim-treesitter/nvim-treesitter-context",
     dependencies = {
         "nvim-treesitter/nvim-treesitter",
+        "nvim-treesitter/nvim-treesitter-textobjects",
     },
 
     build = function()
@@ -33,6 +34,16 @@ return {
                 enable = false,
             },
 
+            textobjects = {
+                select = {
+                    enable = true,
+                    lookahead = true,
+                    keymaps = {
+                        ["af"] = "@function.outer",
+                        ["if"] = "@function.inner",
+                    },
+                },
+            },
             highlight = {
                 enable = true,
 
