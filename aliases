@@ -1,10 +1,5 @@
 #!/bin/bash
 
-alias ls='ls --color=auto'
-alias fgrep='fgrep --color=auto'
-alias egrep='egrep --color=auto'
-
-
 # colored GCC warnings and errors
 export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
 
@@ -29,18 +24,12 @@ alias "vim"="stty stop '' -ixoff ; nvim"
 alias "manvim"="nvim +Man!"
 alias "tmux"="stty stop '' -ixoff ; tmux"
 
-#cd
-alias '..'='cd ..'
-alias '...'='cd ..;ls'
-
 # open neovimrc in neovim
 alias 'vimrc'='cd ~/dotfiles/config/nvim/ && vim .'
-# alias 'termrc'='vim ~/dotfiles/wezterm.lua'
 alias 'rebind'='bash ~/dotfiles/gnome_custom_hotkeys.sh'
 
 # reload zshrc
 alias 'rerc'='source ~/.zshrc'
 
-alias 'slimekitty'='notify-send "slime is not configured"'
 export PATH=$PATH:~/.local/bin/
 
