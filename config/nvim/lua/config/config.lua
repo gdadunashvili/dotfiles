@@ -3,14 +3,14 @@ vim.opt.cursorline = true
 -- Create an autocommand group
 vim.api.nvim_create_augroup("FormatOnSave", { clear = true })
 
-vim.api.nvim_create_autocmd({"BufWritePre"},
-{
-    group = "FormatOnSave",
-    pattern = {"*"},
-    callback= function ()
-        vim.lsp.buf.format();
-    end
-})
+vim.api.nvim_create_autocmd({ "BufWritePre" },
+    {
+        group = "FormatOnSave",
+        pattern = { "*" },
+        callback = function()
+            vim.lsp.buf.format();
+        end
+    })
 
 -- Use relativenumbers to use commands for multiple lines way faster
 -- For the current line print the absolute linenumber instead of a
@@ -63,12 +63,12 @@ vim.opt.wrap = false
 
 local text_wrap_group_id = vim.api.nvim_create_augroup("text_wrap", { clear = true })
 
-vim.api.nvim_create_autocmd({"BufEnter", "BufWinEnter"}, {
-  pattern = {"*.tex", "*.txt", '*.md', '*.trlc'},
-  group = text_wrap_group_id,
-  callback = function(_)
-    vim.opt.wrap = true
-  end
+vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
+    pattern = { "*.tex", "*.txt", '*.md', '*.trlc' },
+    group = text_wrap_group_id,
+    callback = function(_)
+        vim.opt.wrap = true
+    end
 })
 
 -- timeouts
@@ -79,15 +79,14 @@ vim.cmd("set notimeout")
 vim.api.nvim_create_augroup("NoTimeoutNormalMode", { clear = true })
 
 vim.api.nvim_create_autocmd("InsertEnter", {
-  group = "NoTimeoutNormalMode",
-  command = "set timeout timeoutlen=200",
+    group = "NoTimeoutNormalMode",
+    command = "set timeout timeoutlen=200",
 })
 
 vim.api.nvim_create_autocmd("InsertLeave", {
-  group = "NoTimeoutNormalMode",
-  command = "set notimeout",
+    group = "NoTimeoutNormalMode",
+    command = "set notimeout",
 })
-
 
 -- Make tab completion for files/buffers act like bash
 vim.o.wildmode = "full"
@@ -105,12 +104,12 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 
 -- Open bazel file in current directory
 vim.keymap.set('n', '<leader>gb', function()
-  local filedir = vim.fn.expand '%:h'
-  local bazel_build_file = filedir .. '/BUILD'
-  local file_exists = vim.fn.filereadable(bazel_build_file)
-  if file_exists == 1 then
-    vim.cmd.edit(bazel_build_file)
-  else
-    vim.notify('No build file exists in current directory', vim.log.levels.ERROR)
-  end
+    local filedir = vim.fn.expand '%:h'
+    local bazel_build_file = filedir .. '/BUILD'
+    local file_exists = vim.fn.filereadable(bazel_build_file)
+    if file_exists == 1 then
+        vim.cmd.edit(bazel_build_file)
+    else
+        vim.notify('No build file exists in current directory', vim.log.levels.ERROR)
+    end
 end, { desc = '[G]o to [B]azel file in current directory' })

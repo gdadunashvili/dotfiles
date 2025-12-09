@@ -4,10 +4,12 @@ vim.keymap.set("n", "<C-f>", ":<C-f>")
 
 -- the usual stuff you find on the internet
 vim.keymap.set("n", "<leader>w", "<C-w>")
+
 -- dont delete paste buffer
-vim.keymap.set("x", "<leader>p", "\"_dP")
-vim.keymap.set({ "x", "v" }, "<leader>d", "\"_dd")
-vim.keymap.set("n", "<leader>dd", "\"_d")
+vim.keymap.set("x", "<leader>p", "p", { noremap = true })
+vim.keymap.set("x", "p", "\"_dP")
+vim.keymap.set({ "x", "v" }, "<leader>d", "\"_ddd")
+vim.keymap.set("n", "<leader>dd", "\"_dd<esc>")
 
 -- copy to main clipboard
 vim.keymap.set({ "v", "n", "x" }, "<C-S-c>", "\"+p")
@@ -17,6 +19,10 @@ vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
 -- paste from main clipboard using cmd v
 vim.keymap.set("n", "<C-S-v>", "\"+p")
 vim.keymap.set("n", "<leader>Y", "\"+yg$")
+
+-- comment
+vim.keymap.set('n', '<leader>/', function() vim.cmd("norm gccj") end, { noremap = true })
+vim.keymap.set({ 'v', 'x' }, '<leader>/', function() vim.cmd("norm gc") end, { noremap = true })
 
 -- self explanatory
 vim.keymap.set("i", "jj", "<esc>", { noremap = true })

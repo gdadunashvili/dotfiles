@@ -1,7 +1,7 @@
 local plugin_lib = require('config/plugin_lib')
 
 -- floating terminal
-local function central_terminal()
+local central_terminal = function()
     plugin_lib.central_float()
     vim.fn.execute("edit term://zsh")
 end
@@ -11,19 +11,19 @@ vim.keymap.set("n", "<leader>e", central_terminal, {})
 -- window resizing
 local resize_magnitude = "5"
 
-local function horizontal_shrink()
+local horizontal_shrink = function()
     vim.cmd("wincmd " .. resize_magnitude .. "-")
 end
 
-local function horizontal_grow()
+local horizontal_grow = function()
     vim.cmd("wincmd " .. resize_magnitude .. "+")
 end
 
-local function vertical_shrink()
+local vertical_shrink = function()
     vim.cmd("wincmd " .. resize_magnitude .. "<")
 end
 
-local function vertical_grow()
+local vertical_grow = function()
     vim.cmd("wincmd " .. resize_magnitude .. ">")
 end
 
@@ -33,7 +33,7 @@ end
 --- | "j"
 --- | "k"
 --- @param direction Direction
-local function is_most(direction)
+local is_most = function(direction)
     local cur_nr = vim.fn.winnr()
     print(cur_nr)
     vim.cmd("wincmd " .. direction)
@@ -44,7 +44,7 @@ local function is_most(direction)
     return false
 end
 
-local function resize_left()
+local resize_left = function()
     if is_most("h") then
         vertical_shrink()
     end
@@ -53,7 +53,7 @@ local function resize_left()
     end
 end
 
-local function resize_right()
+local resize_right = function()
     if is_most("h") then
         vertical_grow()
     end
@@ -63,7 +63,7 @@ local function resize_right()
 end
 
 
-local function resize_up()
+local resize_up = function()
     vim.notify("resize up")
     if is_most("j") then
         horizontal_grow()
@@ -73,7 +73,7 @@ local function resize_up()
     end
 end
 
-local function resize_down()
+local resize_down = function()
     vim.notify("resize down")
     if is_most("k") then
         horizontal_grow()
@@ -89,7 +89,7 @@ vim.keymap.set("n", "<C-M-k>", resize_up)
 vim.keymap.set("n", "<C-M-j>", resize_down)
 
 -- load buffer in quickfix list
-local function quickfixyfy()
+local quickfixyfy = function()
     local buffer = vim.fn.getline(1, '$')
 
     if type(buffer) == "string" then
@@ -129,7 +129,7 @@ vim.api.nvim_create_user_command("Quickfixify", quickfixyfy, {})
 --- bazel execution
 
 --[[
-local function bazel_run()
+local  bazel_run = function()
     -- this function is intended to put a clickable run symbol in the gatter inside a bazel file
     local filetype = vim.bo.filetype
     local filename = vim.fn.expand('%:t:r')
@@ -146,7 +146,7 @@ vim.api.nvim_create_user_command("BazelRun", bazel_run, {})
 
 
 --- @return string?
-local function get_bazel_targets()
+local get_bazel_targets = function()
     local filedir     = vim.fn.expand('%:p:h')
     -- if filetype ~= 'bzl' or filename ~= 'BUILD' then vim.notify("nope") end
     local cmd_str     = "!bazel info workspace"
@@ -163,8 +163,9 @@ local function get_bazel_targets()
     return targets
 end
 
-local function buffered_bazel_lines_to_telescope()
+local buffered_bazel_lines_to_telescope = function()
     local linebuf = get_bazel_targets()
+    if linebuf == nil then return end
     local lines = plugin_lib.linewise(linebuf)
 
     -- Create entries for telescope
@@ -234,7 +235,7 @@ vim.keymap.set("n", "<F8>", buffered_bazel_lines_to_telescope)
 
 -- Header Guard ASSISTANT
 --- @return string?
-local function get_header_guards()
+local get_header_guards = function()
     local filetype  = vim.bo.filetype
     local extension = vim.fn.expand('%:e')
 
@@ -251,7 +252,7 @@ local function get_header_guards()
     return correct_headerguard
 end
 
-local function make_headerguard_stub()
+local make_headerguard_stub = function()
     local header_guard = get_header_guards()
     local stubs = { '#ifndef ' .. header_guard, '#define ' .. header_guard, '#endif // ' .. header_guard }
 
