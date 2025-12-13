@@ -1,4 +1,5 @@
 vim.opt.cursorline = true
+vim.g.python_host_prog = '/home/linuxbrew/.linuxbrew/bin/python3'
 
 -- Create an autocommand group
 vim.api.nvim_create_augroup("FormatOnSave", { clear = true })

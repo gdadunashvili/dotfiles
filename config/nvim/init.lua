@@ -1,7 +1,5 @@
 require("config.lazy")
 require("lazy").setup("plugins")
-require("config/my_plugins")
-require("config/old_maps")
-require("config/config")
-require("config/remap")
+
+require("config")
 pcall(require("local/init"))

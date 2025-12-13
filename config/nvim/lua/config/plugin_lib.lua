@@ -83,4 +83,21 @@ function plugin_lib.put_char_in_gutter(buffer_nr, line_nr, char)
     })
 end
 
+--- Helper function for creating macros and binding them to key combos.
+---@param mode string[]
+---@param keymap string
+---@param expansion string[]
+---@param as_comment bool
+function plugin_lib.insert_macro(mode, keymap, expansion, as_comment)
+    local insert = function()
+        local coordinates = vim.api.nvim_win_get_cursor(0)
+        local row = coordinates[1]
+        if as_comment == true then
+            vim.cmd("norm gcc")
+        end
+        vim.api.nvim_buf_set_text(0, row - 1, 0, row - 1, 0, expansion)
+    end
+    vim.keymap.set(mode, keymap, insert, {})
+end
+
 return plugin_lib
