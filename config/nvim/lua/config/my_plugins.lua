@@ -126,7 +126,13 @@ end
 vim.api.nvim_create_user_command("Quickfixify", quickfixyfy, {})
 
 
+vim.api.nvim_create_user_command("Openscratch", function() vim.cmd("vsplit ~/Documents/vimscratch.md") end
+, {})
+
 --- bazel execution
+
+
+vim.api.nvim_create_user_command("ClipCurrentFilePath", function() vim.fn.setreg('+', vim.fn.expand('%:.')) end, {})
 
 --[[
 local  bazel_run = function()
@@ -143,7 +149,15 @@ local  bazel_run = function()
 end
 vim.api.nvim_create_user_command("BazelRun", bazel_run, {})
 --]]
+--------------------------------------------------------------------------------
+-- ------------------------ Language related plugins ---------------------------
+--------------------------------------------------------------------------------
 
+
+
+--------------------------------------------------------------------------------
+-- -------------------------------- C++ ----------------------------------------
+--------------------------------------------------------------------------------
 
 --- @return string?
 local get_bazel_targets = function()
@@ -276,9 +290,17 @@ vim.api.nvim_create_autocmd("BufEnter", {
     end
 })
 
-vim.api.nvim_create_user_command("ClipCurrentFilePath", function() vim.fn.setreg('+', vim.fn.expand('%:.')) end, {})
-
-
+-- Open bazel file in current directory
+vim.keymap.set('n', '<localleader>b', function()
+    local filedir = vim.fn.expand '%:h'
+    local bazel_build_file = filedir .. '/BUILD'
+    local file_exists = vim.fn.filereadable(bazel_build_file)
+    if file_exists == 1 then
+        vim.cmd.edit(bazel_build_file)
+    else
+        vim.notify('No build file exists in current directory', vim.log.levels.ERROR)
+    end
+end, { desc = 'Go to [B]azel file in current directory' })
 --[[
 vim.api.nvim_create_autocmd("BufEnter", {
     group = "HeaderGuards",
@@ -286,3 +308,74 @@ vim.api.nvim_create_autocmd("BufEnter", {
     command = "CheckHeaderGuards"
 })
 --]]
+
+
+--------------------------------------------------------------------------------
+---------------------------------    Lua   -------------------------------------
+--------------------------------------------------------------------------------
+
+---@param code string
+local function execute_lua_code(code)
+    local func, err = load(code)
+    if not func then
+        vim.notify("Provided text is not valid Lua code: " .. err)
+        return
+    end
+    local ok, result = pcall(func)
+    if not ok then
+        vim.notify("Runtime error: " .. err)
+    else
+        if result ~= nil then
+            vim.inspect(result)
+        end
+    end
+end
+
+-- Function to execute the current line as Lua code
+local function exec_line_as_lua()
+    local line = vim.api.nvim_get_current_line() -- Get the current line under the cursor
+    execute_lua_code(line)
+end
+
+local function exec_selection_as_lua()
+    local selection = vim.fn.getregion(vim.fn.getpos("."), vim.fn.getpos("v"))
+    local result = table.concat(selection, "\n")
+    execute_lua_code(result)
+end
+
+vim.api.nvim_create_user_command('ExecLineAsLua', exec_line_as_lua, {})
+vim.api.nvim_create_user_command('ExecSelectionAsLua', exec_selection_as_lua, {})
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = vim.api.nvim_create_augroup("LueLocalFunctionality", { clear = false }),
+    pattern = "*.lua",
+    callback = function()
+        vim.api.nvim_buf_set_keymap(0, "n", "<localleader>e", "<cmd>ExecLineAsLua<CR>", { noremap = true, silent = true })
+        vim.api.nvim_buf_set_keymap(0, "v", "<localleader>e", ":ExecSelectionAsLua<CR>",
+            { noremap = true, silent = true })
+    end
+})
+
+--------------------------------------------------------------------------------
+--------------------------------- Markdown -------------------------------------
+--------------------------------------------------------------------------------
+
+
+local insert_bulletpoint = function()
+    local stubs = { '- [ ] ' }
+
+    local coordinates = vim.api.nvim_win_get_cursor(0)
+    local row = coordinates[1]
+    vim.cmd('norm o')
+    vim.api.nvim_buf_set_text(0, row, 0, row, 0, stubs)
+    vim.cmd('norm A')
+end
+
+vim.api.nvim_create_autocmd("BufEnter", {
+    group = vim.api.nvim_create_augroup("MarkdownLocalFunctionality", { clear = false }),
+    pattern = { "*.md" },
+    callback = function()
+        vim.keymap.set("n", "<localleader>o", insert_bulletpoint,
+            { noremap = true, silent = true })
+    end
+})

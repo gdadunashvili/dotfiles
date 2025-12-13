@@ -94,22 +94,3 @@ vim.o.wildmenu = true
 
 
 vim.o.autoread = true
-
---[[
-vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
-})
---]]
-
--- Open bazel file in current directory
-vim.keymap.set('n', '<leader>gb', function()
-    local filedir = vim.fn.expand '%:h'
-    local bazel_build_file = filedir .. '/BUILD'
-    local file_exists = vim.fn.filereadable(bazel_build_file)
-    if file_exists == 1 then
-        vim.cmd.edit(bazel_build_file)
-    else
-        vim.notify('No build file exists in current directory', vim.log.levels.ERROR)
-    end
-end, { desc = '[G]o to [B]azel file in current directory' })
