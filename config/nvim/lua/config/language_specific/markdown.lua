@@ -3,13 +3,19 @@
 --------------------------------------------------------------------------------
 
 
-local insert_bulletpoint = function()
+---@param inset_inline boolean
+local insert_bulletpoint = function(inset_inline)
     local stubs = { '- [ ] ' }
 
     local coordinates = vim.api.nvim_win_get_cursor(0)
     local row = coordinates[1]
+    local col = coordinates[2]
     vim.cmd('norm o')
-    vim.api.nvim_buf_set_text(0, row, 0, row, 0, stubs)
+    if inset_inline then
+        vim.api.nvim_buf_set_text(0, row - 1, col, row, col, stubs)
+    else
+        vim.api.nvim_buf_set_text(0, row, 0, row, 0, stubs)
+    end
     vim.cmd('norm A')
 end
 

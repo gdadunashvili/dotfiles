@@ -1,5 +1,8 @@
 local initialize_slime_split = function()
-    vim.api.nvim_command("!kitty @ launch ipython3")
+    local cwd = vim.fn.getcwd()
+    local command = "!kitty @ launch --cwd=" .. cwd .. " ipython  --TerminalInteractiveShell.editing_mode=vi"
+    vim.notify(command)
+    vim.api.nvim_command(command)
 end
 
 return {
@@ -9,15 +12,12 @@ return {
         vim.g.slime_no_mappings = 1
         vim.g.slime_bracketed_paste = 1
         vim.g.slime_cell_delimiter = '# %%'
-        vim.g.slime_target = "screen"
-        -- vim.g.slime_target = "kitty"
-        --[[
-        vim.g.slime_default_config = {
-            socket_name = "default",
-            target_pane = "2",
-            listen_on = "unix:/tmp/mykitty"
-        }
-        --]]
+        vim.g.slime_target = "kitty"
+        -- vim.g.slime_default_config = {
+        --     socket_name = "default",
+        --     target_pane = "2",
+        --     listen_on = "unix:/tmp/mykitty"
+        -- }
 
         -- vim.g.slime_python_ipython = 1
         vim.g.slime_bracketed_paste = 1

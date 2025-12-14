@@ -23,6 +23,7 @@ alias cat='bat'
 alias "vim"="stty stop '' -ixoff ; nvim"
 alias "manvim"="nvim +Man!"
 alias "tmux"="stty stop '' -ixoff ; tmux"
+alias 'ipython'='ipython --TerminalInteractiveShell.editing_mode=vi'
 
 # open neovimrc in neovim
 alias 'vimrc'='cd ~/dotfiles/config/nvim/ && vim .'
