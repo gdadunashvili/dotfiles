@@ -74,7 +74,7 @@ local function go_vim_or_tmux_or_kitty(vim_dir, tmux_dir, kitty_dir)
     end
 end
 
-vim.keymap.set({ "n", "i", "v" }, "<C-h>", go_vim_or_tmux_or_kitty("h", "L", "left"))
-vim.keymap.set({ "n", "i", "v" }, "<C-l>", go_vim_or_tmux_or_kitty("l", "R", "right"))
-vim.keymap.set({ "n", "i", "v" }, "<C-j>", go_vim_or_tmux_or_kitty("j", "D", "bottom"))
-vim.keymap.set({ "n", "i", "v" }, "<C-k>", go_vim_or_tmux_or_kitty("k", "U", "top"))
+vim.keymap.set({ "n", "i", "v", "t" }, "<C-h>", go_vim_or_tmux_or_kitty("h", "L", "left"))
+vim.keymap.set({ "n", "i", "v", "t" }, "<C-l>", go_vim_or_tmux_or_kitty("l", "R", "right"))
+vim.keymap.set({ "n", "i", "v", "t" }, "<C-j>", go_vim_or_tmux_or_kitty("j", "D", "bottom"))
+vim.keymap.set({ "n", "i", "v", "t" }, "<C-k>", go_vim_or_tmux_or_kitty("k", "U", "top"))
