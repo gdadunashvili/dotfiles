@@ -6,8 +6,6 @@ local central_terminal = function()
     vim.fn.execute("edit term://zsh")
 end
 
-vim.keymap.set("n", "<leader>e", central_terminal, {})
-
 -- window resizing
 local resize_magnitude = "5"
 

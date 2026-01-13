@@ -22,7 +22,9 @@ vim.opt.relativenumber = true
 vim.opt.wrap = false
 
 -- only one global statusbar
-vim.opt.laststatus = 3
+-- vim.opt.laststatus = 3
+-- every window has it's own statusbar
+vim.opt.laststatus = 2
 
 -- no swap files
 vim.opt.swapfile = false
