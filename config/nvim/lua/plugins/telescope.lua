@@ -62,18 +62,25 @@ return {
 
         vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [K]eymaps' })
         vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
-        vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
+        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
+
+        -- command pallete
         vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind [S]elect Telescope' })
+
         vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = '[F]ind [M]arks' })
         vim.keymap.set('n', '<leader>fj', builtin.jumplist, { desc = '[F]ind [J]jumps' })
+        vim.keymap.set('n', '<leader><leader>', builtin.commands, { desc = '[F]ind [S]elect Telescope' })
+        vim.keymap.set('n', '<c-p>', builtin.commands, { desc = '[F]ind [S]elect Telescope' })
+
         vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
         vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
         vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+
         vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind existing [B]uffers' })
+
         vim.keymap.set('n', '<leader>fg', grep_func, { desc = '[F]ind [G]rep' })
         vim.keymap.set('n', '<leader>gg', custome_grep, { desc = '[G]o to subfolder and [G]rep' })
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
-        vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
+        vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
 
 
 

@@ -1,4 +1,3 @@
-
 local function darken_color(color, amount)
     local r = tonumber(color:sub(2, 3), 16)
     local g = tonumber(color:sub(4, 5), 16)
@@ -12,8 +11,7 @@ local function darken_color(color, amount)
 end
 
 local function update_cursor()
-
-    local bg_hl = vim.api.nvim_get_hl(0, {name="Normal"})
+    local bg_hl = vim.api.nvim_get_hl(0, { name = "Normal" })
     local bg_color = nil
     if bg_hl ~= nil then
         if bg_hl.bg ~= nil then
@@ -31,6 +29,7 @@ local function common_mode()
     vim.api.nvim_set_hl(0, "GitSignsCurrentLineBlame", { fg = "#8B0089", ctermfg = 245 })
     -- update_cursor()
 end
+
 local function dark_f(_, dark_name)
     vim.cmd.colorscheme(dark_name)
     vim.o.background = "dark"
@@ -43,17 +42,25 @@ local function light_f(light_name, _)
 end
 
 local function is_dark()
-    local path = os.getenv("HOME").."/.is_dark"
+    local path = os.getenv("HOME") .. "/.is_dark"
     local file = io.open(path, "r")
-    if file~=nil then
+    if file ~= nil then
         file:close()
         return true
     end
     return false
 end
 
+
+local old_is_dark = is_dark()
+
 local function mode()
-    if is_dark() then
+    local new_is_dark = is_dark()
+    if new_is_dark == old_is_dark then return end
+
+    old_is_dark = new_is_dark
+
+    if new_is_dark then
         return dark_f
     else
         return light_f
@@ -63,8 +70,11 @@ end
 
 local function setupTimer(light_name, dark_name)
     local timer = vim.uv.new_timer()
-    timer:start(0, 3000, vim.schedule_wrap(function ()
-        mode()(light_name, dark_name)
+    timer:start(0, 5000, vim.schedule_wrap(function()
+        local callable_opt = mode()
+        if callable_opt ~= nil then
+            callable_opt(light_name, dark_name)
+        end
     end
     ))
 end
@@ -74,12 +84,12 @@ return {
     'ferdinandrau/carbide.nvim',
     priority = 1000,
     dependencies = {
-            {
-                {'nickkadutskyi/jb.nvim', name = 'jb'},
-                'norcalli/nvim-colorizer.lua',
-            },
+        {
+            { 'nickkadutskyi/jb.nvim', name = 'jb' },
+            'norcalli/nvim-colorizer.lua',
+        },
     },
-    config = function ()
+    config = function()
         require('carbide').setup({
             style = {
                 keywords = { bold = true },
@@ -89,22 +99,22 @@ return {
                 dark = {
                 },
             },
-            plugins= {
+            plugins = {
                 ["gitsigns.nvim"] = true,
-           },
-           scheme_overrides = function(colors, variant, style)
-        return {
-            GitSignsChangeLnInline = { bg = colors.bgc_yellow },
-            GitSignsAddLnInline = { bg = colors.bgc_green },
-            GitSignsDeleteLnInline = {  bg = colors.bgc_red },
-            GitSignsCurrentLineBlame = { fg = "#8B0089" },
-            Macro = {fg = colors.fgc_yellow},
-            ["@constant.macro"] = { link = "Macro" },
-            ['@variable.member'] = { link = "Constant" },
-        }
-    end,
+            },
+            scheme_overrides = function(colors, variant, style)
+                return {
+                    GitSignsChangeLnInline = { bg = colors.bgc_yellow },
+                    GitSignsAddLnInline = { bg = colors.bgc_green },
+                    GitSignsDeleteLnInline = { bg = colors.bgc_red },
+                    GitSignsCurrentLineBlame = { fg = "#8B0089" },
+                    Macro = { fg = colors.fgc_yellow },
+                    ["@constant.macro"] = { link = "Macro" },
+                    ['@variable.member'] = { link = "Constant" },
+                }
+            end,
         })
-        setupTimer("carbide-light","carbide-dark")
+
+        vim.cmd.colorscheme("carbide")
     end
 }
-
