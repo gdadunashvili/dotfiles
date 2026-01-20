@@ -132,6 +132,26 @@ vim.api.nvim_create_user_command("Openscratch", function() vim.cmd("vsplit ~/Doc
 
 vim.api.nvim_create_user_command("ClipCurrentFilePath", function() vim.fn.setreg('+', vim.fn.expand('%:.')) end, {})
 
+-- inject todo
+local insert_thing = function(stub_core)
+    return function()
+        local stubs = { stub_core .. ':  ' }
+
+        local coordinates = vim.api.nvim_win_get_cursor(0)
+        local row = coordinates[1]
+        vim.api.nvim_command('normal! O')
+        vim.api.nvim_buf_set_text(0, row - 1, 0, row - 1, 0, stubs)
+        vim.cmd('norma gcc')
+        vim.cmd('norma A')
+        vim.api.nvim_command('startinsert')
+    end
+end
+
+vim.keymap.set("n", "<leader>it", insert_thing("gToDo"), {})
+vim.keymap.set("n", "<leader>ip", insert_thing("PERF"), {})
+vim.keymap.set("n", "<leader>iw", insert_thing("WARN"), {})
+vim.keymap.set("n", "<leader>in", insert_thing("NOTE"), {})
+
 --[[
 local  bazel_run = function()
     -- this function is intended to put a clickable run symbol in the gatter inside a bazel file
