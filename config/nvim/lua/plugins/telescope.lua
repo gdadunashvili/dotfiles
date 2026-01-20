@@ -76,8 +76,6 @@ return {
         vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
         vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
 
-        vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = '[F]ind existing [B]uffers' })
-
         vim.keymap.set('n', '<leader>fg', grep_func, { desc = '[F]ind [G]rep' })
         vim.keymap.set('n', '<leader>gg', custome_grep, { desc = '[G]o to subfolder and [G]rep' })
         vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })

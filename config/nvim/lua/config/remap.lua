@@ -7,9 +7,8 @@ vim.keymap.set("n", "<leader>w", "<C-w>")
 
 -- dont delete paste buffer
 vim.keymap.set("x", "<leader>p", "p", { noremap = true })
-vim.keymap.set("x", "p", "\"_dP")
-vim.keymap.set({ "x", "v" }, "<leader>d", "\"_ddd")
-vim.keymap.set("n", "<leader>dd", "\"_dd<esc>")
+vim.keymap.set("x", "p", "P")
+vim.keymap.set({ "n", "x", "v" }, "d", "\"_d")
 
 -- copy to main clipboard
 vim.keymap.set({ "v", "n", "x" }, "<C-S-c>", "\"+p")
@@ -19,7 +18,6 @@ vim.keymap.set({ "n", "v" }, "<leader>y", "\"+y")
 
 -- paste from main clipboard using cmd v
 vim.keymap.set("n", "<C-S-v>", "\"+p")
-vim.keymap.set("n", "<leader>Y", "\"+yg$")
 
 -- comment
 vim.keymap.set('n', '<leader>/', function() vim.cmd("norm gccj") end, { noremap = true })
