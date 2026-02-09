@@ -77,6 +77,7 @@ local buffered_bazel_lines_to_telescope = function()
                 if selection ~= nil then
                     selection = selection.value.value
                     vim.fn.setreg('"', selection)
+                    vim.fn.setreg('"+', selection)
                 end
             end)
             return true

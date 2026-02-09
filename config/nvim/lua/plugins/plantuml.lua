@@ -11,13 +11,13 @@ return {
                 type = 'image',
                 options = {
                     -- split_command="vsplit",
-                    -- prog = 'feh',
-                    dark_mode = get_if_dark(),
-                    format = 'png', -- Allowed values: nil, 'png', 'svg'.
+                    prog = 'xdg-open',
+                    dark_mode = false, --get_if_dark(),
+                    format = 'png',    -- Allowed values: nil, 'png', 'svg'.
                 }
             },
             render_on_write = true,
         }
-    )
-end,
+        )
+    end,
 }
