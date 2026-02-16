@@ -67,20 +67,6 @@ return {
         else
         end
 
-        local lua_ls_settings = {
-            completion = { autoRequire = true },
-            Lua = {
-                diagnostics = {
-                    globals = { "love", "vim", "it", "describe", "before_each", "after_each" },
-                },
-                workspace = {
-                    library = lua_runtime_files,
-                },
-            }
-        }
-
-        vim.lsp.config("lua_ls", { settings = lua_ls_settings })
-
         local cmp_lsp = require("cmp_nvim_lsp")
         local capabilities = cmp_lsp.default_capabilities()
         -- this  helps with folding
@@ -89,68 +75,75 @@ return {
             lineFoldingOnly = true,
         }
 
-        local lspconfig = require('lspconfig')
 
-        local handlers = {
-            function(server_name) -- default handler (optional)
-                lspconfig[server_name].setup {
-                    capabilities = capabilities,
-                }
-            end,
-
-            ["jsonls"] = function()
-                lspconfig.jsonls.setup {
-                    settings = {
-                        json = {
-                            schemas = require('schemastore').json.schemas {
-                                extra = {
-                                    -- {
-                                    --     description = 'My other custom JSON schema',
-                                    --     fileMatch = { 'bar.json', '.baar.json' },
-                                    --     name = 'bar.json',
-                                    --     url = 'https://example.com/schema/bar.json',
-                                    -- },
-                                },
-                            },
-                            validate = { enable = true },
+        local lsp_configs = {
+            { "jsonls", {
+                json = {
+                    schemas = require('schemastore').json.schemas {
+                        extra = {
+                            -- {
+                            --     description = 'My other custom JSON schema',
+                            --     fileMatch = { 'bar.json', '.baar.json' },
+                            --     name = 'bar.json',
+                            --     url = 'https://example.com/schema/bar.json',
+                            -- },
                         },
                     },
-                }
-            end,
+                    validate = { enable = true },
+                },
+            },
+            },
 
-            ["lua_ls"] = function()
-                lspconfig.lua_ls.setup {
-                    capabilities = capabilities,
-                    settings = lua_ls_settings
+            { "lua_ls", {
+                settings = {
+                    completion = { autoRequire = true },
+                    Lua = {
+                        diagnostics = {
+                            globals = { "love", "vim", "it", "describe", "before_each", "after_each" },
+                        },
+                        workspace = {
+                            library = lua_runtime_files,
+                        },
+                    }
                 }
-            end,
-            ["clangd"] = function()
-                lspconfig.clangd.setup({
-                    capabilities = capabilities,
-                    cmd = {
-                        "clangd",
-                        "--background-index",
-                        "--suggest-missing-includes",
-                        "--compile-commands-dir=build",
-                        "--background-index", "-j=6",
-                    },
-                })
-            end,
+            } },
 
-            ["ltex"] = function()
-                lspconfig.ltex.setup({
-                    filetypes = { "latex", "tex", "bib", "markdown", "gitcommit", "text" },
-                })
-            end
+            { "clangd", {
+                cmd = {
+                    "clangd",
+                    "--background-index",
+                    -- "--clang-tidy",
+                    -- '--clang-tidy-checks=*',
+                    "--suggest-missing-includes",
+                    '--all-scopes-completion',
+                    '--cross-file-rename',
+                    "--background-index", "-j=6",
+                },
+            } },
+
+            { "ltex", {
+                filetypes = { "latex", "tex", "bib", "markdown", "gitcommit", "text" },
+            }
+            }
         }
+
+
+        -- vim.lsp.config("lua_ls", { settings = lua_ls_settings })
+
+        for _, lsp in pairs(lsp_configs) do
+            local name, config = lsp[1], lsp[2]
+            vim.lsp.enable(name)
+            if config then
+                vim.lsp.config(name, config)
+            end
+        end
+
+        vim.lsp.inlay_hint.enable()
 
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = { "lua_ls", "clangd", "bashls", "ltex", "pylsp", "jsonls" },
             automatic_installation = true,
-            handlers = handlers,
         })
-
-        vim.lsp.inlay_hint.enable()
     end
 }

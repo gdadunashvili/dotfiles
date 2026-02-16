@@ -86,51 +86,22 @@ vim.keymap.set("n", "<C-M-l>", resize_right)
 vim.keymap.set("n", "<C-M-k>", resize_up)
 vim.keymap.set("n", "<C-M-j>", resize_down)
 
--- load buffer in quickfix list
-local quickfixyfy = function()
-    local buffer = vim.fn.getline(1, '$')
-
-    if type(buffer) == "string" then
-        buffer = { buffer }
-    end
-
-    local qf_list = {}
-
-    local sentence = ""
-    for _, line_str in ipairs(buffer) do
-        local words = plugin_lib.split_to_words(line_str)
-        for _, word in ipairs(words) do
-            local file, line, col = plugin_lib.make_into_destination_if_possible(word)
-            if (file == nil) then
-                sentence = sentence .. ' ' .. word
-            else
-                table.insert(qf_list, {
-                    text = sentence,
-                })
-                sentence = ""
-                table.insert(qf_list, {
-                    filename = file,
-                    lnum = line,
-                    cnum = col,
-                }
-                )
-            end
-        end
-    end
-    vim.fn.setqflist(qf_list, 'r')
-    vim.cmd("copen")
+vim.api.nvim_create_user_command("Openscratch", function()
+    plugin_lib.central_float()
+    vim.cmd("edit ~/Documents/vimscratch.md")
 end
-
-vim.api.nvim_create_user_command("Quickfixify", quickfixyfy, {})
-
-
-vim.api.nvim_create_user_command("Openscratch", function() vim.cmd("vsplit ~/Documents/vimscratch.md") end
 , {})
 
+vim.keymap.set("n", "<leader>e", ":Openscratch<cr>")
 --- bazel execution
 
 
 vim.api.nvim_create_user_command("ClipCurrentFilePath", function() vim.fn.setreg('+', vim.fn.expand('%:.')) end, {})
+
+
+--------------------------------------------------------------------------------
+-- ---------------------------------- Macros -----------------------------------
+--------------------------------------------------------------------------------
 
 -- inject todo
 local insert_thing = function(stub_core)
@@ -167,9 +138,3 @@ local  bazel_run = function()
 end
 vim.api.nvim_create_user_command("BazelRun", bazel_run, {})
 --]]
-
---------------------------------------------------------------------------------
--- ---------------------------------- Macros -----------------------------------
---------------------------------------------------------------------------------
-
-plugin_lib.insert_macro({ 'n' }, "F9", "gToDo: ", true)

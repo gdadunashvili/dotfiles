@@ -39,9 +39,9 @@ vim.keymap.set("n", "<leader>q", ":q<CR>", { noremap = true })
 -- delete current buffer (from open buffers)
 local close_with_session_state = function(closer)
     return function()
-        exists, _ = pcall(require('persisted'))
+        -- exists, _ = pcall(require('persisted'))
 
-        vim.cmd("Persisted save")
+        -- vim.cmd("Persisted save")
         vim.cmd("mksession! ~/.nvimsessions/last")
         vim.cmd(closer .. "a")
     end

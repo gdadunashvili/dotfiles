@@ -48,6 +48,6 @@ return {
 
     config = function()
         require('marks').setup({})
-        vim.keymap.set({ 'n', 'v' }, '<leader>e', ':BookmarksListAll<cr>', { silent = true })
+        -- vim.keymap.set({ 'n', 'v' }, '<leader>e', ':BookmarksListAll<cr>', { silent = true })
     end
 }
