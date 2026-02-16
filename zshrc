@@ -1,6 +1,6 @@
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 eval "$(starship init zsh)"
-# cursor shape  
+# cursor shape
 # Set cursor to block in normal mode
 function zle-keymap-select zle-line-init zle-line-finish {
   if [[ $KEYMAP == vicmd ]]; then
@@ -65,6 +65,14 @@ bindkey -v
 bindkey -M viins 'jk' vi-cmd-mode
 # Enable back-i-search with ctrl-r
 bindkey "^R" history-incremental-search-backward
+
+function vi-yank-xclip {
+    zle vi-yank
+    echo "$CUTBUFFER" | xclip -i -selection clipboard
+}
+
+zle -N vi-yank-xclip
+bindkey -M vicmd 'y' vi-yank-xclip
 # ------------------------------------------------------------------}}}
 
 # Colors  ----------------------------------------------------------{{{
@@ -138,7 +146,7 @@ source ~/dotfiles/fzf/completion.zsh
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-# Aliases 
+# Aliases
 # Load files if they exist
 [[ -f ~/.aliases ]] && source ~/.aliases
 
@@ -147,3 +155,13 @@ source ~/dotfiles/fzf/completion.zsh
 # Second one for host specific aliases
 [[ -f ~/.destinations ]] && source ~/.destinations
 
+
+###  RPP-BEGIN  ###
+# Do not change content between BEGIN and END!
+# This section is managed by a script.
+if [[ -d "/usr/libexec/rpp_zshrc.d" ]]; then
+    for rc_script in "/usr/libexec/rpp_zshrc.d/"*; do
+      source "${rc_script}"
+    done
+fi
+###  RPP-END  ###
