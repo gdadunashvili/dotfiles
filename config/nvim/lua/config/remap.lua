@@ -62,6 +62,13 @@ vim.keymap.set("n", "<leader>p", "<esc>:tabprevious<CR>")
 vim.keymap.set("n", "<leader>n", "<esc>:tabnext<CR>")
 vim.keymap.set("n", "<leader>t", "<esc>:tabnew<CR>")
 
+-- alternate buffer
+vim.keymap.set("n", "gn", ":bnext<cr>")
+vim.keymap.set("n", "gp", ":bprevious<cr>")
+vim.keymap.set("n", "gd", ":bdelete<cr>")
+vim.keymap.set("n", "go", ":e #<cr>")
+
+
 -- @enum 'kitty'|'tmux'
 WINDOW_MANAGER = 'kitty'
 -- pane navigation
