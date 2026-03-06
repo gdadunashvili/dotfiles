@@ -14,16 +14,16 @@ vim.api.nvim_create_autocmd("BufEnter", {
             configs.plantuml_lsp = {
                 default_config = {
                     cmd = {
-                        "/path/to/plantuml-lsp",
-                        "--stdlib-path=/path/to/plantuml-stdlib",
+                        -- "/path/to/plantuml-lsp",
+                        -- "--stdlib-path=/path/to/plantuml-stdlib",
 
                         --
                         -- FOR DIAGNOSTICS (choose up to one of 'jar-path' and 'exec-path' flags):
                         --
                         -- Running plantuml via a .jar file:
-                        "--jar-path=/path/to/plantuml.jar",
+                        -- "--jar-path=/home/linuxbrew/.linuxbrew/Cellar/plantuml/1.2025.3/libexec/plantuml.jar",
                         -- With plantuml executable and available from your PATH there is a simpler method:
-                        "--exec-path=plantuml",
+                        "--exec-path=/home/linuxbrew/.linuxbrew/bin/plantuml",
                     },
                     filetypes = { "plantuml" },
                     root_dir = function(fname)
