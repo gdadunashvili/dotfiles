@@ -97,6 +97,7 @@ vim.keymap.set("n", "<leader>e", ":Openscratch<cr>")
 
 
 vim.api.nvim_create_user_command("ClipCurrentFilePath", function() vim.fn.setreg('+', vim.fn.expand('%:.')) end, {})
+vim.keymap.set("n", "<leader>cf", ":ClipCurrentFilePath<cr>")
 
 
 --------------------------------------------------------------------------------

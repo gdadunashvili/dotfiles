@@ -54,5 +54,11 @@ return {
             default = { "Identifier", "#7C3AED" },
             test = { "Test", "#18a9E1" },
         },
-    }
+    },
+    config = function(_, opts)
+        require('todo-comments').setup(opts)
+        vim.keymap.set('n', '<leader>st', function()
+            vim.cmd ':TodoTelescope keywords=gToDo,gTodo,gTodo,GTODO,gtodo'
+        end)
+    end,
 }
