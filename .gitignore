@@ -24,8 +24,9 @@
 !config/keyd/default.conf
 
 !config/nvim/init.lua
+config/nvim/lua/local/
 !*.lua
 !config/nvim/lua/plugins/*
 !config/starship.toml
 config/nvim/tmp/*
-config/nvim/lua/local/
+config/nvim/lua/local/*
