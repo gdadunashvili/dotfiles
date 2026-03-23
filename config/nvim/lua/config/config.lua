@@ -12,14 +12,6 @@ end
 -- check if .nvimsessions exists
 create_dir_if_not_exists(vim.fn.expand("~/.nvimsessions"))
 
-vim.opt.exrc = true
-vim.opt.secure = true
-
-local root_dir = vim.fn.getcwd()
-local shada_subfolder = vim.fn.expand("~/.nvimsessions" .. root_dir)
-create_dir_if_not_exists(shada_subfolder)
-vim.opt.shadafile = shada_subfolder .. "/project.shada"
-
 -- Use relativenumbers to use commands for multiple lines way faster
 -- For the current line print the absolute linenumber instead of a
 -- useless 0 --]]
