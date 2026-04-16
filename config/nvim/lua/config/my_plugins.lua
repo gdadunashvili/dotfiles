@@ -1,5 +1,93 @@
 local plugin_lib = require('config/plugin_lib')
 
+--- @return string?
+local get_bazel_targets = function()
+    local filedir     = vim.fn.expand('%:p:h')
+    local cmd_str     = "!bazel info workspace"
+    local output      = vim.api.nvim_exec2(cmd_str, { output = true })
+    local bazel_match = string.gmatch(output.output, "\n(.+)\n")
+    local res         = bazel_match()
+    if res == nil or res:len() == 0 then return end
+    res = res:gsub('\n', '')
+    if res == nil or res:len() == 0 then return end
+    local bazel_folder = filedir:gsub(res, '/') .. '/...'
+
+    local query_str = "!bazel query " .. bazel_folder
+    local targets = vim.api.nvim_exec2(query_str, { output = true }).output
+    return targets
+end
+
+local buffered_bazel_lines_to_telescope = function()
+    local linebuf = get_bazel_targets()
+    vim.notify(linebuf)
+    if linebuf == nil then return end
+    local lines = plugin_lib.linewise(linebuf)
+
+    -- Create entries for telescope
+    local results = {}
+    local i = 0
+    for line in lines do
+        if line == "" then goto continue end
+        local pos = string.find(line, "//")
+        if pos == nil or pos > 1 then goto continue end
+
+        table.insert(results, {
+            value = line,
+            ordinal = line,              -- Used for sorting and filtering
+            display = i .. ": " .. line, -- What will be displayed in telescope
+            filename = '',
+            lnum = i
+        })
+        i = i + 1
+        ::continue::
+    end
+
+    -- Load telescope
+    local pickers = require("telescope.pickers")
+    local finders = require("telescope.finders")
+    local conf = require("telescope.config").values
+    local actions = require("telescope.actions")
+    local action_state = require("telescope.actions.state")
+
+    -- Create the picker
+    pickers.new({}, {
+        prompt_title = "Buffer Lines",
+        finder = finders.new_table({
+            results = results,
+            entry_maker = function(entry)
+                return {
+                    value = entry,
+                    ordinal = entry.ordinal,
+                    display = entry.display,
+                    filename = entry.filename,
+                    lnum = entry.lnum
+                }
+            end
+        }),
+        sorter = conf.generic_sorter({}),
+        attach_mappings = function(prompt_bufnr, map)
+            -- Define custom action when selecting an entry
+            actions.select_default:replace(function()
+                local selection = action_state.get_selected_entry()
+                actions.close(prompt_bufnr)
+                if selection ~= nil then
+                    selection = selection.value.value
+                    vim.fn.setreg('"', selection)
+                    vim.fn.setreg('"+', selection)
+                end
+            end)
+            return true
+        end
+    }):find()
+end
+
+-- Create a user command
+vim.api.nvim_create_user_command('GetBazelTargets', function()
+    buffered_bazel_lines_to_telescope()
+end, {})
+
+vim.keymap.set("n", "<F8>", buffered_bazel_lines_to_telescope)
+
 -- floating terminal
 local central_terminal = function()
     plugin_lib.central_float()

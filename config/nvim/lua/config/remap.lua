@@ -75,10 +75,10 @@ WINDOW_MANAGER = 'kitty'
 local function go_vim_or_tmux_or_kitty(vim_dir, tmux_dir, kitty_dir)
     return function()
         local current_win = vim.fn.winnr()
-        -- Try to move down
+        -- Try to move
         vim.cmd("wincmd " .. vim_dir)
         local new_win = vim.fn.winnr()
-        -- If we're in the same window, there was no split below.
+        -- If we're in the same window, there was no split in the move direction.
         if current_win == new_win then
             if WINDOW_MANAGER == 'tmux' then
                 -- Fallback: call tmux to select the pane below
