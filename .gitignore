@@ -2,6 +2,7 @@
 !*/
 !.gitignore
 !aliases
+!editorconfig
 !bootstrap.sh
 !ideavimrc
 !shell_prompt.sh
