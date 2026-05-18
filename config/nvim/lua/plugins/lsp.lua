@@ -124,7 +124,15 @@ return {
             { "ltex", {
                 filetypes = { "latex", "tex", "bib", "markdown", "gitcommit", "text" },
             }
+            },
+
+            { "rust_analyzer", {
+                cmd = { "rust-analyzer" },
+                trace = { server = "verbose" },
+                util = { root_pattern = { "rust-project.json" } },
             }
+            },
+
         }
 
 
