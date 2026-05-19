@@ -95,3 +95,13 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<C-h>", go_vim_or_tmux_or_kitty("h", "L"
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-l>", go_vim_or_tmux_or_kitty("l", "R", "right"))
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-j>", go_vim_or_tmux_or_kitty("j", "D", "bottom"))
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-k>", go_vim_or_tmux_or_kitty("k", "U", "top"))
+
+-- snippets
+
+vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
+        return '<Cmd>lua vim.snippet.jump(1)<CR>'
+    -- if vim.snippet.active({ direction = 1 }) then
+    -- else
+    --     return '<Tab>'
+    -- end
+end, { expr = true, silent = true })
