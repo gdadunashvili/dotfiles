@@ -22,7 +22,6 @@ vim.o.termguicolors = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = ";"
 
-local local_plugins = pcall(require "../local/init")
 -- Setup lazy.nvim
 local lazy = require("lazy")
 lazy.setup({
@@ -37,6 +36,3 @@ lazy.setup({
     -- automatically check for plugin updates
     checker = { enabled = true, notify = false },
 })
-
--- lazy.install(local_plugins)
--- lazy.load(local_plugins)
