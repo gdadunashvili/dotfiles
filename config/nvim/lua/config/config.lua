@@ -19,11 +19,46 @@ vim.opt.nu = true
 vim.opt.relativenumber = true
 
 vim.opt.wrap = false
+vim.cmd("set nowrap")
 
 -- only one global statusbar
 -- vim.opt.laststatus = 3
 -- every window has it's own statusbar
 vim.opt.laststatus = 2
+
+local function git_gen()
+    local git_dir = vim.fn.finddir('.git', vim.fn.getcwd() .. ";")
+    if git_dir == "" then
+        return " "
+    end
+    -- vim.notify(vim.inspect(vim.b.gitsigns_status_dict));
+    local change_status_generator = [[(function()
+        local fmt = string.format; if vim.b.gitsigns_status_dict == nil then return "" end;
+        local ret_table = {}
+        local checked_insert = function(tihng, s) if tihng ~= nil then return table.insert(ret_table, fmt(s .. "%d", tihng)) end end;
+        checked_insert(vim.b.gitsigns_status_dict.added, "+")
+        checked_insert(vim.b.gitsigns_status_dict.changed, "~")
+        checked_insert(vim.b.gitsigns_status_dict.removed, "-")
+        return table.concat(ret_table, " ")
+    end)()]]
+
+    local head = "%{% luaeval('vim.fn.FugitiveHead()') %}"
+    local change_status = "%{% luaeval('" .. change_status_generator .. "') %}"
+
+    return " [" .. head .. " " .. change_status .. "] "
+end
+
+local mode = "(%{% luaeval('vim.fn.mode()') %})"
+local statusline = mode .. git_gen() .. string.rep(vim.o.statusline, 1)
+
+local ruler = table.concat {
+    "%y ",
+    -- progress through file line number/totalnumber, column number and virtual column
+    "[%P %l/%L,%c%V]"
+}
+
+vim.opt.rulerformat = ruler
+vim.opt.statusline = statusline
 
 -- no swap files
 vim.opt.swapfile = false
