@@ -35,11 +35,11 @@ return {
                 wrap_results = true,
                 layout_strategy = 'flex',
                 layout_config = {
-                    width = 0.99,
-                    height = 0.98,
+                    -- width = 0.99,
+                    -- height = 0.98,
                     horizontal = {
-                        mirror = false,
-                        preview_width = 0.75, -- Preview width as a percentage of the Telescope window width
+                        -- mirror = false,
+                        -- preview_width = 0.75, -- Preview width as a percentage of the Telescope window width
                     },
                 }
             },
