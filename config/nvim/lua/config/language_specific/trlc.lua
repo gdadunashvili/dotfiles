@@ -16,6 +16,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
       syntax enable
 
       " Clear our syntax groups (avoid duplicates when re-entering)
+      silent! syntax clear trlcLineComment
       silent! syntax clear trlcKeyword
       silent! syntax clear trlcIdentifier
       silent! syntax clear trlcInteger
@@ -26,6 +27,12 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
       silent! syntax clear trlcBooleanOp
       silent! syntax clear trlcPunct
       silent! syntax clear trlcDelimiter
+
+      " Add commentstring which gc can recognize for comment toggling
+        setlocal commentstring=//\ %s
+
+      " Line comments: // to end of line
+        syntax match trlcLineComment "//.*$"
 
       " Keywords (reserved words)
       syntax keyword trlcKeyword
@@ -66,6 +73,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "BufWinEnter" }, {
       syntax match trlcDelimiter "[()\[\]{}]"
 
       " Highlight links
+      highlight default link trlcLineComment Comment
       highlight default link trlcKeyword Keyword
       highlight default link trlcIdentifier Identifier
 
