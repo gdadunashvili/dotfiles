@@ -2,8 +2,8 @@ from kittens.tui.handler import result_handler
 from kitty.key_encoding import KeyEvent, parse_shortcut
 
 
-def main():
-    pass
+def main(args: list[str]):
+    return
 
 
 def window_is_vim(window) -> bool:
