@@ -8,5 +8,13 @@ return {
                 require("bufix.api").register_buf(opts.buf) -- make it work with goto_next() and friends
             end,
         })
+
+
+        require("bufix").setup({
+            rules = {
+                -- rust0 = [[%*[^\ ] %f:%l:%c]],
+                rust = [[%s %f:%l:%c]],
+            }
+        })
     end
 }
