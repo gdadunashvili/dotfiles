@@ -13,7 +13,7 @@ return {
 
     config = function()
         vim.opt.runtimepath:append("$HOME/.local/share/treesitter")
-        require('nvim-treesitter').install { "c", "cpp", "lua", "vim", "vimdoc", "query", "markdown", "doxygen" }
+        require('nvim-treesitter').install { "c", "cpp", "lua", "python", "vim", "vimdoc", "query", "markdown", "doxygen" }
 
         require 'treesitter-context'.setup {}
 
@@ -26,5 +26,4 @@ return {
             require("nvim-treesitter-textobjects.select").select_textobject("@function.outer", "textobjects")
         end)
     end
-
 }
