@@ -1,25 +1,44 @@
 local plugin_lib = require('config/plugin_lib')
 
 --- @return string?
-local get_bazel_targets = function()
-    local filedir     = vim.fn.expand('%:p:h')
-    local cmd_str     = "!bazel info workspace"
-    local output      = vim.api.nvim_exec2(cmd_str, { output = true })
-    local bazel_match = string.gmatch(output.output, "\n(.+)\n")
-    local res         = bazel_match()
-    if res == nil or res:len() == 0 then return end
-    res = res:gsub('\n', '')
-    if res == nil or res:len() == 0 then return end
-    local bazel_folder = filedir:gsub(res, '/') .. '/...'
+local get_current_bazel_root = function()
+    local cmd_str = "!bazel info workspace"
+    local execution_result = vim.api.nvim_exec2(cmd_str, { output = true })
+    local output = execution_result.output
+    if output == nil or output:len() == 0 then
+        return
+    end
 
-    local query_str = "!bazel query " .. bazel_folder
+    local bazel_match_single_line = string.gmatch(output, "\n(.+)\n")
+    local cleand_path_string      = bazel_match_single_line()
+
+    if cleand_path_string == nil or cleand_path_string:len() == 0 then return end
+    cleand_path_string = cleand_path_string:gsub('\n', '')
+    if cleand_path_string == nil or cleand_path_string:len() == 0 then return end
+
+    return cleand_path_string
+end
+
+--- @param file_containing_directory_path string
+--- @return string?
+local get_bazel_targets = function(file_containing_directory_path)
+    local bazel_root = get_current_bazel_root()
+
+    if bazel_root == nil then
+        vim.notify("Failed to get bazel workspace root")
+        return
+    end
+
+    local bazel_directory_level_query_string = file_containing_directory_path:gsub(bazel_root, '/') .. '/...'
+
+    local query_str = "!bazel query " .. bazel_directory_level_query_string
     local targets = vim.api.nvim_exec2(query_str, { output = true }).output
     return targets
 end
 
-local buffered_bazel_lines_to_telescope = function()
-    local linebuf = get_bazel_targets()
-    vim.notify(linebuf)
+--- @param file_containing_directory_path string
+local buffered_bazel_lines_to_telescope = function(file_containing_directory_path)
+    local linebuf = get_bazel_targets(file_containing_directory_path)
     if linebuf == nil then return end
     local lines = plugin_lib.linewise(linebuf)
 
@@ -73,7 +92,7 @@ local buffered_bazel_lines_to_telescope = function()
                 if selection ~= nil then
                     selection = selection.value.value
                     vim.fn.setreg('"', selection)
-                    vim.fn.setreg('"+', selection)
+                    vim.fn.setreg('+', selection)
                 end
             end)
             return true
@@ -82,17 +101,19 @@ local buffered_bazel_lines_to_telescope = function()
 end
 
 -- Create a user command
-vim.api.nvim_create_user_command('GetBazelTargets', function()
-    buffered_bazel_lines_to_telescope()
+vim.api.nvim_create_user_command('GetBazelTargetsInFolder', function()
+    local file_containing_directory_path = vim.fn.expand('%:p:h')
+    file_containing_directory_path = file_containing_directory_path:gsub("^oil://", "")
+    buffered_bazel_lines_to_telescope(file_containing_directory_path)
 end, {})
 
-vim.keymap.set("n", "<F8>", buffered_bazel_lines_to_telescope)
+vim.api.nvim_create_user_command('GetBazelTargetsAll', function()
+    local root_path = vim.fn.getcwd()
+    buffered_bazel_lines_to_telescope(root_path)
+end, {})
 
--- floating terminal
-local central_terminal = function()
-    plugin_lib.central_float()
-    vim.fn.execute("edit term://zsh")
-end
+vim.keymap.set("n", "<F8>", function() vim.cmd("GetBazelTargetsInFolder") end)
+vim.keymap.set("n", "<F9>", function() vim.cmd("GetBazelTargetsAll") end)
 
 -- window resizing
 local resize_magnitude = "5"
@@ -150,7 +171,6 @@ end
 
 
 local resize_up = function()
-    vim.notify("resize up")
     if is_most("j") then
         horizontal_grow()
     end
@@ -160,7 +180,6 @@ local resize_up = function()
 end
 
 local resize_down = function()
-    vim.notify("resize down")
     if is_most("k") then
         horizontal_grow()
     end
