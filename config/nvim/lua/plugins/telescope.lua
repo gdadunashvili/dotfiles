@@ -46,53 +46,52 @@ return {
         })
 
         telescope.load_extension("live_grep_args")
-        local builtin = require('telescope.builtin')
+        -- local builtin = require('telescope.builtin')
 
 
         vim.cmd("autocmd User TelescopePreviewerLoaded setlocal number")
         vim.cmd("autocmd User TelescopePreviewerLoaded setlocal cursorline")
 
-        local grep_func = telescope.extensions.live_grep_args.live_grep_args
-        local function custome_grep()
-            local folder = vim.fn.input("Serarch Folder Path: ", vim.fn.expand('%:p:h'))
-            grep_func({
-                search_dirs = { folder },
-            })
-        end
-
-        vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [K]eymaps' })
-        vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
-        vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
+        -- local grep_func = telescope.extensions.live_grep_args.live_grep_args
+        -- local function custome_grep()
+        --     local folder = vim.fn.input("Serarch Folder Path: ", vim.fn.expand('%:p:h'))
+        --     grep_func({
+        --         search_dirs = { folder },
+        --     })
+        -- end
+        --
+        -- vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = '[F]ind [K]eymaps' })
+        -- vim.keymap.set('n', '<leader>fk', builtin.keymaps, { desc = '[F]ind [K]eymaps' })
+        -- vim.keymap.set('n', '<leader>fh', builtin.help_tags, { desc = '[F]ind [H]elp' })
 
         -- command pallete
-        vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind [S]elect Telescope' })
+        -- vim.keymap.set('n', '<leader>fs', builtin.builtin, { desc = '[F]ind [S]elect Telescope' })
 
-        vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = '[F]ind [M]arks' })
-        vim.keymap.set('n', '<leader>fj', builtin.jumplist, { desc = '[F]ind [J]jumps' })
-        vim.keymap.set('n', '<leader><leader>', builtin.commands, { desc = '[F]ind [S]elect Telescope' })
-        vim.keymap.set('n', '<c-p>', builtin.commands, { desc = '[F]ind [S]elect Telescope' })
+        -- vim.keymap.set('n', '<leader>fm', builtin.marks, { desc = '[F]ind [M]arks' })
+        -- vim.keymap.set('n', '<leader>fj', builtin.jumplist, { desc = '[F]ind [J]jumps' })
+        -- vim.keymap.set('n', '<leader><leader>', builtin.commands, { desc = '[F]ind [S]elect Telescope' })
+        -- vim.keymap.set('n', '<c-p>', builtin.commands, { desc = '[F]ind [S]elect Telescope' })
 
-        vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
-        vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
-        vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
+        -- vim.keymap.set('n', '<leader>fd', builtin.diagnostics, { desc = '[F]ind [D]iagnostics' })
+        -- vim.keymap.set('n', '<leader>fr', builtin.resume, { desc = '[F]ind [R]esume' })
+        -- vim.keymap.set('n', '<leader>f.', builtin.oldfiles, { desc = '[F]ind Recent Files ("." for repeat)' })
 
-        vim.keymap.set('n', '<leader>fg', grep_func, { desc = '[F]ind [G]rep' })
-        vim.keymap.set('n', '<leader>gg', custome_grep, { desc = '[G]o to subfolder and [G]rep' })
-        vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
+        -- vim.keymap.set('n', '<leader>fg', grep_func, { desc = '[F]ind [G]rep' })
+        -- vim.keymap.set('n', '<leader>gg', custome_grep, { desc = '[G]o to subfolder and [G]rep' })
+        -- vim.keymap.set('n', '<leader>fw', builtin.grep_string, { desc = '[F]ind current [W]ord' })
 
-
-
-        vim.keymap.set('n', '<leader>f/', function()
-                builtin.live_grep {
-                    grep_open_files = true,
-                    prompt_title = 'Live Grep in Open Files',
-                }
-            end,
-            { desc = '[f]ind [/] in Open Files' })
-
+        -- vim.keymap.set('n', '<leader>f/', function()
+        --         builtin.live_grep {
+        --             grep_open_files = true,
+        --             prompt_title = 'Live Grep in Open Files',
+        --         }
+        --     end,
+        --     { desc = '[f]ind [/] in Open Files' })
+        --
         -- Shortcut for searching your Neovim configuration files
-        vim.keymap.set('n', '<leader>fn', function()
-            builtin.find_files { cwd = vim.fn.stdpath 'config' }
-        end, { desc = '[F]ind [N]eovim files' })
+
+        -- vim.keymap.set('n', '<leader>fn',
+        -- function() builtin.find_files { cwd = vim.fn.stdpath 'config' } end
+        -- , { desc = '[F]ind [N]eovim files' })
     end
 }

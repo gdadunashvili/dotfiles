@@ -37,17 +37,18 @@ vim.keymap.set("n", "gk", "k", { noremap = true })
 vim.keymap.set("n", "<leader>q", ":q<CR>", { noremap = true })
 -- vim.keymap.set("n", "<leader>q", ":bd<CR>", { noremap = true })
 -- delete current buffer (from open buffers)
+
 local close_with_session_state = function(closer)
     return function()
-        -- exists, _ = pcall(require('persisted'))
-
-        -- vim.cmd("Persisted save")
         vim.cmd("mksession! ~/.nvimsessions/last")
         vim.cmd(closer .. "a")
     end
 end
-vim.keymap.set("n", "<C-q>", close_with_session_state("q"), { noremap = true })
-vim.keymap.set("n", "<C-x>", close_with_session_state("x"), { noremap = true })
+vim.keymap.set("n", "<S-C-q>", close_with_session_state("q"), { noremap = true })
+vim.keymap.set("n", "<S-C-x>", close_with_session_state("x"), { noremap = true })
+
+vim.keymap.set("n", "<C-q>", function() vim.cmd("qa") end, { noremap = true })
+vim.keymap.set("n", "<C-x>", function() vim.cmd("xa") end, { noremap = true })
 
 -- updating file
 -- Save the file with ctrl+s needs terminal alias or it will freeze
