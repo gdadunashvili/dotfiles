@@ -71,20 +71,19 @@ return {
             desc = "File Explorer"
         },
 
-        { '<leader>fk',       function() Snacks.picker.keymaps() end,     desc = '[F]ind [K]eymaps' },
-        { '<leader>fh',       function() Snacks.picker.help() end,        desc = '[F]ind [H]elp' },
+        { '<leader>fk', function() Snacks.picker.keymaps() end,     desc = '[F]ind [K]eymaps' },
+        { '<leader>fh', function() Snacks.picker.help() end,        desc = '[F]ind [H]elp' },
         -- gToDo: this needs a good replacement
         -- { '<leader>fs',       function() Snacks.picker.builtin() end,     desc = '[F]ind [S]elect Telescope' },
-        { '<leader>fm',       function() Snacks.picker.marks() end,       desc = '[F]ind [M]arks' },
-        { '<leader>fj',       function() Snacks.picker.jumps() end,       desc = '[F]ind [J]jumps' },
-        { '<leader><leader>', function() Snacks.picker.commands() end,    desc = '[F]ind [S]elect Telescope' },
-        { '<c-p>',            function() Snacks.picker.commands() end,    desc = '[F]ind [S]elect Telescope' },
-        { '<leader>fd',       function() Snacks.picker.diagnostics() end, desc = '[F]ind [D]iagnostics' },
-        { '<leader>fr',       function() Snacks.picker.resume() end,      desc = '[F]ind [R]esume' },
-        { "<leader>su",       function() Snacks.picker.undo() end,        desc = "Undo History" },
+        { '<leader>fm', function() Snacks.picker.marks() end,       desc = '[F]ind [M]arks' },
+        { '<leader>fj', function() Snacks.picker.jumps() end,       desc = '[F]ind [J]jumps' },
+        { '<c-p>',      function() Snacks.picker.commands() end,    desc = '[F]ind [S]elect Telescope' },
+        { '<leader>fd', function() Snacks.picker.diagnostics() end, desc = '[F]ind [D]iagnostics' },
+        { '<leader>fr', function() Snacks.picker.resume() end,      desc = '[F]ind [R]esume' },
+        { "<leader>su", function() Snacks.picker.undo() end,        desc = "Undo History" },
 
-        { '<leader>f.',       function() Snacks.picker.buffers() end,     desc = '[F]ind Recent Files ("." for repeat)' },
-        { '<leader>fg',       function() Snacks.picker.grep() end,        desc = '[F]ind [G]rep' },
+        { '<leader>f.', function() Snacks.picker.buffers() end,     desc = '[F]ind Recent Files ("." for repeat)' },
+        { '<leader>fg', function() Snacks.picker.grep() end,        desc = '[F]ind [G]rep' },
 
     }
 }

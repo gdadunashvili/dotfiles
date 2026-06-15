@@ -121,8 +121,8 @@ return {
                 },
             } },
 
-            { "ltex", {
-                filetypes = { "latex", "tex", "bib", "markdown", "gitcommit", "text" },
+            { "ltex_plus", {
+                filetypes = { "tex", "bib", "markdown", "gitcommit", "text" },
             }
             },
 
@@ -150,7 +150,7 @@ return {
 
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "clangd", "bashls", "ltex", "pylsp", "jsonls" },
+            ensure_installed = { "lua_ls", "clangd", "bashls", "ltex_plus", "pylsp", "jsonls" },
             automatic_installation = true,
         })
     end
