@@ -122,7 +122,7 @@ return {
             } },
 
             { "ltex_plus", {
-                filetypes = { "tex", "bib", "markdown", "gitcommit", "text" },
+                filetypes = { "tex", "bib", "markdown", "gitcommit", "text", "trlc" },
             }
             },
 
