@@ -58,6 +58,13 @@ vim.keymap.set("n", "<C-S>", ":update<CR>", { noremap = true })
 vim.keymap.set("v", "<C-S>", "<C-C>:update<CR>", { noremap = true })
 vim.keymap.set("i", "<C-S>", "<C-O>:update<CR>", { noremap = true })
 
+-- move lines
+vim.keymap.set("n", "<S-down>", ":m .+1<CR>==", { noremap = true })
+vim.keymap.set("n", "<S-up>", ":m .-2<CR>==", { noremap = true })
+
+vim.keymap.set("v", "<S-down>", ":m '>+1<CR>gv=gv", { noremap = true })
+vim.keymap.set("v", "<S-up>", ":m '<-2<CR>gv=gv", { noremap = true })
+
 -- tabs
 vim.keymap.set("n", "<leader>p", "<esc>:tabprevious<CR>")
 vim.keymap.set("n", "<leader>n", "<esc>:tabnext<CR>")
