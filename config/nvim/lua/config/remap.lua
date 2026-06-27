@@ -48,7 +48,7 @@ vim.keymap.set("n", "<S-C-q>", close_with_session_state("q"), { noremap = true }
 vim.keymap.set("n", "<S-C-x>", close_with_session_state("x"), { noremap = true })
 
 vim.keymap.set("n", "<C-q>", function() vim.cmd("qa") end, { noremap = true })
-vim.keymap.set("n", "<C-x>", function() vim.cmd("xa") end, { noremap = true })
+vim.keymap.set("n", "<C-w>", function() vim.cmd("wqa") end, { noremap = true })
 
 -- updating file
 -- Save the file with ctrl+s needs terminal alias or it will freeze
@@ -104,8 +104,11 @@ vim.keymap.set({ "n", "i", "v", "t" }, "<C-l>", go_vim_or_tmux_or_kitty("l", "R"
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-j>", go_vim_or_tmux_or_kitty("j", "D", "bottom"))
 vim.keymap.set({ "n", "i", "v", "t" }, "<C-k>", go_vim_or_tmux_or_kitty("k", "U", "top"))
 
-
-vim.keymap.set({ "t" }, "<S-k>", function() vim.api.nvim_input("<C-\\><C-n>k") end)
+-- terminal stuff
+vim.keymap.set({ "t" }, "<S-k>", function() vim.api.nvim_input("<C-\\><C-n>") end)
+vim.keymap.set({ "n", "i", "t" }, "<C-t>", function()
+    vim.cmd("tabnew|term")
+end)
 
 -- snippets
 

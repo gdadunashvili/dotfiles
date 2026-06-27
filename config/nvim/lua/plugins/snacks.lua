@@ -3,6 +3,11 @@ return {
     "folke/snacks.nvim",
     ---@type snacks.Config
     opts = {
+        terminal = {
+            auto_insert = false,
+            win_enter = false,
+            start_insert = false,
+        },
         picker = { enabled = true, },
         image = { enabled = true, },
         statuscolumn = {
@@ -24,7 +29,6 @@ return {
         },
     },
     gitbrowse = {},
-    terminal = {},
     term_normal = {
         "<esc>",
         function(self)
@@ -49,6 +53,7 @@ return {
         { "<leader>gB",       function() Snacks.gitbrowse() end,                                      desc = "Git Browse",                 mode = { "n", "v" } },
 
         { "<c-/>",            function() Snacks.terminal() end,                                       desc = "Toggle Terminal",            mode = { "n", "v", "t", "i" } },
+        { "<c-;>",            function() Snacks.terminal.open() end,                                  desc = "Toggle Terminal",            mode = { "n", "v", "t", "i" } },
 
 
         { '<leader>ff',       function() Snacks.picker.files() end,                                   desc = '[F]ind [K]eymaps' },
