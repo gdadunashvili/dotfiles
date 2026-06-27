@@ -5,7 +5,7 @@ return {
         -- LSP management
         stop_lsp_on_tab_leave = true,    -- Stop LSP when leaving a tab
         stop_lsp_on_session_load = true, -- Stop all LSP before loading a session
-        autoload_last_session = true,    -- Auto-load last session on startup
+        autoload_last_session = false,   -- Auto-load last session on startup
 
         -- Autosave
         autosave = {
