@@ -32,19 +32,45 @@ return {
         local dapui = require('dapui')
         dapui.setup()
 
+        vim.keymap.set('n', '<S-F5>', function()
+            dapui.open({ reset = false })
+            dap.continue()
+        end, { noremap = true })
+
+        vim.keymap.set('n', '<F5>', function() dap.continue() end, { noremap = true })
+        vim.keymap.set('n', '<F10>', function() dap.step_over() end, { noremap = true })
+        vim.keymap.set('n', '<F11>', function() dap.step_into() end, { noremap = true })
+        vim.keymap.set('n', '<S-F11>', function() dap.step_out() end, { noremap = true })
+
         vim.keymap.set('n', '<leader>dt', function() dapui.toggle() end, { noremap = true })
         vim.keymap.set('n', '<leader>ds', ":DapNew<CR>", { noremap = true })
         vim.keymap.set('n', '<leader>db', ":DapToggleBreakpoint<CR>", { noremap = true })
         vim.keymap.set('n', '<leader>dc', ":DapContinue<CR>", { noremap = true })
+
+
         vim.keymap.set('n', '<leader>dr', function() dapui.open({ reset = true }) end, { noremap = true })
         vim.fn.sign_define('DapBreakpoint',
             { text = '🛑', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
         -- instructions from
         -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-gdb
 
+        dap.adapters.gdb = {
+            id = 'gdb',
+            type = 'executable',
+            command = "gdb",
+            args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+        }
+        dap.adapters.lldb = {
+            id = 'lldb',
+            type = 'executable',
+            -- command = vim.fn.stdpath("data") .. '/mason/bin/codelldb',
+            command = vim.fn.stdpath("data") .. '/mason/packages/codelldb/extension/adapter/codelldb',
+        }
+
         dap.adapters.cppdbg = {
             id = 'cppdbg',
             type = 'executable',
+            request = 'launch',
             command = vim.fn.stdpath("data") .. '/mason/bin/OpenDebugAD7',
         }
 
@@ -103,47 +129,109 @@ return {
         end
         vim.api.nvim_create_user_command("ParentPath", bin_path, {})
 
-        local c_cpp_config = {
+        local mysplit = function(inputstr, sep)
+            if sep == nil then
+                sep = "%s"
+            end
+            local t = {}
+            for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
+                table.insert(t, str)
+            end
+            return t
+        end
+
+        local default_parent_path = function()
+            return vim.fn.getcwd() .. '/'
+        end
+
+        ---@param parent_path string?
+        local shada_path_calculate_and_write = function(parent_path)
+            if parent_path == nil then
+                parent_path = default_parent_path()
+            end
+            local dap_shada_parent_path = vim.fn.stdpath('data') .. "/dap-shda-data/" .. parent_path
+            vim.fn.mkdir(dap_shada_parent_path, 'p')
+            return dap_shada_parent_path .. '/dap-shada.json'
+        end
+
+        local get_path = function(parent_path)
+            if parent_path == nil then
+                parent_path = default_parent_path()
+            end
+
+            local executable_path = vim.fn.input('Path to executable: ', parent_path, 'file')
+            local dap_shada_path = shada_path_calculate_and_write(parent_path)
+
+            vim.fn.writefile({ vim.fn.json_encode({
+                cwd = parent_path,
+                executable_path = executable_path,
+                args = {},
+            }) }, dap_shada_path)
+
+
+            return executable_path
+        end
+
+        local cpp_debuger_name = "gdb"
+        local c_cpp_rust_config = {
             {
-                name = "Launch file",
-                type = "cppdbg",
+                name = "ReLaunch file",
+                type = cpp_debuger_name,
                 request = "launch",
                 program = function()
-                    return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                    local dap_shada_path = shada_path_calculate_and_write()
+                    local json = vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
+                    return json['executable_path']
                 end,
+                cwd = "${workspaceFolder}",
+                stopOnEntry = true,
+                args = function()
+                    local dap_shada_path = shada_path_calculate_and_write()
+                    local json = vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
+                    return json['args']
+                end,
+            },
+            {
+                name = "Launch file",
+                type = cpp_debuger_name,
+                request = "launch",
+                program = get_path,
                 cwd = "${workspaceFolder}",
                 stopOnEntry = true,
                 args = {},
             },
             {
                 name = "Launch This file",
-                type = "cppdbg",
+                type = cpp_debuger_name,
                 request = "launch",
-                program = function()
-                    return vim.fn.input('Path to executable: ', bin_path(), 'file')
-                end,
+                program = function() return get_path(bin_path()) end,
                 cwd = "${workspaceFolder}",
                 stopOnEntry = true,
                 args = {},
             },
-            --[[
+
             {
-                name = 'Attach to gdbserver :1234',
-                type = 'cppdbg',
-                request = 'launch',
-                MIMode = 'gdb',
-                miDebuggerServerAddress = 'localhost:1234',
-                miDebuggerPath = '/usr/bin/gdb',
-                cwd = '${workspaceFolder}',
-                program = function()
-                    return vim.fn.input('Path to executable: ', vim.fn.getcwd() .. '/', 'file')
+                name = "Launch with args file",
+                type = cpp_debuger_name,
+                request = "launch",
+                program = get_path,
+                cwd = "${workspaceFolder}",
+                stopOnEntry = true,
+                args = function()
+                    local dap_shada_path = shada_path_calculate_and_write()
+                    local json = vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
+                    local arg_list = mysplit(vim.fn.input('command-line arguments: ', ''), ' ')
+                    json['args'] = arg_list
+                    vim.fn.writefile({ vim.fn.json_encode(json) }, dap_shada_path)
+
+                    return arg_list
                 end,
             },
-            --]]
         }
 
-        dap.configurations.c = c_cpp_config
-        dap.configurations.cpp = c_cpp_config
+        dap.configurations.c = c_cpp_rust_config
+        dap.configurations.cpp = c_cpp_rust_config
+        dap.configurations.rust = c_cpp_rust_config
         dap.configurations.python = python_config
 
         require("nvim-dap-virtual-text").setup {
