@@ -1,16 +1,16 @@
 local plugin_lib = {}
-function plugin_lib.central_float()
+--- @param message string?
+function plugin_lib.central_float(message)
     local buf_id = vim.api.nvim_create_buf(false, true)
     local ui     = vim.api.nvim_list_uis()[1]
 
-
-    local width = ui.width - 2
+    local width  = ui.width - 2
     local height = ui.height - 10
 
-    local col = (ui.width / 2) - (width / 2)
-    local row = (ui.height / 2) - (height / 2)
+    local col    = (ui.width / 2) - (width / 2)
+    local row    = (ui.height / 2) - (height / 2)
     --- @type vim.api.keyset.win_config
-    local opts = {
+    local opts   = {
         relative = "editor",
         width = width,
         height = height,
@@ -18,10 +18,14 @@ function plugin_lib.central_float()
         row = row,
         anchor = 'NW',
         mouse = true,
-
     }
 
     local win_id = vim.api.nvim_open_win(buf_id, true, opts)
+
+    if message ~= nil then
+        plugin_lib.insert_text({ message }, false, 0)
+    end
+
     return win_id, buf_id
 end
 
@@ -83,21 +87,29 @@ function plugin_lib.put_char_in_gutter(buffer_nr, line_nr, char)
     })
 end
 
---- Helper function for creating macros and binding them to key combos.
----@param mode string[]
----@param keymap string
----@param expansion string[]
----@param as_comment bool
-function plugin_lib.insert_macro(mode, keymap, expansion, as_comment)
-    local insert = function()
-        local coordinates = vim.api.nvim_win_get_cursor(0)
-        local row = coordinates[1]
-        if as_comment == true then
-            vim.cmd("norm gcc")
-        end
-        vim.api.nvim_buf_set_text(0, row - 1, 0, row - 1, 0, expansion)
+--- @param text_snippets string[]
+--- @param as_comment boolean
+--- @param buffer_nr integer?
+plugin_lib.insert_text = function(text_snippets, as_comment, buffer_nr)
+    if buffer_nr == nil then
+        buffer_nr = 0
     end
-    vim.keymap.set(mode, keymap, insert, {})
+    local coordinates = vim.api.nvim_win_get_cursor(buffer_nr)
+    local row = coordinates[1]
+    if as_comment == true then
+        vim.cmd("norm gcc")
+    end
+    vim.api.nvim_buf_set_text(0, row - 1, 0, row - 1, 0, text_snippets)
 end
+
+-- --- Helper function for creating macros and binding them to key combos.
+-- ---@param mode string[]
+-- ---@param keymap string
+-- ---@param expansion string[]
+-- ---@param as_comment bool
+-- function plugin_lib.insert_macro(mode, keymap, expansion, as_comment)
+--
+--     vim.keymap.set(mode, keymap, insert, {})
+-- end
 
 return plugin_lib
