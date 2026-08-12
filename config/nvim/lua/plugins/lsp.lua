@@ -4,19 +4,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
     }),
     ---@param e vim.api.keyset.create_autocmd.callback_args
     callback = function(e)
+        local plugin_lib = require('config/plugin_lib')
+
         local opts = { buffer = e.buf, remap = false }
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "gw", vim.lsp.buf.workspace_symbol, opts)
+        vim.keymap.set("n", "W", vim.lsp.buf.document_symbol, opts)
         vim.keymap.set("n", "<leader>af", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "<A-CR>", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "W", vim.lsp.buf.workspace_symbol, opts)
         vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
-        vim.keymap.set("n", "<F1>", vim.diagnostic.open_float, opts)
-        vim.keymap.set("n", "<F2>", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
-        vim.keymap.set("n", "<S-F2>", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-        vim.keymap.set("n", "<F6>", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "<F1>", function()
+            plugin_lib.central_float(
+                "do not use <F1>, use <leader>dv for diagnostics view")
+        end, opts)
+
+        vim.keymap.set("n", "<F2>", function()
+            plugin_lib.central_float(
+                "do not use <F2>, use <leader>dn for forward search through diagnostics (and <leader>dp for backwards)")
+        end, opts)
+        vim.keymap.set("n", "<leader>dn", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
+        vim.keymap.set("n", "<leader>dp", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
         vim.keymap.set("n", "<leader>o", ":LspClangdSwitchSourceHeader<CR>", opts)
         vim.keymap.set("n", "H", vim.lsp.buf.signature_help, opts)

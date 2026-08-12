@@ -39,7 +39,6 @@ return {
         vim.keymap.set('n', '<leader>dr', function() dapui.open({ reset = true }) end, { noremap = true })
         vim.fn.sign_define('DapBreakpoint',
             { text = '🛑', texthl = 'DapBreakpoint', linehl = 'DapBreakpoint', numhl = 'DapBreakpoint' })
-        -- vim.keymap.set('n', '<leader>d
         -- instructions from
         -- https://github.com/mfussenegger/nvim-dap/wiki/Debug-Adapter-installation#ccrust-via-gdb
 

@@ -109,13 +109,3 @@ vim.keymap.set({ "t" }, "<S-k>", function() vim.api.nvim_input("<C-\\><C-n>") en
 vim.keymap.set({ "n", "i", "t" }, "<C-t>", function()
     vim.cmd("tabnew|term")
 end)
-
--- snippets
-
-vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
-    return '<Cmd>lua vim.snippet.jump(1)<CR>'
-    -- if vim.snippet.active({ direction = 1 }) then
-    -- else
-    --     return '<Tab>'
-    -- end
-end, { expr = true, silent = true })
