@@ -15,7 +15,7 @@ return {
             left = { "sign", "mark" }, -- priority of signs on the left (high to low)
             right = { "fold", "git" }, -- priority of signs on the right (high to low)
             folds = {
-                open = false,          -- show open fold icons
+                open = true,           -- show open fold icons
                 git_hl = true,         -- use Git Signs hl for fold icons
             },
             refresh = 50,              -- refresh at most every 50ms
