@@ -7,14 +7,17 @@ local plugin_lib = require('../config/plugin_lib')
 -- Header Guard ASSISTANT
 --- @return string?
 local get_header_guards = function()
-    local filetype  = vim.bo.filetype
-    local extension = vim.fn.expand('%:e')
+    local filetype         = vim.bo.filetype
+    local extension        = vim.fn.expand('%:e')
 
-    if filetype ~= 'cpp' then return end
-    if not (extension == 'h' or extension == 'hpp') then return end
+    local filename         = vim.fn.expand('%:t:r')
+    local project_file_dir = string.gsub(vim.fn.expand('%:.:h'), '/', '_')
 
-    local filename            = vim.fn.expand('%:t:r')
-    local project_file_dir    = string.gsub(vim.fn.expand('%:.:h'), '/', '_')
+    local project_dir_name = vim.fn.expand('%:p:h:t')
+
+    if project_file_dir == '.' then
+        project_file_dir = project_dir_name
+    end
 
     local correct_headerguard = string.upper(project_file_dir .. '_' .. filename .. '_' .. extension)
 
@@ -38,7 +41,7 @@ vim.api.nvim_create_augroup("CppLocalLeaderMappings", { clear = true })
 
 vim.api.nvim_create_autocmd("BufEnter", {
     group = vim.api.nvim_create_augroup("CppLocalFunctionality", { clear = false }),
-    pattern = { "*.h", "*.hpp" },
+    pattern = { "*.h", "*.hpp", "*.cpp", "*.cc", "*.c" },
     callback = function()
         vim.api.nvim_create_user_command("GetCorrectHeaderGuard", get_header_guards, {})
         vim.api.nvim_create_user_command("InsertHeaderGuardStub", make_headerguard_stub, {})
