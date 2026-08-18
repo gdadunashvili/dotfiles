@@ -35,7 +35,7 @@ vim.api.nvim_create_user_command('ExecLineAsLua', exec_line_as_lua, {})
 vim.api.nvim_create_user_command('ExecSelectionAsLua', exec_selection_as_lua, {})
 
 vim.api.nvim_create_autocmd("BufEnter", {
-    group = vim.api.nvim_create_augroup("LueLocalFunctionality", { clear = false }),
+    group = vim.api.nvim_create_augroup("LuaLocalFunctionality", { clear = false }),
     pattern = "*.lua",
     callback = function()
         vim.api.nvim_buf_set_keymap(0, "n", "<localleader>e", "<cmd>ExecLineAsLua<CR>", { noremap = true, silent = true })

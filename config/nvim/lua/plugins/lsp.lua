@@ -57,7 +57,6 @@ return {
         -- shows lsp errors and other lsp messages on the bottom right
         "j-hui/fidget.nvim",
         -- lsp autocompletion
-        "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
         require('fidget').setup({})
@@ -78,15 +77,6 @@ return {
             end
         else
         end
-
-        local cmp_lsp = require("cmp_nvim_lsp")
-        local capabilities = cmp_lsp.default_capabilities()
-        -- this  helps with folding
-        capabilities.textDocument.foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-        }
-
 
         local lsp_configs = {
             { "jsonls", {
@@ -148,8 +138,6 @@ return {
         }
 
 
-        -- vim.lsp.config("lua_ls", { settings = lua_ls_settings })
-
         for _, lsp in pairs(lsp_configs) do
             local name, config = lsp[1], lsp[2]
             vim.lsp.enable(name)
@@ -162,8 +150,9 @@ return {
 
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls", "clangd", "bashls", "ltex_plus", "pylsp", "jsonls" },
+            ensure_installed = { "lua_ls", "clangd", "bashls", "ltex_plus", "pylsp", "jsonls", "eslint" },
             automatic_installation = true,
+            automatic_enable = true,
         })
     end
 }
