@@ -8,7 +8,17 @@ return {
             win_enter = false,
             start_insert = false,
         },
-        picker = { enabled = true, },
+        picker = {
+            enabled = true,
+            win = {
+                input = {
+                    keys =
+                    {
+                        ["H"] = { "toggle_hidden", mode = "n" },
+                    },
+                },
+            },
+        },
         image = { enabled = true, },
         statuscolumn = {
             enabled = true,
@@ -19,13 +29,6 @@ return {
                 git_hl = true,         -- use Git Signs hl for fold icons
             },
             refresh = 50,              -- refresh at most every 50ms
-        },
-        dim = {
-            scope = {
-                min_size = 5,
-                max_size = 20,
-                siblings = true,
-            },
         },
     },
     gitbrowse = {},

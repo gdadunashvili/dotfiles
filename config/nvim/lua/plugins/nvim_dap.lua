@@ -45,6 +45,19 @@ return {
         vim.keymap.set('n', '<leader>dt', function() dapui.toggle() end, { noremap = true })
         vim.keymap.set('n', '<leader>ds', ":DapNew<CR>", { noremap = true })
         vim.keymap.set('n', '<leader>db', ":DapToggleBreakpoint<CR>", { noremap = true })
+
+        -- Toggle breakpoint on left-click in line number area
+        vim.keymap.set({ 'n', 'i', 'v' }, '<RightMouse>', function()
+            local mouse_pos = vim.fn.getmousepos()
+            local true_column_of_the_current_buffer_window = mouse_pos.wincol
+
+            if true_column_of_the_current_buffer_window <= 4 then
+                local lnum = mouse_pos.line
+                vim.api.nvim_win_set_cursor(0, { lnum, 0 })
+                dap.toggle_breakpoint()
+            end
+        end, { noremap = true })
+
         vim.keymap.set('n', '<leader>dc', ":DapContinue<CR>", { noremap = true })
 
 
@@ -144,15 +157,26 @@ return {
             return vim.fn.getcwd() .. '/'
         end
 
-        ---@param parent_path string?
-        local shada_path_calculate_and_write = function(parent_path)
+
+        local function shada_parent_path(parent_path)
             if parent_path == nil then
                 parent_path = default_parent_path()
             end
             local dap_shada_parent_path = vim.fn.stdpath('data') .. "/dap-shda-data/" .. parent_path
+
+            return dap_shada_parent_path
+        end
+
+
+        ---@param parent_path string?
+        local shada_path_calculate_and_write = function(parent_path)
+            local dap_shada_parent_path = shada_parent_path(parent_path)
             vim.fn.mkdir(dap_shada_parent_path, 'p')
             return dap_shada_parent_path .. '/dap-shada.json'
         end
+
+        vim.keymap.set('n', '<leader>df', function() vim.cmd("vsp " .. shada_parent_path() .. "/dap-shada.json") end,
+            { noremap = true })
 
         local get_path = function(parent_path)
             if parent_path == nil then
@@ -172,44 +196,30 @@ return {
             return executable_path
         end
 
+        local read_shada_json = function()
+            local dap_shada_path = shada_path_calculate_and_write()
+            return vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
+        end
+        local args_gen = function()
+            local dap_shada_path = shada_path_calculate_and_write()
+            local json = vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
+            local arg_list = mysplit(vim.fn.input('command-line arguments: ', ''), ' ')
+            json['args'] = arg_list
+            vim.fn.writefile({ vim.fn.json_encode(json) }, dap_shada_path)
+            return arg_list
+        end
+
         local cpp_debuger_name = "gdb"
         local c_cpp_rust_config = {
             {
                 name = "ReLaunch file",
                 type = cpp_debuger_name,
                 request = "launch",
-                program = function()
-                    local dap_shada_path = shada_path_calculate_and_write()
-                    local json = vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
-                    return json['executable_path']
-                end,
-                cwd = "${workspaceFolder}",
+                program = function() return read_shada_json()['executable_path'] end,
+                cwd = function() return read_shada_json()['cwd'] end,
                 stopOnEntry = true,
-                args = function()
-                    local dap_shada_path = shada_path_calculate_and_write()
-                    local json = vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
-                    return json['args']
-                end,
+                args = function() return read_shada_json()['args'] end,
             },
-            {
-                name = "Launch file",
-                type = cpp_debuger_name,
-                request = "launch",
-                program = get_path,
-                cwd = "${workspaceFolder}",
-                stopOnEntry = true,
-                args = {},
-            },
-            {
-                name = "Launch This file",
-                type = cpp_debuger_name,
-                request = "launch",
-                program = function() return get_path(bin_path()) end,
-                cwd = "${workspaceFolder}",
-                stopOnEntry = true,
-                args = {},
-            },
-
             {
                 name = "Launch with args file",
                 type = cpp_debuger_name,
@@ -217,15 +227,16 @@ return {
                 program = get_path,
                 cwd = "${workspaceFolder}",
                 stopOnEntry = true,
-                args = function()
-                    local dap_shada_path = shada_path_calculate_and_write()
-                    local json = vim.fn.json_decode(vim.fn.readfile(dap_shada_path))
-                    local arg_list = mysplit(vim.fn.input('command-line arguments: ', ''), ' ')
-                    json['args'] = arg_list
-                    vim.fn.writefile({ vim.fn.json_encode(json) }, dap_shada_path)
-
-                    return arg_list
-                end,
+                args = args_gen,
+            },
+            {
+                name = "Launch THIS file (in bazel workspace)",
+                type = cpp_debuger_name,
+                request = "launch",
+                program = function() return get_path(bin_path()) end,
+                cwd = "${workspaceFolder}",
+                stopOnEntry = true,
+                args = args_gen,
             },
         }
 

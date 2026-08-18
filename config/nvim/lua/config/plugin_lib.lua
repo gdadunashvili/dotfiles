@@ -1,6 +1,6 @@
 local plugin_lib = {}
---- @param message string?
-function plugin_lib.central_float(message)
+--- @param messages string[]?
+function plugin_lib.central_float(messages)
     local buf_id = vim.api.nvim_create_buf(false, true)
     local ui     = vim.api.nvim_list_uis()[1]
 
@@ -22,8 +22,8 @@ function plugin_lib.central_float(message)
 
     local win_id = vim.api.nvim_open_win(buf_id, true, opts)
 
-    if message ~= nil then
-        plugin_lib.insert_text({ message }, false, 0)
+    if messages ~= nil then
+        plugin_lib.insert_text(messages, false, 0)
     end
 
     return win_id, buf_id

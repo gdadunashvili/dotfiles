@@ -10,21 +10,26 @@ vim.api.nvim_create_autocmd('LspAttach', {
         vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
         vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
         vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-        vim.keymap.set("n", "W", vim.lsp.buf.document_symbol, opts)
-        vim.keymap.set("n", "<leader>af", vim.lsp.buf.code_action, opts)
-        vim.keymap.set("n", "<leader>vd", vim.diagnostic.open_float, opts)
-        vim.keymap.set("n", "<F1>", function()
-            plugin_lib.central_float(
-                "do not use <F1>, use <leader>dv for diagnostics view")
-        end, opts)
+        vim.keymap.set("n", "W", vim.diagnostic.setqflist, opts)
+        vim.keymap.set("n", "Tj", function() vim.lsp.buf.typehierarchy("subtypes") end, opts)
+        vim.keymap.set("n", "Tk", function() vim.lsp.buf.typehierarchy("supertypes") end, opts)
+        vim.keymap.set("n", "L", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "<F1>", vim.diagnostic.open_float, opts)
+        vim.keymap.set("n", "Li", vim.lsp.buf.incoming_calls, opts)
+        vim.keymap.set("n", "Lo", vim.lsp.buf.outgoing_calls, opts)
 
         vim.keymap.set("n", "<F2>", function()
             plugin_lib.central_float(
-                "do not use <F2>, use <leader>dn for forward search through diagnostics (and <leader>dp for backwards)")
+                { "do not use <F2>, use <leader>dn for forward search through diagnostics (and <leader>dp for backwards).",
+                    "Or use W to display all diagnostics in the quickfix window." })
         end, opts)
         vim.keymap.set("n", "<leader>dn", function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
         vim.keymap.set("n", "<leader>dp", function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
+        vim.keymap.set("n", "<leader>af", vim.lsp.buf.code_action, opts)
         vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, opts)
+        vim.keymap.set("n", "R", vim.lsp.buf.rename, opts)
+        vim.keymap.set("c", "RR", "<c-f>", opts)
+
         vim.keymap.set("n", "<leader>o", ":LspClangdSwitchSourceHeader<CR>", opts)
         vim.keymap.set("n", "H", vim.lsp.buf.signature_help, opts)
     end
@@ -119,7 +124,7 @@ return {
                 cmd = {
                     "clangd",
                     "--background-index",
-                    -- "--clang-tidy",
+                    "--clang-tidy",
                     -- '--clang-tidy-checks=*',
                     "--suggest-missing-includes",
                     '--all-scopes-completion',
