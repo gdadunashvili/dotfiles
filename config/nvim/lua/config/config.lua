@@ -209,8 +209,8 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 -- folding
 
 vim.o.foldcolumn = '0' -- '0' is not bad
-vim.o.foldlevel = 2
+vim.o.foldlevel = 99
 vim.o.foldmethod = "syntax"
-vim.o.foldlevelstart = 2
-vim.o.foldenable = true
+vim.o.foldlevelstart = 99
+vim.o.foldenable = false
 vim.o.fillchars = [[eob: ,fold:.,foldopen:,foldsep: ,foldclose:]]
