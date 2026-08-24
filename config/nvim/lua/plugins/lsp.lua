@@ -57,6 +57,7 @@ return {
         -- shows lsp errors and other lsp messages on the bottom right
         "j-hui/fidget.nvim",
         -- lsp autocompletion
+        "hrsh7th/cmp-nvim-lsp",
     },
     config = function()
         require('fidget').setup({})
@@ -115,11 +116,10 @@ return {
                     "clangd",
                     "--background-index",
                     "--clang-tidy",
-                    -- '--clang-tidy-checks=*',
                     "--suggest-missing-includes",
                     '--all-scopes-completion',
                     '--cross-file-rename',
-                    "--background-index", "-j=6",
+                    "-j=6",
                 },
             } },
 
@@ -147,6 +147,15 @@ return {
         end
 
         vim.lsp.inlay_hint.enable()
+
+        -- this is needed for autocompletion to be populated with lsp results
+        local cmp_lsp = require("cmp_nvim_lsp")
+        local capabilities = cmp_lsp.default_capabilities()
+        -- this  helps with folding
+        capabilities.textDocument.foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+        }
 
         require("mason").setup()
         require("mason-lspconfig").setup({
