@@ -92,6 +92,7 @@ return {
 
         { '<leader>f.', function() Snacks.picker.buffers() end,     desc = '[F]ind Recent Files ("." for repeat)' },
         { '<leader>fg', function() Snacks.picker.grep() end,        desc = '[F]ind [G]rep' },
+        { '<leader>fw', function() Snacks.picker.grep_word() end,   desc = '[F]ind [W]ord. Grep for the word under the cursor.' },
 
     }
 }
