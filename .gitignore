@@ -23,7 +23,7 @@
 !config/kitty/light-theme.auto.conf
 !config/kitty/no-preference-theme.auto.conf
 
-!config/keyd/default.conf
+!config/keymapper.conf
 
 !config/nvim/init.lua
 config/nvim/lua/local/
