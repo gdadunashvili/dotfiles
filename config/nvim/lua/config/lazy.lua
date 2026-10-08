@@ -22,14 +22,20 @@ vim.o.termguicolors = true
 vim.g.mapleader = " "
 vim.g.maplocalleader = ";"
 
+local spec = {
+    -- import your plugins
+    { import = "plugins", },
+}
+
+local ok = pcall(function() require("local.init") end)
+if ok then
+    table.insert(spec, { import = "local/plugins", })
+end
+
 -- Setup lazy.nvim
 local lazy = require("lazy")
 lazy.setup({
-    spec = {
-        -- import your plugins
-        { import = "plugins", },
-        { import = "local/plugins", },
-    },
+    spec = spec,
     -- Configure any other settings here. See the documentation for more details.
     -- colorscheme that will be used when installing plugins.
     install = { colorscheme = { "habamax" } },
