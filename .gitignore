@@ -4,6 +4,7 @@
 !aliases
 !editorconfig
 !bootstrap.sh
+!gnome_custom_hotkeys.sh
 !ideavimrc
 !shell_prompt.sh
 !tmux.conf
