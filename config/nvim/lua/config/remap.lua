@@ -36,6 +36,7 @@ vim.keymap.set("n", "gk", "k", { noremap = true })
 -- quit current window/buffer
 vim.keymap.set("n", "<leader>q", ":q<CR>", { noremap = true })
 -- vim.keymap.set("n", "<leader>q", ":bd<CR>", { noremap = true })
+vim.keymap.set("n", "<leader>bd", ":bd<CR>", { noremap = true })
 -- delete current buffer (from open buffers)
 
 local close_with_session_state = function(closer)
@@ -73,7 +74,7 @@ vim.keymap.set("n", "<leader>t", "<esc>:tabnew<CR>")
 -- alternate buffer
 vim.keymap.set("n", "gn", ":bnext<cr>")
 vim.keymap.set("n", "gp", ":bprevious<cr>")
-vim.keymap.set("n", "gd", ":bdelete<cr>")
+vim.keymap.set("n", "<leader>d", ":bdelete<cr>")
 vim.keymap.set("n", "go", ":e #<cr>")
 
 
