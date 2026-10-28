@@ -18,6 +18,7 @@ return {
                     },
                 },
             },
+            main = { file = false, },
         },
         image = { enabled = true, },
         statuscolumn = {
@@ -88,7 +89,6 @@ return {
         { '<c-p>',      function() Snacks.picker.commands() end,    desc = '[F]ind [S]elect Telescope' },
         { '<leader>fd', function() Snacks.picker.diagnostics() end, desc = '[F]ind [D]iagnostics' },
         { '<leader>fr', function() Snacks.picker.resume() end,      desc = '[F]ind [R]esume' },
-        { "<leader>su", function() Snacks.picker.undo() end,        desc = "Undo History" },
 
         { '<leader>f.', function() Snacks.picker.buffers() end,     desc = '[F]ind Recent Files ("." for repeat)' },
         { '<leader>fg', function() Snacks.picker.grep() end,        desc = '[F]ind [G]rep' },
