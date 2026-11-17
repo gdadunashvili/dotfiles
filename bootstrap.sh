@@ -38,75 +38,76 @@ set_editor="config/nvim editorconfig"
 
 # Typicall full workstation, not including any window manager
 set_full="zshrc aliases destinations editorconfig tmux.conf ideavimrc shell_prompt.sh config/starship.toml \
-config/nvim editorconfig config/kitty config/zellij wezterm.lua git_template fonts config/ranger config/keymapper.conf"
+config/nvim editorconfig config/kitty git-templates fonts config/ranger config/keymapper.conf"
 
 # Git templates to generate ctag files automatically
-set_git_template="git_template"
+set_git_template="git-templates"
 
-# WM
-# todo gnome settings go here (dconf stuff)
 set_fonts="fonts"
-# pop os install goes here
-
 
 # Use the directory containing this script as absolute path for the symlinks
-# dotfile_dir= $PWD
-# $(dirname $(readlink -f "$0"))
 # Backup existing dotfiles to this directory before replacing them
 backup_dir=~/.dotfiles_old
 
+install_files() {
+    local install=$1
+    for file in $install; do
+        echo "Processing ~/.$file"
+
+        # If there is already a symlink there, delete it
+        if [ -h ~/."$file" ]; then
+            echo "Deleting old symlink"
+            rm ~/."$file"
+        fi
+
+        # If it is a file, back it up if not already done so
+        if [ -f ~/."$file" ] && [ -d $backup_dir ]; then
+            echo "Backing up existing file"
+            mv -i ~/."$file" $backup_dir/
+        fi
+
+        # Create the directory the symlink is going to be in
+        directory=$(dirname ~/."$file")
+        if [ ! -d "$directory" ] ; then
+            echo "Creating missing directory $directory"
+            mkdir -p "$directory"
+        fi
+
+        echo "Creating symlinks"
+        ln -s "$PWD/$file" ~/."$file"
+        echo ""
+    done
+}
+
+configure_git_templates(){
+        git config --global init.templateDir "$HOME"/."$set_git_template"
+}
 
 case "$1" in
     full)
-        install=$set_full ;;
-    keymaps)
-        install_keymaps
-        install="config/sxhkd/sxhkdrc"
+        install_files "$set_full"
+        configure_git_templates
         ;;
     editor)
-        install=$set_editor;;
+        install_files "$set_editor"
+        ;;
     git_template)
-        install=$set_git_template
+        install_files "$set_git_template"
+        configure_git_templates
         ;;
     fonts)
-        install=$set_fonts;;
+        install_files "$set_fonts"
+        ;;
     *)
         echo -e "Usage: bootstrap.sh <set>\n"
         echo -e "Available sets:\n"
         echo -e "full:\n$set_full\n"
-        echo -e "editor:\n$set_full\n"
-        echo -e "keymaps:\nsets up keyd and sxhkd configs\n"
-        echo -e "git_template:\nSetup git templates for ctags\n"
-        echo -e "set_fonts:\nSetup a few nerdfonts\n"
+        echo -e "editor:\n$set_editor\n"
+        echo -e "git_template:\nSetup git templates for git\n"
+        echo -e "fonts:\nSetup a few nerdfonts\n"
         exit 1;;
 esac
 
 
 make_backup_dir
 
-for file in $install; do
-    echo "Processing ~/.$file"
-
-    # If there is already a symlink there, delete it
-    if [ -h ~/.$file ]; then
-        echo "Deleting old symlink"
-        rm ~/.$file
-    fi
-
-    # If it is a file, back it up if not already done so
-    if [ -f ~/.$file ] && [ -d $backup_dir ]; then
-        echo "Backing up existing file"
-        mv -i ~/.$file $backup_dir/
-    fi
-
-    # Create the directory the symlink is going to be in
-    directory=$(dirname ~/.$file)
-    if [ ! -d $directory ] ; then
-        echo "Creating missing directory $directory"
-        mkdir -p $directory
-    fi
-
-    echo "Creating symlinks"
-    ln -s $PWD/$file ~/.$file
-    echo ""
-done
