@@ -82,8 +82,6 @@ return {
 
         { '<leader>fk', function() Snacks.picker.keymaps() end,     desc = '[F]ind [K]eymaps' },
         { '<leader>fh', function() Snacks.picker.help() end,        desc = '[F]ind [H]elp' },
-        -- gToDo: this needs a good replacement
-        -- { '<leader>fs',       function() Snacks.picker.builtin() end,     desc = '[F]ind [S]elect Telescope' },
         { '<leader>fm', function() Snacks.picker.marks() end,       desc = '[F]ind [M]arks' },
         { '<leader>fj', function() Snacks.picker.jumps() end,       desc = '[F]ind [J]jumps' },
         { '<c-p>',      function() Snacks.picker.commands() end,    desc = '[F]ind [S]elect Telescope' },
