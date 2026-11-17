@@ -212,9 +212,11 @@ vim.keymap.set("n", "<leader>cf", ":ClipCurrentFilePath<cr>")
 --------------------------------------------------------------------------------
 
 -- inject todo
-local insert_thing = function(stub_core)
+local insert_thing = function(stub_core, post)
     return function()
-        local stubs = { stub_core .. ':  ' }
+        local appendige = ""
+        if post then appendige = post end
+        local stubs = { stub_core .. ': ' .. appendige }
 
         local coordinates = vim.api.nvim_win_get_cursor(0)
         local row = coordinates[1]
@@ -226,10 +228,11 @@ local insert_thing = function(stub_core)
     end
 end
 
-vim.keymap.set("n", "<leader>it", insert_thing("gToDo"), {})
-vim.keymap.set("n", "<leader>ip", insert_thing("PERF"), {})
-vim.keymap.set("n", "<leader>iw", insert_thing("WARN"), {})
-vim.keymap.set("n", "<leader>in", insert_thing("NOTE"), {})
+vim.keymap.set("n", "<leader>it", insert_thing("gToDo (george)", "!commitstop"), {})
+vim.keymap.set("n", "<leader>ip", insert_thing("PERF (george)"), {})
+vim.keymap.set("n", "<leader>iw", insert_thing("WARN (george)"), {})
+vim.keymap.set("n", "<leader>ih", insert_thing("HACK (george)"), {})
+vim.keymap.set("n", "<leader>in", insert_thing("NOTE (george)"), {})
 
 --[[
 local  bazel_run = function()

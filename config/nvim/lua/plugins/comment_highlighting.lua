@@ -24,7 +24,7 @@ return {
             before = "",                                                      -- "fg" or "bg" or empty
             keyword = "wide",                                                 -- "fg", "bg", "wide", "wide_bg", "wide_fg" or empty. (wide and wide_bg is the same as bg, but will also highlight surrounding characters, wide_fg acts accordingly but with fg)
             after = "fg",                                                     -- "fg" or "bg" or empty
-            pattern = { [[.*<(KEYWORDS)\s*:]], [[.*<(KEYWORDS)\s*\(.*\):]] }, -- pattern or table of patterns, used for highlighting (vim regex)
+            pattern = { [[.*<(KEYWORDS)\s*:]], [[.*<(KEYWORDS)\s+\(.*\):]] }, -- pattern or table of patterns, used for highlighting (vim regex)
             comments_only = true,                                             -- uses treesitter to match keywords in comments only
             max_line_len = 400,                                               -- ignore lines longer than this
             exclude = {},                                                     -- list of file types to exclude highlighting
@@ -36,8 +36,8 @@ return {
                 alt = { "FIXME", "BUG", "FIXIT", "ISSUE" }, -- a set of other keywords that all map to this FIX keywords
                 -- signs = false, -- configure signs for some keywords individually
             },
-            gtodo = { icon = " ", color = "mytodo", alt = { "myToDo", "mytodo", "gToDo", "gTODO" } },
-            TODO = { icon = " ", color = "info", alt = { "todo", "ToDo" } },
+            GTODO = { icon = " ", color = "mytodo", alt = { "gtodo", "gTodo", "gToDo", "gTODO" } },
+            TODO = { icon = " ", color = "info", alt = { "todo", "Todo", "ToDo" } },
             HACK = { icon = " ", color = "warning" },
             WARN = { icon = " ", color = "warning", alt = { "WARNING", "XXX" } },
             PERF = { icon = " ", alt = { "OPTIM", "PERFORMANCE", "OPTIMIZE" } },
@@ -46,19 +46,40 @@ return {
         },
 
         colors = {
-            error = { "DiagnosticError", "ErrorMsg", "#DC2626" },
+            error = { "DiagnosticError", "ErrorMsg", "#FF000B" },
             warning = { "DiagnosticWarn", "WarningMsg", "#FBBF24" },
             info = { "DiagnosticInfo", "#2563EB" },
-            mytodo = { "MyToDoInfo", "#FF000B" },
+            mytodo = { "MyToDoInfo", "#DC2626" },
             hint = { "DiagnosticHint", "#08F43F" },
             default = { "Identifier", "#7C3AED" },
             test = { "Test", "#18a9E1" },
         },
+        search = {
+            command = "rg",
+            args = {
+                "--color=never",
+                "--no-heading",
+                "--with-filename",
+                "--line-number",
+                "--column",
+            },
+            -- regex that will be used to match keywords.
+            -- don't replace the (KEYWORDS) placeholder
+            pattern = [[\b(KEYWORDS).*:]], -- ripgrep regex
+        },
     },
     config = function(_, opts)
         require('todo-comments').setup(opts)
+        local keyword_list = opts.keywords.GTODO.alt
+
+        local keywords = "GTODO"
+        for _, kw in ipairs(keyword_list) do
+            keywords = keywords .. ',' .. kw
+        end
+        vim.notify('keywords: ' .. keywords)
+
         vim.keymap.set('n', '<leader>st', function()
-            vim.cmd ':TodoTelescope keywords=gToDo,gTodo,gTodo,GTODO,gtodo'
+            vim.cmd(":TodoLocList keywords=" .. keywords)
         end)
     end,
 }
